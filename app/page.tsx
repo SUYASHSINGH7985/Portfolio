@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+
 import {
   Moon,
   Sun,
@@ -54,22 +55,22 @@ export default function Portfolio() {
       title: "SEED (Frontend Developer)",
       description:
         "Built a responsive startup showcase platform with React and Tailwind, featuring chatbot UI, startup listings, and internship posting for seamless user experience.",
-      image: "/placeholder.svg?height=300&width=500&text=E-Commerce+Platform",
+      image: "Screenshot 2025-07-30 at 2.47.24 PM.png",
       tags: ["React", "Node.js", "MongoDB", "Stripe", "TypeScript"],
       category: "web",
-      link: "https://github.com",
-      demo: "https://demo.com",
+      link: "https://github.com/SUYASHSINGH7985/SEED",
+      demo: "https://thecompanyseed.vercel.app/",
     },
     {
       id: 2,
       title: "Amazon Clone App",
       description:
         "Built a full-featured e-commerce iOS app in SwiftUI with Firebase auth, real-time database, MVVM architecture, and support for cart, checkout, order tracking, and currency toggle.",
-      image: "/placeholder.svg?height=300&width=500&text=iOS+Fitness+Tracker",
+      image: "Screenshot 2025-07-30 at 2.56.51 PM.png",
       tags: ["Swift", "SwiftUI", "HealthKit", "Core Data", "iOS"],
       category: "ios",
-      link: "https://github.com",
-      demo: "https://apps.apple.com",
+      link: "https://github.com/SUYASHSINGH7985/Amazon-Clone",
+      demo: "https://drive.google.com/file/d/1x1QwaK2j2Xg_4MJdXbX5CWN9Cll9cI3_/view",
     },
     {
       id: 3,
@@ -77,10 +78,10 @@ export default function Portfolio() {
       description:
         "",
       image: "/placeholder.svg?height=300&width=500&text=Chat+Application",
-      tags: ["React", "Socket.io", "Express", "Redis", "Node.js"],
+      tags: ["React", "Socket.io", "Node.js"],
       category: "web",
-      link: "https://github.com",
-      demo: "https://demo.com",
+      link: "https://github.com/SUYASHSINGH7985/APPLE-LandingPage-",
+      demo: "https://suyashsingh7985.github.io/APPLE-LandingPage-/",
     },
   ]
 
@@ -336,16 +337,17 @@ export default function Portfolio() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Frontend Developer 
+              Developer 
             </motion.p>
-            <motion.p
-              className="text-base sm:text-lg text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed opacity-90"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-             I build scalable applications with clean code and intuitive user interfaces, solving complex problems using modern technologies.
-            </motion.p>
+           <motion.p
+  className="text-base sm:text-lg text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed opacity-90"
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, delay: 0.6 }}
+>
+  I build <strong>scalable applications</strong> with <strong>clean code</strong> and <strong>intuitive user interfaces</strong>, solving <strong>complex problems</strong> using <strong>modern technologies</strong>.
+</motion.p>
+
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center"
               initial={{ opacity: 0, y: 30 }}
@@ -456,23 +458,28 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
             About Me
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            I'm a passionate developer with 5+ years of experience building scalable web applications and native iOS
-            apps. I love turning complex problems into simple, beautiful solutions.
+          I'm a <strong>2nd-year Computer Science student</strong> at <strong>VIT Vellore</strong> with a passion for building <strong>clean, scalable web apps</strong> and solving <strong>real-world problems through code</strong>.
+          I actively work on <strong>personal projects</strong>, regularly push my progress to <strong>GitHub</strong>, and solve <strong>Data Structures & Algorithms (DSA)</strong> problems on platforms like <strong>LeetCode</strong> and <strong>Codeforces</strong>.
           </p>
+
+
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+        <div className="w-full flex justify-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <h3 className="text-xl sm:text-2xl font-bold mb-6">Skills & Expertise</h3>
-            <div className="space-y">
+  
+            <h3 className=" mt-20 text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-center">
+              Skills & Expertise</h3>
+
+            <div className="flex flex-wrap justify-center gap-4">
               {skills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
-                  className="group"
+                  className="flex items-center space-x-2 p-3 rounded-lg bg-muted/20 hover:bg-muted/30 transition"
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
@@ -505,32 +512,19 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             {[
-              {
-                title: "Experience",
-                content:
-                  "5+ years developing full-stack applications and iOS apps for startups and enterprises. Experienced in leading development teams and architecting scalable solutions.",
-              },
-              {
-                title: "Education",
-                content:
-                  "Computer Science graduate with focus on software engineering and mobile development. Continuous learner staying updated with latest technologies and best practices.",
-              },
-              {
-                title: "Interests",
-                content:
-                  "Open source contributor, tech blogger, and mentor. Passionate about AI/ML, AR/VR technologies, and creating impactful digital solutions.",
-              },
+              
+             
+              
             ].map((item, index) => (
               <motion.div
-                key={item.title}
+
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.6, delay: 0.8 + index * 0.2 }}
                 whileHover={{ scale: 1.02, y: -5 }}
               >
                 <Card className="glass-card p-4 sm:p-6 transition-all duration-300 hover:shadow-xl">
-                  <h4 className="text-base sm:text-lg font-semibold mb-3">{item.title}</h4>
-                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{item.content}</p>
+                 
                 </Card>
               </motion.div>
             ))}
@@ -787,4 +781,5 @@ function ContactSection({ contactRef }: { contactRef: React.RefObject<HTMLElemen
       </motion.div>
     </motion.section>
   )
+  
 }

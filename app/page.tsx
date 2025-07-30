@@ -54,7 +54,7 @@ export default function Portfolio() {
       id: 1,
       title: "SEED (Frontend Developer)",
       description:
-        "Built a responsive startup showcase platform with React and Tailwind, featuring chatbot UI, startup listings, and internship posting for seamless user experience.",
+        "Built a responsive startup platform with chatbot UI, dynamic listings, internship features, and seamless navigation.",
       image: "Screenshot 2025-07-30 at 2.47.24 PM.png",
       tags: ["React", "Node.js", "MongoDB", "Stripe", "TypeScript"],
       category: "web",
@@ -65,7 +65,7 @@ export default function Portfolio() {
       id: 2,
       title: "Amazon Clone App",
       description:
-        "Built a full-featured e-commerce iOS app in SwiftUI with Firebase auth, real-time database, MVVM architecture, and support for cart, checkout, order tracking, and currency toggle.",
+        "Developed an iOS e-commerce app with SwiftUI, Firebase auth, real-time DB, cart, checkout, and order tracking.",
       image: "Screenshot 2025-07-30 at 2.56.51 PM.png",
       tags: ["Swift", "SwiftUI", "HealthKit", "Core Data", "iOS"],
       category: "ios",
@@ -75,9 +75,8 @@ export default function Portfolio() {
     {
       id: 3,
       title: "Apple Futuristic Landing Page",
-      description:
-        "",
-      image: "/placeholder.svg?height=300&width=500&text=Chat+Application",
+      description:"Crafted a modern Apple-style landing page with 3D product visuals using Three.js and smooth animations for seamless UX.",
+      image: "image.png",
       tags: ["React", "Socket.io", "Node.js"],
       category: "web",
       link: "https://github.com/SUYASHSINGH7985/APPLE-LandingPage-",
@@ -724,14 +723,14 @@ function ContactSection({ contactRef }: { contactRef: React.RefObject<HTMLElemen
 
         <div className="grid sm:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
           {[
-            { icon: Mail, title: "Email", value: "suyash@example.com", href: "mailto:suyash@example.com" },
+            { icon: Mail, title: "Email", value: "singhsuyash012@gmail.com", href: "mailto:singhsuyash012@gmail.com" },
             {
               icon: Linkedin,
               title: "LinkedIn",
-              value: "/in/suyashsingh",
-              href: "https://linkedin.com/in/suyashsingh",
+              value: "suyashsingh-dev",
+              href: "https://linkedin.com/in/suyashsingh-dev",
             },
-            { icon: Github, title: "GitHub", value: "/suyashsingh", href: "https://github.com/suyashsingh" },
+            { icon: Github, title: "GitHub", value: "SUYASHSINGH7985", href: "https://github.com/SUYASHSINGH7985" },
           ].map((contact, index) => (
             <motion.div
               key={contact.title}

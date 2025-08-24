@@ -771,8 +771,8 @@ function ContactSection({ contactRef }: { contactRef: React.RefObject<HTMLElemen
             className="glass-button text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 transition-all duration-300 hover:shadow-xl"
             asChild
           >
-            <Link href="mailto:suyash@example.com">
-              <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+            <Link href="mailto:singhsuyash012@gmail.com">
+              <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-#F8F9FA" />
               Send Message
             </Link>
           </Button>

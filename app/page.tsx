@@ -425,7 +425,7 @@ export default function Portfolio() {
       >
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-sm sm:text-base text-muted-foreground">
-            © {new Date().getFullYear()} Suyash Singh. Built with Next.js and Tailwind CSS.
+            © {new Date().getFullYear()} Suyash Singh
           </p>
         </div>
       </motion.footer>

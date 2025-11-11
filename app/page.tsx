@@ -28,6 +28,222 @@ import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion"
 import gsap from "gsap"
 
+// Apple Music Style Player Component - Compact Horizontal
+function MusicPlayer() {
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const audioRef = useRef<HTMLAudioElement>(null)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!audioRef.current || !isMounted) return
+
+    const playAudio = async () => {
+      try {
+        audioRef.current!.volume = 0.5
+        const playPromise = audioRef.current!.play()
+        
+        if (playPromise !== undefined) {
+          await playPromise
+          setIsPlaying(true)
+        }
+      } catch (error) {
+        console.log("Autoplay prevented by browser policy.")
+        setIsPlaying(false)
+      }
+    }
+
+    const timer = setTimeout(playAudio, 500)
+    return () => clearTimeout(timer)
+  }, [isMounted])
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    const handleTimeUpdate = () => setCurrentTime(audio.currentTime)
+    const handleLoadedMetadata = () => setDuration(audio.duration)
+
+    audio.addEventListener('timeupdate', handleTimeUpdate)
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata)
+
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate)
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata)
+    }
+  }, [])
+
+  const handlePlayPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause()
+      } else {
+        audioRef.current.play()
+      }
+      setIsPlaying(!isPlaying)
+    }
+  }
+
+  const handleSkip = (direction: 'forward' | 'back') => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = direction === 'forward' 
+        ? audioRef.current.currentTime + 10 
+        : Math.max(0, audioRef.current.currentTime - 10)
+    }
+  }
+
+  const handleProgressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = Number(e.target.value)
+      setCurrentTime(Number(e.target.value))
+    }
+  }
+
+  const formatTime = (time: number) => {
+    if (!time) return '0:00'
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+  }
+
+  if (!isMounted) return null
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
+      <div className="pointer-events-auto">
+        {/* Apple Music Style Mini Player - Bottom */}
+        <div className="mx-4 mb-4 sm:mx-6 sm:mb-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="backdrop-blur-xl bg-gradient-to-r from-white/10 via-white/5 to-white/10 border border-white/20 rounded-xl shadow-2xl overflow-hidden"
+          >
+            {/* Progress Bar */}
+            <div className="h-1 bg-white/10 relative">
+              <div
+                className="h-full bg-gradient-to-r from-pink-500 via-red-500 to-orange-500"
+                style={{ width: `${(currentTime / duration) * 100}%` }}
+              />
+            </div>
+
+            {/* Player Content */}
+            <div className="flex items-center justify-between px-4 py-3 gap-4">
+              {/* Left: Album Art + Song Info */}
+              <div className="flex items-center gap-4 min-w-0 flex-1">
+                {/* Album Thumbnail */}
+                <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 shadow-lg">
+                  <Image
+                    src="/image.png"
+                    alt="Album"
+                    width={48}
+                    height={48}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Song Info */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-white truncate">Lose My Mind (feat. Doja Cat)</p>
+                  <p className="text-xs text-white/60 truncate font-[family-name:var(--font-roboto-mono)]">Don Toliver</p>
+                </div>
+              </div>
+
+              {/* Center: Playback Controls */}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {/* Skip Back */}
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleSkip('back')}
+                  className="text-white/60 hover:text-white transition-all"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 6h2v12H6V6zm3.5 6l8.5-6v12l-8.5-6z" transform="scale(-1, 1) translate(-24, 0)" />
+                  </svg>
+                </motion.button>
+
+                {/* Play/Pause */}
+                <motion.button
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={handlePlayPause}
+                  className="w-10 h-10 rounded-full bg-gradient-to-br from-white/30 to-white/20 border border-white/40 flex items-center justify-center hover:from-white/40 hover:to-white/30 transition-all"
+                >
+                  {isPlaying ? (
+                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  )}
+                </motion.button>
+
+                {/* Skip Forward */}
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleSkip('forward')}
+                  className="text-white/60 hover:text-white transition-all"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 6h2v12H6V6zm3.5 6l8.5-6v12l-8.5-6z" />
+                  </svg>
+                </motion.button>
+              </div>
+
+              {/* Right: Additional Controls */}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {/* Time Display */}
+                <div className="hidden sm:flex items-center gap-1 text-xs font-mono text-white/60">
+                  <span>{formatTime(currentTime)}</span>
+                  <span>/</span>
+                  <span>{formatTime(duration)}</span>
+                </div>
+
+                {/* Volume */}
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  className="text-white/60 hover:text-white transition-all"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.26 2.5-4.02z" />
+                  </svg>
+                </motion.button>
+
+                {/* Menu */}
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  className="text-white/60 hover:text-white transition-all"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 8c1.1 0 2-1.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                  </svg>
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Audio Element */}
+        <audio
+          ref={audioRef}
+          src="/Losingmymind.mp3"
+          onEnded={() => setIsPlaying(false)}
+          crossOrigin="anonymous"
+        />
+      </div>
+    </div>
+  )
+}
+
 // Header Component - Fixed and Always Visible
 function HeaderNav({ activeSection, scrollToSection }: { activeSection: string; scrollToSection: (sectionId: string) => void }) {
   return (
@@ -215,6 +431,12 @@ export default function Portfolio() {
       {/* Header rendered via portal to avoid scroll transform issues */}
       {portalElement && createPortal(
         <HeaderNav activeSection={activeSection} scrollToSection={scrollToSection} />,
+        portalElement
+      )}
+
+      {/* Music Player rendered via portal */}
+      {portalElement && createPortal(
+        <MusicPlayer />,
         portalElement
       )}
 

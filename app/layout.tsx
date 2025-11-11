@@ -31,6 +31,10 @@ export default function RootLayout({
               {children}
             </div>
           </SmoothScroll>
+          {/* Header placed outside SmoothScroll to ensure fixed positioning works */}
+          <div style={{ position: 'fixed', top: 0, right: 0, zIndex: 9999, pointerEvents: 'none' }}>
+            {/* Header will be rendered from page.tsx and injected here via portal */}
+          </div>
         </ThemeProvider>
       </body>
     </html>

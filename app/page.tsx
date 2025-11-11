@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-
+import { createPortal } from "react-dom"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -28,73 +28,31 @@ import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion"
 import gsap from "gsap"
 
-// Header Component with Scroll Bend Effect
-function HeaderWithBend({ scrollY, activeSection, scrollToSection }: { scrollY: any; activeSection: string; scrollToSection: (sectionId: string) => void }) {
-  const navRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    // Update bend based on scroll velocity
-    let lastScrollY = 0
-    let scrollVelocity = 0
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY
-      scrollVelocity = currentScrollY - lastScrollY
-      lastScrollY = currentScrollY
-
-      if (navRef.current) {
-        // Bend upward when scrolling down, downward when scrolling up
-        const bendAmount = Math.max(-15, Math.min(15, scrollVelocity * 0.5))
-        
-        gsap.to(navRef.current, {
-          rotationZ: bendAmount,
-          duration: 0.6,
-          ease: "power2.out",
-        })
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
+// Header Component - Fixed and Always Visible
+function HeaderNav({ activeSection, scrollToSection }: { activeSection: string; scrollToSection: (sectionId: string) => void }) {
   return (
-    <motion.nav
-      className="fixed top-0 right-0 z-50"
-      initial={{ y: 0 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      <div ref={navRef} className="m-3 sm:m-4 lg:m-5 origin-center">
-        <motion.div 
-          className="flex items-center px-5 py-2.5 rounded-2xl bg-black border border-white/20 shadow-lg hover:shadow-lg hover:border-white/30 transition-all duration-300 pointer-events-auto"
-          whileHover={{ 
-            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 255, 255, 0.1)",
-            borderColor: "rgba(255, 255, 255, 0.3)"
-          }}
+    <div className="fixed top-0 right-0 z-50 pointer-events-none">
+      <div className="m-3 sm:m-4 lg:m-5 pointer-events-auto">
+        <div 
+          className="flex items-center px-5 py-2.5 rounded-2xl bg-black border border-white/20 shadow-lg transition-all duration-300"
         >
           {/* Desktop Navigation */}
           <div className="flex space-x-6 font-[family-name:var(--font-roboto-mono)] relative z-10">
-            {["about", "projects", "contact"].map((section, index) => (
-              <motion.button
+            {["about", "projects", "contact"].map((section) => (
+              <button
                 key={section}
                 onClick={() => scrollToSection(section)}
-                className={`capitalize transition-all duration-300 text-xs sm:text-sm font-medium tracking-wide ${
-                  activeSection === section ? "text-white/90" : "text-white/60 hover:text-white/80"
+                className={`capitalize transition-all duration-300 text-xs sm:text-sm font-medium tracking-wide cursor-pointer ${
+                  activeSection === section ? "text-white/90" : "text-white/60 hover:text-white/90"
                 }`}
-                whileHover={{ x: [0, -2, 2, -2, 2, 0], y: 0 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 + 0.3 }}
               >
                 {section}
-              </motion.button>
+              </button>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
-    </motion.nav>
+    </div>
   )
 }
 
@@ -104,6 +62,19 @@ export default function Portfolio() {
   const [selectedFilter, setSelectedFilter] = useState("all")
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const [portalElement, setPortalElement] = useState<HTMLElement | null>(null)
+
+  useEffect(() => {
+    setMounted(true)
+    // Create or find the portal container
+    let portal = document.getElementById("header-portal")
+    if (!portal) {
+      portal = document.createElement("div")
+      portal.id = "header-portal"
+      document.body.appendChild(portal)
+    }
+    setPortalElement(portal)
+  }, [])
 
   const { scrollY } = useScroll()
   const heroRef = useRef<HTMLElement>(null)
@@ -241,8 +212,11 @@ export default function Portfolio() {
         />
       </motion.div>
 
-      {/* Enhanced Glassmorphism Navigation with Scroll Bend */}
-      <HeaderWithBend scrollY={scrollY} activeSection={activeSection} scrollToSection={scrollToSection} />
+      {/* Header rendered via portal to avoid scroll transform issues */}
+      {portalElement && createPortal(
+        <HeaderNav activeSection={activeSection} scrollToSection={scrollToSection} />,
+        portalElement
+      )}
 
       {/* Mobile Navigation */}
       <AnimatePresence>

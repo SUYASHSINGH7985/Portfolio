@@ -44,6 +44,47 @@ function CompactMusicPlayer({ isVisible }: CompactMusicPlayerProps) {
     setIsMounted(true)
   }, [])
 
+  // Try to autoplay with sound on page load
+  useEffect(() => {
+    if (!audioRef.current || !isMounted) return
+
+    const attemptAutoplay = async () => {
+      try {
+        audioRef.current!.muted = false
+        const playPromise = audioRef.current!.play()
+        if (playPromise !== undefined) {
+          await playPromise
+          setIsPlaying(true)
+        }
+      } catch (error) {
+        // If unmuted autoplay fails, set up listener for first user interaction
+        const playOnInteraction = async () => {
+          try {
+            audioRef.current!.muted = false
+            await audioRef.current!.play()
+            setIsPlaying(true)
+            // Remove all interaction listeners after first play
+            document.removeEventListener('click', playOnInteraction)
+            document.removeEventListener('touchstart', playOnInteraction)
+            document.removeEventListener('keydown', playOnInteraction)
+          } catch (e) {
+            // Still blocked
+          }
+        }
+
+        document.addEventListener('click', playOnInteraction, { once: true })
+        document.addEventListener('touchstart', playOnInteraction, { once: true })
+        document.addEventListener('keydown', playOnInteraction, { once: true })
+      }
+    }
+
+    // Try immediately and also after a short delay
+    attemptAutoplay()
+    const timer = setTimeout(attemptAutoplay, 1000)
+    
+    return () => clearTimeout(timer)
+  }, [isMounted])
+
   useEffect(() => {
     if (!isVisible || !audioRef.current || !isMounted) return
 
@@ -91,6 +132,7 @@ function CompactMusicPlayer({ isVisible }: CompactMusicPlayerProps) {
       audioRef.current.pause()
       setIsPlaying(false)
     } else {
+      audioRef.current.muted = false
       audioRef.current.play().then(() => {
         setIsPlaying(true)
       }).catch(() => {
@@ -133,31 +175,31 @@ function CompactMusicPlayer({ isVisible }: CompactMusicPlayerProps) {
         onEnded={() => setIsPlaying(false)}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        autoPlay
+        autoPlaygit add
         crossOrigin="anonymous"
       />
 
       {/* Compact Player Content */}
-      <div className="flex items-center justify-between px-4 py-3 gap-3">
+      <div className="flex items-center justify-between px-3 py-2 gap-0">
         {/* Album Art + Info */}
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 shadow-lg bg-gradient-to-br from-pink-500 to-red-500">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <div className="w-8 h-8 rounded-md overflow-hidden flex-shrink-0 shadow-lg bg-gradient-to-br from-pink-500 to-red-500">
             <img
               src="/losing.png"
               alt="Album"
-              width="40"
-              height="40"
+              width="32"
+              height="32"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-white truncate">Lose My Mind</p>
-            <p className="text-xs text-white/60 truncate">Don Toliver</p>
+            <p className="text-xs font-semibold text-white truncate leading-tight">Lose My Mind</p>
+            <p className="text-xs text-white/60 truncate leading-tight">Don Toliver</p>
           </div>
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-4 flex-shrink-0 -ml-3">
           {/* Skip Back */}
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -165,7 +207,7 @@ function CompactMusicPlayer({ isVisible }: CompactMusicPlayerProps) {
             onClick={(e) => handleSkip('back', e)}
             className="text-white/70 hover:text-white transition-all"
           >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
               <path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z" />
             </svg>
           </motion.button>
@@ -175,14 +217,14 @@ function CompactMusicPlayer({ isVisible }: CompactMusicPlayerProps) {
             whileHover={{ scale: 1.15 }}
             whileTap={{ scale: 0.9 }}
             onClick={handlePlayPause}
-            className="w-9 h-9 rounded-full bg-gradient-to-br from-white/30 to-white/20 border border-white/40 flex items-center justify-center hover:from-white/40 hover:to-white/30 transition-all"
+            className="w-7 h-7 rounded-full backdrop-blur-md bg-black/40 border border-white/20 flex items-center justify-center hover:bg-black/50 hover:border-white/30 transition-all shadow-lg"
           >
             {isPlaying ? (
-              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
               </svg>
             ) : (
-              <svg className="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
             )}
@@ -195,13 +237,13 @@ function CompactMusicPlayer({ isVisible }: CompactMusicPlayerProps) {
             onClick={(e) => handleSkip('forward', e)}
             className="text-white/70 hover:text-white transition-all"
           >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
               <path d="M13 6v12l8.5-6L13 6zM4 18l8.5-6L4 6v12z" />
             </svg>
           </motion.button>
 
-          {/* Time */}
-          <div className="hidden sm:flex items-center gap-1 text-xs font-mono text-white/60 min-w-16">
+          {/* Time - Hidden on smaller screens */}
+          <div className="hidden sm:flex items-center gap-0.5 text-xs font-mono text-white/60 min-w-14 ml-1">
             <span>{formatTime(currentTime)}</span>
             <span>/</span>
             <span>{formatTime(duration)}</span>
@@ -453,7 +495,7 @@ export default function Portfolio() {
       {portalElement && createPortal(
         <div className="fixed top-4 sm:top-6 left-4 sm:left-6 right-4 sm:right-6 flex items-center justify-between z-40">
           {/* Mini Music Player - Left Side */}
-          <div className="w-48 sm:w-56">
+          <div className="w-72 sm:w-96">
             <CompactMusicPlayer isVisible={true} />
           </div>
           

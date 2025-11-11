@@ -26,6 +26,77 @@ import { useTheme } from "next-themes"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion"
+import gsap from "gsap"
+
+// Header Component with Scroll Bend Effect
+function HeaderWithBend({ scrollY, activeSection, scrollToSection }: { scrollY: any; activeSection: string; scrollToSection: (sectionId: string) => void }) {
+  const navRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // Update bend based on scroll velocity
+    let lastScrollY = 0
+    let scrollVelocity = 0
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      scrollVelocity = currentScrollY - lastScrollY
+      lastScrollY = currentScrollY
+
+      if (navRef.current) {
+        // Bend upward when scrolling down, downward when scrolling up
+        const bendAmount = Math.max(-15, Math.min(15, scrollVelocity * 0.5))
+        
+        gsap.to(navRef.current, {
+          rotationZ: bendAmount,
+          duration: 0.6,
+          ease: "power2.out",
+        })
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  return (
+    <motion.nav
+      className="fixed top-0 right-0 z-50"
+      initial={{ y: 0 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      <div ref={navRef} className="m-3 sm:m-4 lg:m-5 origin-center">
+        <motion.div 
+          className="flex items-center px-5 py-2.5 rounded-2xl bg-black border border-white/20 shadow-lg hover:shadow-lg hover:border-white/30 transition-all duration-300 pointer-events-auto"
+          whileHover={{ 
+            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 255, 255, 0.1)",
+            borderColor: "rgba(255, 255, 255, 0.3)"
+          }}
+        >
+          {/* Desktop Navigation */}
+          <div className="flex space-x-6 font-[family-name:var(--font-roboto-mono)] relative z-10">
+            {["about", "projects", "contact"].map((section, index) => (
+              <motion.button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className={`capitalize transition-all duration-300 text-xs sm:text-sm font-medium tracking-wide ${
+                  activeSection === section ? "text-white/90" : "text-white/60 hover:text-white/80"
+                }`}
+                whileHover={{ x: [0, -2, 2, -2, 2, 0], y: 0 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 + 0.3 }}
+              >
+                {section}
+              </motion.button>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </motion.nav>
+  )
+}
 
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -170,145 +241,39 @@ export default function Portfolio() {
         />
       </motion.div>
 
-      {/* Enhanced Glassmorphism Navigation */}
-      <motion.nav
-        className="fixed top-0 left-0 right-0 z-50 glass-nav"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <motion.div
-              className="font-bold text-xl bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              Suyash Singh
-            </motion.div>
+      {/* Enhanced Glassmorphism Navigation with Scroll Bend */}
+      <HeaderWithBend scrollY={scrollY} activeSection={activeSection} scrollToSection={scrollToSection} />
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-8">
-              {["home", "about", "projects", "contact"].map((section, index) => (
+      {/* Mobile Navigation */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            className="md:hidden glass-panel border-t border-white/10"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="px-4 py-4 space-y-4">
+              {["about", "projects", "contact"].map((section, index) => (
                 <motion.button
                   key={section}
                   onClick={() => scrollToSection(section)}
-                  className={`capitalize transition-all duration-300 hover:text-primary ${
+                  className={`block w-full text-left capitalize transition-all duration-300 hover:text-primary ${
                     activeSection === section ? "text-primary font-medium" : "text-muted-foreground"
                   }`}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 + 0.3 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ x: 10 }}
                 >
                   {section}
                 </motion.button>
               ))}
             </div>
-
-            <div className="flex items-center space-x-4">
-              <motion.div whileHover={{ scale: 1.1, rotate: 180 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="glass-button transition-all duration-300"
-                >
-                  <AnimatePresence mode="wait">
-                    {theme === "dark" ? (
-                      <motion.div
-                        key="sun"
-                        initial={{ rotate: -90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: 90, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <Sun className="w-5 h-5" />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="moon"
-                        initial={{ rotate: 90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: -90, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <Moon className="w-5 h-5" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </Button>
-              </motion.div>
-
-              {/* Mobile Menu Button */}
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="md:hidden glass-button"
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                >
-                  <AnimatePresence mode="wait">
-                    {isMenuOpen ? (
-                      <motion.div
-                        key="x"
-                        initial={{ rotate: -90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: 90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <X className="w-5 h-5" />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="menu"
-                        initial={{ rotate: 90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: -90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Menu className="w-5 h-5" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </Button>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              className="md:hidden glass-panel border-t border-white/10"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="px-4 py-4 space-y-4">
-                {["home", "about", "projects", "contact"].map((section, index) => (
-                  <motion.button
-                    key={section}
-                    onClick={() => scrollToSection(section)}
-                    className={`block w-full text-left capitalize transition-all duration-300 hover:text-primary ${
-                      activeSection === section ? "text-primary font-medium" : "text-muted-foreground"
-                    }`}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ x: 10 }}
-                  >
-                    {section}
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Full Screen Hero Section */}
       <section
@@ -376,28 +341,7 @@ export default function Portfolio() {
           </motion.div>
         </motion.div>
 
-        {/* Enhanced Animated Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
-        >
-          <motion.div
-            className="text-xs sm:text-sm text-muted-foreground mb-2 opacity-70"
-            animate={{ opacity: [0.7, 1, 0.7] }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-          >
-            Scroll to explore
-          </motion.div>
-          <motion.div
-            className="scroll-indicator"
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-          >
-            <ArrowDown className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
-          </motion.div>
-        </motion.div>
+
       </section>
 
       {/* About Section with Enhanced Animations */}

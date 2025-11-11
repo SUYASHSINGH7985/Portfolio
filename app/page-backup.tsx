@@ -1,0 +1,951 @@
+"use client"
+
+import type React from "react"
+import { createPortal } from "react-dom"
+import { useState, useEffect, useRef } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+
+import {
+  Moon,
+  Sun,
+  Menu,
+  X,
+  Github,
+  Linkedin,
+  Mail,
+  ExternalLink,
+  Code,
+  Smartphone,
+  Globe,
+  Database,
+  ArrowDown,
+} from "lucide-react"
+import { useTheme } from "next-themes"
+import Image from "next/image"
+import Link from "next/link"
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion"
+import gsap from "gsap"
+
+// Compact Music Player Component (for Bored Section)
+interface CompactMusicPlayerProps {
+  isVisible: boolean
+}
+
+function CompactMusicPlayer({ isVisible }: CompactMusicPlayerProps) {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const audioRef = useRef<HTMLAudioElement>(null)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  // Try to autoplay with sound on page load
+  useEffect(() => {
+    if (!audioRef.current || !isMounted) return
+
+    const attemptAutoplay = async () => {
+      try {
+        audioRef.current!.muted = false
+        const playPromise = audioRef.current!.play()
+        if (playPromise !== undefined) {
+          await playPromise
+          setIsPlaying(true)
+        }
+      } catch (error) {
+        // If unmuted autoplay fails, set up listener for first user interaction
+        const playOnInteraction = async () => {
+          try {
+            audioRef.current!.muted = false
+            await audioRef.current!.play()
+            setIsPlaying(true)
+            // Remove all interaction listeners after first play
+            document.removeEventListener('click', playOnInteraction)
+            document.removeEventListener('touchstart', playOnInteraction)
+            document.removeEventListener('keydown', playOnInteraction)
+          } catch (e) {
+            // Still blocked
+          }
+        }
+
+        document.addEventListener('click', playOnInteraction, { once: true })
+        document.addEventListener('touchstart', playOnInteraction, { once: true })
+        document.addEventListener('keydown', playOnInteraction, { once: true })
+      }
+    }
+
+    // Try immediately and also after a short delay
+    attemptAutoplay()
+    const timer = setTimeout(attemptAutoplay, 1000)
+    
+    return () => clearTimeout(timer)
+  }, [isMounted])
+
+  useEffect(() => {
+    if (!isVisible || !audioRef.current || !isMounted) return
+
+    // Resume playing when visible
+    if (!isPlaying) {
+      audioRef.current.play().catch(() => {
+        // Autoplay was blocked or failed
+      })
+    }
+  }, [isVisible, isMounted])
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio || !isMounted) return
+
+    const updateTime = () => {
+      setCurrentTime(audio.currentTime)
+    }
+
+    const updateDuration = () => {
+      setDuration(audio.duration || 0)
+    }
+
+    audio.addEventListener('timeupdate', updateTime)
+    audio.addEventListener('loadedmetadata', updateDuration)
+    audio.addEventListener('durationchange', updateDuration)
+
+    // Set initial duration if already loaded
+    if (audio.duration) {
+      setDuration(audio.duration)
+    }
+
+    return () => {
+      audio.removeEventListener('timeupdate', updateTime)
+      audio.removeEventListener('loadedmetadata', updateDuration)
+      audio.removeEventListener('durationchange', updateDuration)
+    }
+  }, [isMounted])
+
+  const handlePlayPause = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!audioRef.current) return
+
+    if (isPlaying) {
+      audioRef.current.pause()
+      setIsPlaying(false)
+    } else {
+      audioRef.current.muted = false
+      audioRef.current.play().then(() => {
+        setIsPlaying(true)
+      }).catch(() => {
+        setIsPlaying(false)
+      })
+    }
+  }
+
+  const handleSkip = (direction: 'forward' | 'back', e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!audioRef.current || !duration) return
+
+    const newTime = direction === 'forward' 
+      ? Math.min(audioRef.current.currentTime + 10, duration)
+      : Math.max(audioRef.current.currentTime - 10, 0)
+    
+    audioRef.current.currentTime = newTime
+    setCurrentTime(newTime)
+  }
+
+  const formatTime = (time: number) => {
+    if (!time || !isFinite(time)) return '0:00'
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+  }
+
+  if (!isMounted) return null
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 10 }}
+      transition={{ duration: 0.3 }}
+      className={`backdrop-blur-md bg-black/40 border border-white/20 rounded-2xl shadow-lg overflow-hidden ${!isVisible ? 'pointer-events-none' : ''}`}
+    >
+      <audio
+        ref={audioRef}
+        src="/Losingmymind.mp3"
+        onEnded={() => setIsPlaying(false)}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        autoPlay
+        crossOrigin="anonymous"
+      />
+
+      {/* Compact Player Content */}
+      <div className="flex items-center justify-between px-3 py-2 gap-0">
+        {/* Album Art + Info */}
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <div className="w-8 h-8 rounded-md overflow-hidden flex-shrink-0 shadow-lg bg-gradient-to-br from-pink-500 to-red-500">
+            <img
+              src="/losing.png"
+              alt="Album"
+              width="32"
+              height="32"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-semibold text-white truncate leading-tight">Lose My Mind</p>
+            <p className="text-xs text-white/60 truncate leading-tight">Don Toliver</p>
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="flex items-center gap-4 flex-shrink-0 -ml-3">
+          {/* Skip Back */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => handleSkip('back', e)}
+            className="text-white/70 hover:text-white transition-all"
+          >
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z" />
+            </svg>
+          </motion.button>
+
+          {/* Play/Pause */}
+          <motion.button
+            whileHover={{ scale: 1.15 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={handlePlayPause}
+            className="w-7 h-7 rounded-full backdrop-blur-md bg-black/40 border border-white/20 flex items-center justify-center hover:bg-black/50 hover:border-white/30 transition-all shadow-lg"
+          >
+            {isPlaying ? (
+              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+              </svg>
+            ) : (
+              <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            )}
+          </motion.button>
+
+          {/* Skip Forward */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => handleSkip('forward', e)}
+            className="text-white/70 hover:text-white transition-all"
+          >
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M13 6v12l8.5-6L13 6zM4 18l8.5-6L4 6v12z" />
+            </svg>
+          </motion.button>
+
+          {/* Time - Hidden on smaller screens */}
+          <div className="hidden sm:flex items-center gap-0.5 text-xs font-mono text-white/60 min-w-14 ml-1">
+            <span>{formatTime(currentTime)}</span>
+            <span>/</span>
+            <span>{formatTime(duration)}</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+// Header Component - Fixed and Always Visible
+function HeaderNav({ activeSection, scrollToSection }: { activeSection: string; scrollToSection: (sectionId: string) => void }) {
+  return (
+    <div className="fixed top-0 right-0 z-50 pointer-events-none">
+      <div className="m-3 sm:m-4 lg:m-5 pointer-events-auto">
+        <div 
+          className="flex items-center px-5 py-2.5 rounded-2xl bg-black border border-white/20 shadow-lg transition-all duration-300"
+        >
+          {/* Desktop Navigation */}
+          <div className="flex space-x-6 font-[family-name:var(--font-roboto-mono)] relative z-10">
+            {["about", "projects", "contact"].map((section) => (
+              <button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className={`capitalize transition-all duration-300 text-xs sm:text-sm font-medium tracking-wide cursor-pointer ${
+                  activeSection === section ? "text-white/90" : "text-white/60 hover:text-white/90"
+                }`}
+              >
+                {section}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
+
+export default function Portfolio() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState("home")
+  const [selectedFilter, setSelectedFilter] = useState("all")
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  const [portalElement, setPortalElement] = useState<HTMLElement | null>(null)
+
+  useEffect(() => {
+    setMounted(true)
+    // Create or find the portal container
+    let portal = document.getElementById("header-portal")
+    if (!portal) {
+      portal = document.createElement("div")
+      portal.id = "header-portal"
+      document.body.appendChild(portal)
+    }
+    setPortalElement(portal)
+
+    // Control scrollbar thumb length with padding approach
+    const style = document.createElement('style')
+    style.textContent = `
+      ::-webkit-scrollbar-thumb {
+        min-height: 40px !important;
+        padding: 30px 0 !important;
+      }
+    `
+    document.head.appendChild(style)
+
+    return () => {
+      if (document.head.contains(style)) {
+        document.head.removeChild(style)
+      }
+    }
+  }, [])
+
+  const { scrollY } = useScroll()
+  const heroRef = useRef<HTMLElement>(null)
+  const aboutRef = useRef<HTMLElement>(null)
+  const projectsRef = useRef<HTMLElement>(null)
+  const contactRef = useRef<HTMLElement>(null)
+
+  // Parallax transforms
+  const heroY = useTransform(scrollY, [0, 1000], [0, -200])
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0])
+  const backgroundY = useTransform(scrollY, [0, 2000], [0, -500])
+
+  const projects = [
+    {
+      id: 1,
+      title: "SEED (Frontend Developer)",
+      description:
+        "Built a responsive startup platform with chatbot UI, dynamic listings, internship features, and seamless navigation.",
+      image: "image.png",
+      tags: ["React", "Node.js", "MongoDB", "Stripe", "TypeScript"],
+      category: "web",
+      link: "https://github.com/SUYASHSINGH7985/SEED",
+      demo: "https://thecompanyseed.vercel.app/",
+    },
+    {
+      id: 2,
+      title: "Amazon Clone App",
+      description:
+        "Developed an iOS e-commerce app with SwiftUI, Firebase auth, real-time DB, cart, checkout, and order tracking.",
+      image: "Screenshot 2025-07-30 at 2.56.51 PM.png",
+      tags: ["Swift", "SwiftUI", "HealthKit", "Core Data", "iOS"],
+      category: "ios",
+      link: "https://github.com/SUYASHSINGH7985/Amazon-Clone",
+      demo: "https://drive.google.com/file/d/1x1QwaK2j2Xg_4MJdXbX5CWN9Cll9cI3_/view",
+    },
+    {
+      id: 3,
+      title: "Apple Futuristic Landing Page",
+      description:"Crafted a modern Apple-style landing page with 3D product visuals using Three.js and smooth animations for seamless UX.",
+      image: "image.png",
+      tags: ["React", "Socket.io", "Node.js"],
+      category: "web",
+      link: "https://github.com/SUYASHSINGH7985/APPLE-LandingPage-",
+      demo: "https://suyashsingh7985.github.io/APPLE-LandingPage-/",
+    },
+  ]
+
+  const skills = [
+    { name: "React/Next.js",icon: <Globe className="w-5 h-5" /> },
+    { name: "Swift/SwiftUI",icon: <Smartphone className="w-5 h-5" /> },
+    { name: "Node.js",icon: <Code className="w-5 h-5" /> },
+    { name: "iOS Development", icon: <Smartphone className="w-5 h-5" /> },
+    { name: "TypeScript", icon: <Code className="w-5 h-5" /> },
+    { name: "MongoDB", icon: <Database className="w-5 h-5" /> },
+  ]
+
+  // Get all unique technologies for filtering
+  const allTechnologies = Array.from(new Set(projects.flatMap((project) => project.tags))).sort()
+
+  const filteredProjects =
+    selectedFilter === "all"
+      ? projects
+      : projects.filter((project) =>
+          project.tags.some((tag) => tag.toLowerCase().includes(selectedFilter.toLowerCase())),
+        )
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+      setActiveSection(sectionId)
+      setIsMenuOpen(false)
+    }
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["home", "about", "projects", "contact"]
+      const scrollPosition = window.scrollY + 100
+
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const offsetTop = element.offsetTop
+          const offsetHeight = element.offsetHeight
+
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section)
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
+
+  return (
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300 overflow-x-hidden cursor-crosshair">
+
+      {/* Animated Background */}
+      <motion.div className="fixed inset-0 -z-10" style={{ y: backgroundY }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+          animate={{
+            x: [0, 100, 0],
+            y: [0, -100, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "linear",
+          }}
+        />
+        <motion.div
+          className="absolute top-3/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"
+          animate={{
+            x: [0, -100, 0],
+            y: [0, 100, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "linear",
+          }}
+        />
+      </motion.div>
+
+      {/* Header rendered via portal to avoid scroll transform issues */}
+      {portalElement && createPortal(
+        <div className="fixed top-4 sm:top-6 left-4 sm:left-6 right-4 sm:right-6 flex items-center justify-between z-40">
+          {/* Mini Music Player - Left Side */}
+          <div className="w-72 sm:w-96">
+            <CompactMusicPlayer isVisible={true} />
+          </div>
+          
+          {/* Header - Right Side */}
+          <div className="flex-1 flex justify-end">
+            <HeaderNav activeSection={activeSection} scrollToSection={scrollToSection} />
+          </div>
+        </div>,
+        portalElement
+      )}
+
+      {/* Mobile Navigation */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            className="md:hidden glass-panel border-t border-white/10"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="px-4 py-4 space-y-4">
+              {["about", "projects", "contact"].map((section, index) => (
+                <motion.button
+                  key={section}
+                  onClick={() => scrollToSection(section)}
+                  className={`block w-full text-left capitalize transition-all duration-300 hover:text-primary ${
+                    activeSection === section ? "text-primary font-medium" : "text-muted-foreground"
+                  }`}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ x: 10 }}
+                >
+                  {section}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Full Screen Hero Section - Top Left Positioned */}
+      <section
+        id="home"
+        ref={heroRef}
+        className="min-h-screen flex flex-col items-start justify-start px-4 sm:px-6 lg:px-8 pt-32 sm:pt-40 relative"
+      >
+        <motion.div className="max-w-2xl z-10" style={{ y: heroY, opacity: heroOpacity }}>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <motion.h1
+              className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-4 bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+            >
+              Suyash Singh
+            </motion.h1>
+            <motion.p
+              className="text-lg sm:text-2xl lg:text-3xl text-muted-foreground mb-6 font-semibold"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              Developer 
+            </motion.p>
+           <motion.p
+  className="text-sm sm:text-base text-muted-foreground mb-8 max-w-xl leading-relaxed opacity-90"
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, delay: 0.6 }}
+>
+  I build <strong>scalable applications</strong> with <strong>clean code</strong> and <strong>intuitive user interfaces</strong>, solving <strong>complex problems</strong> using <strong>modern technologies</strong>.
+</motion.p>
+
+            <motion.div
+              className="flex flex-col sm:flex-row gap-3 mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <motion.div whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  size="sm"
+                  onClick={() => scrollToSection("projects")}
+                  className="glass-button text-blue-500 hover:text-blue-600 text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3 transition-all duration-300"
+                >
+                  View My Work
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => scrollToSection("contact")}
+                  className="glass-button text-blue-500 hover:text-blue-600 text-sm sm:text-base px-4 sm:px-6 py-2 sm:py-3 transition-all duration-300"
+                >
+                  Get In Touch
+                </Button>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* About Section with Enhanced Animations */}
+      <AboutSection aboutRef={aboutRef} skills={skills} />
+
+      {/* Projects Section with Tech Filtering */}
+      <ProjectsSection
+        projectsRef={projectsRef}
+        projects={filteredProjects}
+        allTechnologies={allTechnologies}
+        selectedFilter={selectedFilter}
+        setSelectedFilter={setSelectedFilter}
+      />
+
+      {/* Contact Section */}
+      <ContactSection contactRef={contactRef} />
+
+      {/* Footer */}
+      <motion.footer
+        className="py-6 sm:py-8 px-4 sm:px-6 lg:px-8 glass-panel border-t border-white/10"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-sm sm:text-base text-muted-foreground">
+            © {new Date().getFullYear()} Suyash Singh
+          </p>
+        </div>
+      </motion.footer>
+    </div>
+  )
+}
+
+// About Section Component
+function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElement>; skills: any[] }) {
+  const isInView = useInView(aboutRef, { once: true, margin: "-100px" })
+
+  return (
+    <motion.section
+      id="about"
+      ref={aboutRef}
+      className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8"
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <div className="glass-panel max-w-6xl mx-auto p-6 sm:p-8 rounded-3xl">
+        <motion.div
+          className="text-center mb-12 sm:mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            About Me
+          </h2>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          I'm a <strong>2nd-year Computer Science student</strong> at <strong>VIT Vellore</strong> with a passion for building <strong>clean, scalable web apps</strong> and solving <strong>real-world problems through code</strong>.
+          I actively work on <strong>personal projects</strong>, regularly push my progress to <strong>GitHub</strong>, and solve <strong>Data Structures & Algorithms (DSA)</strong> problems on platforms like <strong>LeetCode</strong> and <strong>Codeforces</strong>.
+          </p>
+
+
+        </motion.div>
+
+        <div className="w-full flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+  
+            <h3 className=" mt-20 text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-center">
+              Skills & Expertise</h3>
+
+            <div className="flex flex-wrap justify-center gap-4">
+              {skills.map((skill, index) => (
+                <motion.div
+                  key={skill.name}
+                  className="flex items-center space-x-2 p-3 rounded-lg bg-muted/20 hover:bg-muted/30 transition"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2">
+                      <motion.div className="p-2 glass-button rounded-lg" whileHover={{ scale: 1.1, rotate: 5 }}>
+                        {skill.icon}
+                      </motion.div>
+                      <span className="font-medium text-sm sm:text-base">{skill.name}</span>
+                    </div>
+                    <span className="text-xs sm:text-sm text-muted-foreground">{skill.level}</span>
+                  </div>
+                  <div className="w-full bg-muted/30 rounded-full h-2 backdrop-blur-sm overflow-hidden">
+                    <motion.div
+                      className="bg-gradient-to-r from-primary to-secondary h-2 rounded-full"
+                      initial={{ width: 0 }}
+                      transition={{ duration: 1, delay: 0.8 + index * 0.1, ease: "easeOut" }}
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="space-y-6"
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            {[
+              
+             
+              
+            ].map((item, index) => (
+              <motion.div
+
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 0.8 + index * 0.2 }}
+                whileHover={{ scale: 1.02, y: -5 }}
+              >
+                <Card className="glass-card p-4 sm:p-6 transition-all duration-300 hover:shadow-xl">
+                 
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </motion.section>
+  )
+}
+
+// Projects Section Component
+function ProjectsSection({
+  projectsRef,
+  projects,
+  allTechnologies,
+  selectedFilter,
+  setSelectedFilter,
+}: {
+  projectsRef: React.RefObject<HTMLElement>
+  projects: any[]
+  allTechnologies: string[]
+  selectedFilter: string
+  setSelectedFilter: (filter: string) => void
+}) {
+  const isInView = useInView(projectsRef, { once: true, margin: "-100px" })
+
+  return (
+    <motion.section
+      id="projects"
+      ref={projectsRef}
+      className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8"
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          className="text-center mb-12 sm:mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Featured Projects
+          </h2>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            A showcase of my recent work spanning web applications, iOS apps, and innovative solutions.
+          </p>
+        </motion.div>
+
+        {/* Enhanced Filter Buttons */}
+        <motion.div
+          className="flex justify-center mb-8 sm:mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          <div className="glass-panel flex flex-wrap gap-2 p-2 rounded-2xl max-w-full overflow-x-auto">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                variant={selectedFilter === "all" ? "default" : "ghost"}
+                onClick={() => setSelectedFilter("all")}
+                className={`text-xs sm:text-sm transition-all duration-300 ${
+                  selectedFilter === "all" ? "glass-button-active" : "glass-button hover:scale-105"
+                }`}
+              >
+                All Projects
+              </Button>
+            </motion.div>
+            {allTechnologies.map((tech) => (
+              <motion.div key={tech} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant={selectedFilter === tech ? "default" : "ghost"}
+                  onClick={() => setSelectedFilter(tech)}
+                  className={`text-xs sm:text-sm transition-all duration-300 ${
+                    selectedFilter === tech ? "glass-button-active" : "glass-button hover:scale-105"
+                  }`}
+                >
+                  {tech}
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Projects Grid */}
+        <motion.div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" layout>
+          <AnimatePresence>
+            {projects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                layout
+                initial={{ opacity: 0, scale: 0.8, y: 50 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: -50 }}
+                transition={{
+                  duration: 0.6,
+                  delay: isInView ? index * 0.1 : 0,
+                  layout: { duration: 0.3 },
+                }}
+                whileHover={{
+                  y: -10,
+                  rotateY: 5,
+                  rotateX: 5,
+                  scale: 1.02,
+                }}
+                className="perspective-1000"
+              >
+                <Card className="glass-card group overflow-hidden transition-all duration-500 hover:shadow-2xl h-full">
+                  <div className="relative overflow-hidden">
+                    <Image
+                      src={project.image || "/placeholder.svg"}
+                      alt={project.title}
+                      width={500}
+                      height={300}
+                      className="w-full h-40 sm:h-48 object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center space-x-4"
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                    >
+                      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                        <Button size="sm" className="glass-button text-xs sm:text-sm" asChild>
+                          <Link href={project.link} target="_blank">
+                            <Github className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                            Code
+                          </Link>
+                        </Button>
+                      </motion.div>
+                      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                        <Button size="sm" className="glass-button-outline text-xs sm:text-sm" asChild>
+                          <Link href={project.demo} target="_blank">
+                            <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                            Demo
+                          </Link>
+                        </Button>
+                      </motion.div>
+                    </motion.div>
+                  </div>
+                  <CardContent className="p-4 sm:p-6 flex flex-col flex-grow">
+                    <h3 className="text-lg sm:text-xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm sm:text-base text-muted-foreground mb-4 line-clamp-3 flex-grow">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-1 sm:gap-2">
+                      {project.tags.map((tag: string) => (
+                        <motion.div key={tag} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                          <Badge
+                            className="glass-badge text-xs cursor-pointer hover:bg-primary/20 transition-colors duration-200"
+                            onClick={() => setSelectedFilter(tag)}
+                          >
+                            {tag}
+                          </Badge>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </motion.section>
+  )
+}
+
+// Contact Section Component
+function ContactSection({ contactRef }: { contactRef: React.RefObject<HTMLElement> }) {
+  const isInView = useInView(contactRef, { once: true, margin: "-100px" })
+
+  return (
+    <motion.section
+      id="contact"
+      ref={contactRef}
+      className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8"
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <motion.div
+        className="glass-panel max-w-4xl mx-auto text-center p-6 sm:p-8 rounded-3xl"
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          Let's Work Together
+        </h2>
+        <p className="text-lg sm:text-xl text-muted-foreground mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed">
+          I'm always interested in new opportunities and exciting projects. Let's discuss how we can bring your ideas to
+          life.
+        </p>
+
+        <div className="grid sm:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
+          {[
+            { icon: Mail, title: "Email", value: "singhsuyash012@gmail.com", href: "mailto:singhsuyash012@gmail.com" },
+            {
+              icon: Linkedin,
+              title: "LinkedIn",
+              value: "suyashsingh-dev",
+              href: "https://linkedin.com/in/suyashsingh-dev",
+            },
+            { icon: Github, title: "GitHub", value: "SUYASHSINGH7985", href: "https://github.com/SUYASHSINGH7985" },
+          ].map((contact, index) => (
+            <motion.div
+              key={contact.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
+              <Card className="glass-card p-4 sm:p-6 transition-all duration-300 hover:shadow-xl h-full">
+                <motion.div
+                  className="p-3 glass-button rounded-full w-fit mx-auto mb-4"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                >
+                  <contact.icon className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                </motion.div>
+                <h3 className="font-semibold mb-2 text-sm sm:text-base">{contact.title}</h3>
+                <Link
+                  href={contact.href}
+                  target={contact.href.startsWith("http") ? "_blank" : undefined}
+                  className="text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
+                >
+                  {contact.value}
+                </Link>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          whileHover={{ scale: 1.05, y: -5 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Button
+            size="lg"
+            className="glass-button text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 transition-all duration-300 hover:shadow-xl"
+            asChild
+          >
+            <Link href="mailto:singhsuyash012@gmail.com">
+              <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-#F8F9FA" />
+              Send Message
+            </Link>
+          </Button>
+        </motion.div>
+      </motion.div>
+    </motion.section>
+  )
+  
+}

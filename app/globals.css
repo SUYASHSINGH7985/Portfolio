@@ -65,6 +65,50 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 94.1%;
   }
+
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 96.5%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 222.2 84% 4.9%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
+
+  html.light {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 96.5%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 222.2 84% 4.9%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
 }
 
 /* GSAP Smooth Scroll Setup */
@@ -73,12 +117,108 @@ html {
 }
 
 body {
-  background-color: #111;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
   font-family: 'Signika Negative', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overscroll-behavior: none;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+  /* Custom crosshair cursor - thin, sleek, modern */
+  cursor: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="0.5" fill="white" opacity="0.8"/><line x1="16" y1="8" x2="16" y2="14" stroke="white" stroke-width="0.5" opacity="0.7"/><line x1="16" y1="18" x2="16" y2="24" stroke="white" stroke-width="0.5" opacity="0.7"/><line x1="8" y1="16" x2="14" y2="16" stroke="white" stroke-width="0.5" opacity="0.7"/><line x1="18" y1="16" x2="24" y2="16" stroke="white" stroke-width="0.5" opacity="0.7"/></svg>') 16 16, auto;
+}
+
+/* Custom Scrollbar Styling - Off-white with smaller width */
+/* Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  width: 30px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4d4d4;
+  border-radius: 15px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  min-height: 30px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e5e5e5;
+  background-clip: padding-box;
+}
+
+/* Light mode scrollbar */
+.light ::-webkit-scrollbar-thumb {
+  background: #999;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* Light mode text color overrides */
+.light .text-white\/70 {
+  color: rgba(13, 13, 13, 0.7) !important;
+}
+
+.light .text-white\/90 {
+  color: rgba(13, 13, 13, 0.9) !important;
+}
+
+.light .text-white\/50 {
+  color: rgba(13, 13, 13, 0.5) !important;
+}
+
+.light .text-white\/80 {
+  color: rgba(13, 13, 13, 0.8) !important;
+}
+
+.light .text-white\/60 {
+  color: rgba(13, 13, 13, 0.6) !important;
+}
+
+.light .bg-white\/5 {
+  background-color: rgba(13, 13, 13, 0.05) !important;
+}
+
+.light .bg-white\/10 {
+  background-color: rgba(13, 13, 13, 0.1) !important;
+}
+
+.light .bg-white\/20 {
+  background-color: rgba(13, 13, 13, 0.2) !important;
+}
+
+.light .border-white\/10 {
+  border-color: rgba(13, 13, 13, 0.1) !important;
+}
+
+.light .border-white\/20 {
+  border-color: rgba(13, 13, 13, 0.2) !important;
+}
+
+.light .hover\:border-white\/20:hover {
+  border-color: rgba(13, 13, 13, 0.2) !important;
+}
+
+.light .bg-black\/40 {
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.light .border-white\/20 {
+  border-color: rgba(13, 13, 13, 0.1) !important;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thick;
+  scrollbar-color: #d4d4d4 transparent;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out, border-color 0.5s ease-in-out;
 }
 
 #smooth-content {
@@ -110,7 +250,7 @@ body {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease-in-out;
 }
 
 .dark .glass-nav {
@@ -122,7 +262,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease-in-out;
 }
 
 .dark .glass-panel {
@@ -130,11 +270,16 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+.light .glass-panel {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 .glass-card {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease-in-out;
 }
 
 .dark .glass-card {
@@ -142,11 +287,16 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+.light .glass-card {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 .glass-button {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease-in-out;
 }
 
 .glass-button:hover {
@@ -168,7 +318,7 @@ body {
   background: transparent;
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease-in-out;
 }
 
 .glass-button-outline:hover {
@@ -187,7 +337,7 @@ body {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.2s ease;
+  transition: all 0.5s ease-in-out;
 }
 
 .dark .glass-badge {
@@ -366,4 +516,26 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Smoke Effect Styling */
+.smoke-effect-container {
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.smoke-particle {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Enhanced smoke effect for dark theme */
+.dark .smoke-particle {
+  mix-blend-mode: multiply;
+}
+
+/* Enhanced smoke effect for light theme */
+.light .smoke-particle {
+  mix-blend-mode: screen;
 }

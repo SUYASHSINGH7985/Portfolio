@@ -530,30 +530,44 @@ export default function Portfolio() {
               </motion.button>
 
               {/* Music Player Wave Line */}
-              <div className="relative group">
+              <div className="relative group flex items-center gap-2">
                 {isAudioPlaying ? (
-                  <motion.svg 
-                    width="48" 
-                    height="8" 
-                    viewBox="0 0 48 8" 
-                    className="cursor-pointer hover:brightness-110"
-                    animate={{ scale: [1, 1.05, 1] }}
-                    transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-                  >
-                    <defs>
-                      <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="hsl(var(--primary))" />
-                        <stop offset="100%" stopColor="hsl(var(--secondary))" />
-                      </linearGradient>
-                    </defs>
-                    <path
-                      d="M 0 4 Q 6 1 12 4 T 24 4 T 36 4 T 48 4"
-                      stroke="url(#waveGradient)"
-                      strokeWidth="1.5"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                  </motion.svg>
+                  <>
+                    <svg 
+                      width="48" 
+                      height="12" 
+                      viewBox="0 0 48 12" 
+                      className="cursor-pointer hover:brightness-110"
+                    >
+                      <defs>
+                        <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="hsl(var(--primary))" />
+                          <stop offset="100%" stopColor="hsl(var(--secondary))" />
+                        </linearGradient>
+                      </defs>
+                      <motion.path
+                        stroke="url(#waveGradient)"
+                        strokeWidth="1.5"
+                        fill="none"
+                        strokeLinecap="round"
+                        animate={{
+                          d: [
+                            "M 0 6 Q 6 2 12 6 T 24 6 T 36 6 T 48 6",
+                            "M 0 6 Q 6 10 12 6 T 24 6 T 36 6 T 48 6",
+                            "M 0 6 Q 6 2 12 6 T 24 6 T 36 6 T 48 6"
+                          ]
+                        }}
+                        transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+                      />
+                    </svg>
+                    <motion.span
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-xs font-light text-foreground/80 whitespace-nowrap"
+                    >
+                      ≪ Losing My Mind ≫
+                    </motion.span>
+                  </>
                 ) : (
                   <div className="h-0.5 w-12 bg-gradient-to-r from-primary to-secondary opacity-60"></div>
                 )}

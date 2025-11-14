@@ -482,7 +482,19 @@ export default function Portfolio() {
 
       {/* Header Navigation */}
       <header className="sticky top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="flex items-start justify-end w-full px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex items-start justify-between w-full px-4 sm:px-6 lg:px-8 py-6">
+          {/* Left - Suyash Singh Title and Subtitle */}
+          <div className="flex-1">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-1">
+              <span className="bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
+                Suyash Singh
+              </span>
+            </h1>
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-foreground tracking-tight">
+              Software Developer
+            </h2>
+          </div>
+
           {/* Right Column - Social Links at top, Navigation below */}
           <div className="flex flex-col items-end gap-4">
             {/* Social links and theme toggle row */}
@@ -661,39 +673,13 @@ export default function Portfolio() {
 
       {/* Main Layout */}
       <div className="w-full pb-20">
-        {/* Hero Section */}
-        <section id="home" ref={heroRef} className="mb-32 px-0 sm:px-0 lg:px-0 pt-0 pl-4 sm:pl-6 lg:pl-8">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="flex items-center gap-6 mb-3">
-              {/* Name */}
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
-                <span className="bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
-                  Suyash Singh
-                </span>
-              </h1>
-            </div>
-            <div className="flex items-center gap-8 mb-8">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-foreground tracking-tight leading-normal">
-                Software Developer
-              </h2>
-            </div>
-            <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-5xl font-light">
-              I build <strong className="font-normal text-white/90">scalable applications</strong> with <strong className="font-normal text-white/90">clean code</strong> and <strong className="font-normal text-white/90">intuitive user interfaces</strong>, solving <strong className="font-normal text-white/90">complex problems</strong> using <strong className="font-normal text-white/90">modern technologies</strong>. From global e-commerce platforms to emerging Web3 products, I design frameworks that feel seamless, human, and ready for the future.
-            </p>
-          </motion.div>
-        </section>
-
         {/* About Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8">
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl pt-6">
           <AboutSection aboutRef={aboutRef} skills={skills} />
         </div>
 
         {/* Projects Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8">
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
           <ProjectsSection
             projectsRef={projectsRef}
             projects={filteredProjects}
@@ -704,12 +690,12 @@ export default function Portfolio() {
         </div>
 
         {/* Resume Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8">
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
           <ResumeSection resumeRef={resumeRef} />
         </div>
 
         {/* Contact Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8">
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
           <ContactSection contactRef={contactRef} />
         </div>
       </div>

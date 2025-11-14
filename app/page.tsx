@@ -649,27 +649,35 @@ export default function Portfolio() {
                 </AnimatePresence>
               </div>
             </div>
-
-            {/* Navigation Items - Vertical below social links */}
-            <nav className="flex flex-col items-end gap-2 pt-2">
-              {navigationItems.map((item) => (
-                <motion.button
-                  key={item.id}
-                  whileHover={{ scale: 1.05 }}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`font-light text-xs tracking-wide transition-all duration-300 ${
-                    activeSection === item.id
-                      ? "text-foreground"
-                      : "text-foreground/70 hover:text-foreground"
-                  }`}
-                >
-                  {item.label}
-                </motion.button>
-              ))}
-            </nav>
           </div>
         </div>
       </header>
+
+      {/* Horizontal Navigation Bar */}
+      <nav className="sticky top-[80px] left-0 right-0 z-40 bg-background/60 backdrop-blur-md border-b border-white/10 transition-colors duration-300">
+        <div className="flex items-center justify-start w-full px-4 sm:px-6 lg:px-8 py-4 gap-8">
+          {navigationItems.map((item) => (
+            <motion.button
+              key={item.id}
+              whileHover={{ scale: 1.05 }}
+              onClick={() => scrollToSection(item.id)}
+              className={`font-light text-sm tracking-wide transition-all duration-300 pb-2 relative group ${
+                activeSection === item.id
+                  ? "text-foreground"
+                  : "text-foreground/70 hover:text-foreground"
+              }`}
+            >
+              {item.label}
+              <motion.div
+                layoutId="underline"
+                className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary ${
+                  activeSection === item.id ? "block" : "hidden"
+                }`}
+              />
+            </motion.button>
+          ))}
+        </div>
+      </nav>
 
       {/* Main Layout */}
       <div className="w-full pb-20">

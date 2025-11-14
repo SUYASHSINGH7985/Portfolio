@@ -107,18 +107,39 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
         </p>
 
         <div className="mt-16">
-          {/* Enhanced Skills Section Header */}
+          {/* Enhanced Skills Section Header with Hover Cover Animation */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative mb-12"
+            className="relative mb-12 group cursor-pointer"
           >
-            <h3 className="text-3xl font-light tracking-tight text-white mb-8">
-              <span className="bg-gradient-to-r from-primary via-white to-secondary bg-clip-text text-transparent">
+            <div className="relative inline-block">
+              {/* Original gradient text */}
+              <h3 className="text-3xl font-light tracking-tight text-white mb-8 relative z-10">
+                <span className="bg-gradient-to-r from-primary via-white to-secondary bg-clip-text text-transparent">
+                  Skills & Expertise
+                </span>
+              </h3>
+
+              {/* Covering overlay that slides from left on hover */}
+              <motion.div
+                className="absolute top-0 left-0 h-full bg-gray-600 group-hover:block hidden"
+                initial={{ width: 0 }}
+                whileHover={{ width: "100%" }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+              />
+
+              {/* Text that appears on top of the grey cover */}
+              <motion.h3
+                className="absolute top-0 left-0 text-3xl font-light tracking-tight text-white pointer-events-none"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
                 Skills & Expertise
-              </span>
-            </h3>
+              </motion.h3>
+            </div>
           </motion.div>
 
           {/* Horizontal Scrolling Skills with Parallel Lines */}

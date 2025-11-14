@@ -710,3 +710,50 @@ html {
 .scrollbar-hide::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.25);
 }
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+    text-shadow: 2px 0 #FF006E, -2px 0 #00D9FF;
+  }
+  10% {
+    transform: translate(-2px, 2px);
+    text-shadow: -2px 0 #FF006E, 2px 0 #00D9FF;
+  }
+  20% {
+    transform: translate(2px, -2px);
+    text-shadow: 2px 0 #00D9FF, -2px 0 #FF006E;
+  }
+  30% {
+    transform: translate(-1px, 1px);
+    text-shadow: -2px 0 #00D9FF, 2px 0 #FF006E;
+  }
+  40% {
+    transform: translate(2px, 2px);
+    text-shadow: 2px 0 #FF006E, -2px 0 #00D9FF;
+  }
+  50% {
+    transform: translate(-2px, -2px);
+    text-shadow: -2px 0 #FF006E, 2px 0 #00D9FF;
+  }
+  60% {
+    transform: translate(1px, -1px);
+    text-shadow: 2px 0 #00D9FF, -2px 0 #FF006E;
+  }
+  70% {
+    transform: translate(-2px, 1px);
+    text-shadow: -2px 0 #00D9FF, 2px 0 #FF006E;
+  }
+  80% {
+    transform: translate(2px, -1px);
+    text-shadow: 2px 0 #FF006E, -2px 0 #00D9FF;
+  }
+  90% {
+    transform: translate(-1px, -2px);
+    text-shadow: -2px 0 #FF006E, 2px 0 #00D9FF;
+  }
+  100% {
+    transform: translate(0);
+    text-shadow: 2px 0 #FF006E, -2px 0 #00D9FF;
+  }
+}

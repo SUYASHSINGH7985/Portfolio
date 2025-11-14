@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Roboto_Mono, Playfair_Display } from "next/font/google"
+import { Inter, Roboto_Mono, Playfair_Display, Dancing_Script } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import Preloader from "@/components/preloader"
@@ -9,6 +9,7 @@ import SmoothScroll from "@/components/smooth-scroll"
 const inter = Inter({ subsets: ["latin"] })
 const robotoMono = Roboto_Mono({ subsets: ["latin"], variable: "--font-roboto-mono" })
 const playfairDisplay = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" })
+const dancingScript = Dancing_Script({ subsets: ["latin"], variable: "--font-dancing-script" })
 
 export const metadata: Metadata = {
   title: "Suyash Singh - Developer",
@@ -26,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} ${robotoMono.variable} ${playfairDisplay.variable}`}>
+      <body className={`${inter.className} ${robotoMono.variable} ${playfairDisplay.variable} ${dancingScript.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <Preloader />
           <SmoothScroll>

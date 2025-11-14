@@ -748,7 +748,7 @@ export default function Portfolio() {
       </motion.div>
 
       {/* Horizontal Navigation Bar */}
-      <nav className="sticky top-0 left-0 right-0 z-40 bg-background/60 backdrop-blur-md border-b border-white/10 transition-colors duration-300">
+      <nav className="sticky top-0 left-0 right-0 z-40 bg-background/60 backdrop-blur-md transition-colors duration-300">
         <div className="flex items-center justify-between w-full px-4 sm:px-6 lg:px-8 py-4 gap-8">
           {/* Left Navigation Items */}
           <div className="flex items-center gap-8">
@@ -757,7 +757,7 @@ export default function Portfolio() {
                 key={item.id}
                 whileHover={{ scale: 1.05 }}
                 onClick={() => scrollToSection(item.id)}
-                className={`font-light text-sm tracking-wide transition-all duration-300 pb-2 relative group ${
+                className={`font-light text-lg tracking-wide transition-all duration-300 pb-2 relative group ${
                   activeSection === item.id
                     ? "text-foreground"
                     : "text-foreground/70 hover:text-foreground"
@@ -776,156 +776,93 @@ export default function Portfolio() {
 
           {/* Right Side Controls */}
           <div className="flex items-center gap-3">
-            {/* Social Links */}
-            <motion.a
-              href="https://github.com/SUYASHSINGH7985"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2 }}
-              className="text-foreground/60 hover:text-foreground transition-colors"
-            >
-              <Github size={18} />
-            </motion.a>
-            <motion.a
-              href="https://linkedin.com/in/suyashsingh-dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2 }}
-              className="text-foreground/60 hover:text-foreground transition-colors"
-            >
-              <Linkedin size={18} />
-            </motion.a>
-            <motion.a
-              href="mailto:singhsuyash012@gmail.com"
-              whileHover={{ scale: 1.2 }}
-              className="text-foreground/60 hover:text-foreground transition-colors"
-            >
-              <Mail size={18} />
-            </motion.a>
+            {/* Theme Toggle & Music Player */}
+            <div className="flex items-center gap-3">
+              {/* Theme Toggle */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => {
+                  setTheme(theme === 'dark' ? 'light' : 'dark')
+                }}
+                className="text-foreground/60 hover:text-foreground transition-colors"
+              >
+                {theme === 'dark' ? (
+                  <Sun size={18} />
+                ) : (
+                  <Moon size={18} />
+                )}
+              </motion.button>
 
-            {/* Theme Toggle */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => {
-                setTheme(theme === 'dark' ? 'light' : 'dark')
-              }}
-              className="text-foreground/60 hover:text-foreground transition-colors"
-            >
-              {theme === 'dark' ? (
-                <Sun size={18} />
-              ) : (
-                <Moon size={18} />
-              )}
-            </motion.button>
-
-            {/* Music Player */}
-            <div className="relative group flex items-center gap-2">
-              {isAudioPlaying ? (
-                <>
-                  <svg 
-                    width="40" 
-                    height="10" 
-                    viewBox="0 0 48 12" 
-                    className="cursor-pointer hover:brightness-110"
-                    onClick={() => {
-                      if (audioRef.current) audioRef.current.pause()
+              {/* Music Player */}
+              <div className="flex items-center gap-2 cursor-pointer h-6" onClick={() => {
+                if (audioRef.current) {
+                  if (isAudioPlaying) {
+                    audioRef.current.pause()
+                  } else {
+                    audioRef.current.play()
+                  }
+                }
+              }}>
+              <svg 
+                width="55" 
+                height="16" 
+                viewBox="0 0 55 16"
+                className="flex-shrink-0 opacity-100"
+              >
+                <defs>
+                  <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#000000" />
+                    <stop offset="100%" stopColor="#5a5a5a" />
+                  </linearGradient>
+                </defs>
+                <motion.path
+                  stroke="url(#waveGradient)"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeLinecap="round"
+                  animate={isAudioPlaying ? {
+                    d: [
+                      "M 0 8 Q 7 2 14 8 T 28 8 T 42 8 T 56 8",
+                      "M 0 8 Q 7 14 14 8 T 28 8 T 42 8 T 56 8",
+                      "M 0 8 Q 7 2 14 8 T 28 8 T 42 8 T 56 8"
+                    ]
+                  } : {
+                    d: "M 0 8 L 55 8"
+                  }}
+                  transition={isAudioPlaying ? { 
+                    duration: 0.8, 
+                    repeat: Number.POSITIVE_INFINITY, 
+                    ease: "easeInOut" 
+                  } : { 
+                    duration: 0.8, 
+                    ease: "easeInOut" 
+                  }}
+                />
+              </svg>
+              <AnimatePresence mode="wait">
+                {isAudioPlaying && (
+                  <motion.p
+                    initial={{ opacity: 0, scale: 0.95, x: -15 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, x: -15 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="text-sm whitespace-nowrap font-mono overflow-hidden"
+                    style={{
+                      color: "#A78BFA",
+                      width: "120px"
                     }}
                   >
-                    <defs>
-                      <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="hsl(var(--primary))" />
-                        <stop offset="100%" stopColor="hsl(var(--secondary))" />
-                      </linearGradient>
-                    </defs>
-                    <motion.path
-                      stroke="url(#waveGradient)"
-                      strokeWidth="1.5"
-                      fill="none"
-                      strokeLinecap="round"
-                      animate={{
-                        d: [
-                          "M 0 6 Q 6 2 12 6 T 24 6 T 36 6 T 48 6",
-                          "M 0 6 Q 6 10 12 6 T 24 6 T 36 6 T 48 6",
-                          "M 0 6 Q 6 2 12 6 T 24 6 T 36 6 T 48 6"
-                        ]
-                      }}
-                      transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-                    />
-                  </svg>
-                </>
-              ) : (
-                <div 
-                  className="h-0.5 w-10 bg-gradient-to-r from-primary to-secondary opacity-60 cursor-pointer"
-                  onClick={() => {
-                    if (audioRef.current) audioRef.current.play()
-                  }}
-                ></div>
-              )}
-              
-              {/* Music Player Popup on Hover */}
-              <AnimatePresence>
-                {showMusicPlayer && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full mt-3 right-0 backdrop-blur-md bg-black/40 border border-white/20 rounded-lg shadow-lg overflow-hidden p-3 w-48 z-50"
-                    onMouseEnter={() => setShowMusicPlayer(true)}
-                    onMouseLeave={() => setShowMusicPlayer(false)}
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="w-10 h-10 rounded-md overflow-hidden flex-shrink-0 bg-gradient-to-br from-pink-500 to-red-500">
-                        <img
-                          src="/losing.png"
-                          alt="Album"
-                          width="40"
-                          height="40"
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-white truncate">Lose My Mind</p>
-                        <p className="text-xs text-white/60 truncate">Don Toliver</p>
-                      </div>
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => {
-                          if (audioRef.current) {
-                            if (isAudioPlaying) {
-                              audioRef.current.pause()
-                              setIsAudioPlaying(false)
-                            } else {
-                              audioRef.current.play()
-                              setIsAudioPlaying(true)
-                            }
-                          }
-                        }}
-                        className="w-8 h-8 rounded-full backdrop-blur-md bg-white/20 border border-white/30 flex items-center justify-center hover:bg-white/30 transition-all flex-shrink-0"
-                      >
-                        {isAudioPlaying ? (
-                          <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-                          </svg>
-                        ) : (
-                          <svg className="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        )}
-                      </motion.button>
-                    </div>
-                    <audio
-                      ref={audioRef}
-                      src="/Losingmymind.mp3"
-                      onPlay={() => setIsAudioPlaying(true)}
-                      onPause={() => setIsAudioPlaying(false)}
-                      onEnded={() => setIsAudioPlaying(false)}
-                    />
-                  </motion.div>
+                    <motion.span
+                      animate={{ x: [-120, 0] }}
+                      transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                    >
+                      &lt;&lt;Lose My Mind&gt;&gt;
+                    </motion.span>
+                  </motion.p>
                 )}
               </AnimatePresence>
+              </div>
             </div>
           </div>
         </div>
@@ -934,69 +871,128 @@ export default function Portfolio() {
       {/* Main Layout */}
       <div className="w-full pb-20">
         {/* Hero Section */}
-        <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20">
+        <div className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 pt-20">
           <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
+            className="w-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
           >
-            <motion.h1
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-tight mb-8 tracking-tighter"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              <span className="block mb-4">
-                <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
-                  Hi,
-                </span>
-              </span>
-              <span className="block mb-4">
-                <span className="bg-gradient-to-r from-primary via-blue-500 to-secondary bg-clip-text text-transparent">
-                  I'm Suyash Singh
-                </span>
-              </span>
-            </motion.h1>
-
-            <motion.h2
-              className="text-3xl sm:text-4xl md:text-5xl font-light text-foreground/80 mb-12 tracking-tight"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              Aspiring <span className="text-transparent bg-gradient-to-r from-primary to-secondary bg-clip-text">Developer</span>
-            </motion.h2>
-
-            <motion.p
-              className="text-lg sm:text-xl text-foreground/60 mb-12 max-w-2xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-            >
-              Building amazing web experiences and continuously learning new technologies
-            </motion.p>
-
-            {/* Scroll indicator */}
-            <motion.div
-              className="flex flex-col items-center gap-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-            >
-              <span className="text-sm text-foreground/50">Scroll to explore</span>
-              <svg
-                className="w-5 h-5 text-foreground/50"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            {/* Main Content - Left Aligned */}
+            <div className="max-w-5xl">
+              {/* "Hi" - appears first */}
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0 }}
+                className="mb-4"
               >
-                <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-              </svg>
-            </motion.div>
+                <h1 className="text-8xl sm:text-9xl lg:text-[10rem] font-light tracking-tighter leading-tight">
+                  <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
+                    Hi,
+                  </span>
+                </h1>
+              </motion.div>
+
+              {/* "I'm Suyash" - appears smoothly after Hi */}
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="mb-12 relative inline-block"
+              >
+                <h2 className="text-7xl sm:text-8xl lg:text-9xl font-semibold tracking-tighter leading-tight relative">
+                  I'm{" "}
+                  <span className="relative inline-block">
+                    {/* Black text background */}
+                    <span className="text-black dark:text-black relative z-10">
+                      Suyash
+                    </span>
+                    
+                    {/* Light brown fill rectangle (#EDE4D9) */}
+                    <motion.div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{ backgroundColor: "#D9E2ED", originX: 0 }}
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 1.5, delay: 1.4, ease: "easeOut" }}
+                    />
+                  </span>
+                </h2>
+              </motion.div>
+
+              {/* "Pushing ideas into reality" - appears last with stagger */}
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 1.2 }}
+                className="mb-12"
+              >
+                <p className="text-3xl sm:text-4xl md:text-5xl font-light text-foreground/80 tracking-tight">
+                  Pushing <span style={{ color: "#880808", fontFamily: "Dancing Script, cursive", fontWeight: 600 }}>ideas</span> into <span style={{ color: "#880808", fontFamily: "Dancing Script, cursive", fontWeight: 600 }}>reality</span>
+                </p>
+              </motion.div>
+
+              {/* Subtitle with smooth entry */}
+              <motion.p
+                className="text-lg sm:text-xl text-foreground/60 mb-12 max-w-2xl leading-relaxed"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 1.6 }}
+              >
+              </motion.p>
+
+              {/* Let's Connect Section */}
+              <motion.div
+                className="mt-20 flex flex-col gap-6"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 2 }}
+              >
+                <div className="flex items-center justify-between">
+                  <div></div>
+                  <div className="flex items-center gap-4">
+                    <h3 className="text-4xl sm:text-5xl font-light text-foreground/80">
+                      Let's{" "}
+                      <span style={{ color: "#0232B8", fontFamily: "Dancing Script, cursive", fontWeight: 600, textDecoration: "underline", textDecorationColor: "#880808", textDecorationThickness: "2px", textUnderlineOffset: "4px" }}>
+                        Connect
+                      </span>
+                    </h3>
+                    
+                    {/* Social Icons */}
+                    <div className="flex items-center gap-3">
+                      <motion.a
+                        href="https://github.com/SUYASHSINGH7985"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.2, y: -2 }}
+                        className="text-foreground/60 hover:text-foreground transition-colors duration-300"
+                      >
+                        <Github size={24} />
+                      </motion.a>
+                      
+                      <motion.a
+                        href="https://linkedin.com/in/suyashsingh-dev"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.2, y: -2 }}
+                        className="text-foreground/60 hover:text-foreground transition-colors duration-300"
+                      >
+                        <Linkedin size={24} />
+                      </motion.a>
+                      
+                      <motion.a
+                        href="mailto:singhsuyash012@gmail.com"
+                        whileHover={{ scale: 1.2, y: -2 }}
+                        className="text-foreground/60 hover:text-foreground transition-colors duration-300"
+                      >
+                        <Mail size={24} />
+                      </motion.a>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
 

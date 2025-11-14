@@ -315,6 +315,11 @@ header nav button {
   color: #1a1a1a !important;
 }
 
+/* Light Mode - Allow gradient text to work */
+.light .bg-clip-text {
+  color: unset !important;
+}
+
 /* Light Mode Background Overrides */
 .light .bg-black\/40 {
   background-color: rgba(200, 200, 200, 0.3) !important;

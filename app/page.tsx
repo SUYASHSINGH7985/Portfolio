@@ -352,68 +352,6 @@ function ProjectsSection({
   )
 }
 
-// Resume Section Component
-function ResumeSection({ resumeRef }: { resumeRef: React.RefObject<HTMLElement> }) {
-  const isInView = useInView(resumeRef, { once: true, margin: "-100px" })
-
-  return (
-    <motion.section
-      id="resume"
-      ref={resumeRef}
-      className="mb-20"
-      initial={{ opacity: 1 }}
-      animate={isInView ? { opacity: 1 } : { opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
-      <motion.div
-        initial={{ opacity: 1, y: 0 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      >
-        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
-          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Resume
-          </span>
-        </h2>
-
-        <motion.div
-          initial={{ opacity: 1, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="space-y-4"
-        >
-          <p className="text-base sm:text-lg text-white/70 leading-relaxed font-light">
-            Download my complete resume to see my full background, projects, and qualifications.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4">
-            <a href="/Suyash_Resume 2.pdf" download target="_blank" rel="noopener noreferrer">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-light transition-all hover:shadow-lg hover:shadow-primary/20"
-              >
-                <ExternalLink size={18} className="inline mr-3" />
-                Download PDF
-              </motion.button>
-            </a>
-
-            <a href="/Suyash_Resume 2.pdf" target="_blank" rel="noopener noreferrer">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto px-8 py-4 border border-white/20 text-white rounded-lg font-light transition-all hover:border-white/40 hover:bg-white/5"
-              >
-                View in Browser
-              </motion.button>
-            </a>
-          </div>
-        </motion.div>
-      </motion.div>
-    </motion.section>
-  )
-}
-
 // Experience Section Component
 function ExperienceSection({ experienceRef, experiences }: { experienceRef: React.RefObject<HTMLElement>; experiences: any[] }) {
   const isInView = useInView(experienceRef, { once: true, margin: "-100px" })
@@ -422,7 +360,7 @@ function ExperienceSection({ experienceRef, experiences }: { experienceRef: Reac
     <motion.section
       id="experience"
       ref={experienceRef}
-      className="py-20 scroll-mt-40 relative"
+      className="mb-20"
       initial={{ opacity: 0 }}
       animate={isInView ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 0.8 }}
@@ -432,21 +370,14 @@ function ExperienceSection({ experienceRef, experiences }: { experienceRef: Reac
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h2 className="text-3xl sm:text-4xl font-light mb-12 tracking-tight inline-block relative">
+        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
           <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Experience
           </span>
-          <motion.div
-            className="absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-primary to-secondary"
-            initial={{ scaleX: 0 }}
-            animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            style={{ originX: 0 }}
-          />
         </h2>
 
-        <div className="space-y-6 mt-8">
-          {experiences.map((exp, idx) => (
+        <div className="space-y-6">
+          {experiences.map((exp: any, idx: number) => (
             <motion.div
               key={exp.id}
               initial={{ opacity: 0, y: 10 }}
@@ -508,6 +439,68 @@ function ExperienceSection({ experienceRef, experiences }: { experienceRef: Reac
             </motion.div>
           ))}
         </div>
+      </motion.div>
+    </motion.section>
+  )
+}
+
+// Resume Section Component
+function ResumeSection({ resumeRef }: { resumeRef: React.RefObject<HTMLElement> }) {
+  const isInView = useInView(resumeRef, { once: true, margin: "-100px" })
+
+  return (
+    <motion.section
+      id="resume"
+      ref={resumeRef}
+      className="mb-20"
+      initial={{ opacity: 1 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      <motion.div
+        initial={{ opacity: 1, y: 0 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Resume
+          </span>
+        </h2>
+
+        <motion.div
+          initial={{ opacity: 1, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="space-y-4"
+        >
+          <p className="text-base sm:text-lg text-white/70 leading-relaxed font-light">
+            Download my complete resume to see my full background, projects, and qualifications.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4">
+            <a href="/Suyash_Resume 2.pdf" download target="_blank" rel="noopener noreferrer">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-light transition-all hover:shadow-lg hover:shadow-primary/20"
+              >
+                <ExternalLink size={18} className="inline mr-3" />
+                Download PDF
+              </motion.button>
+            </a>
+
+            <a href="/Suyash_Resume 2.pdf" target="_blank" rel="noopener noreferrer">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full sm:w-auto px-8 py-4 border border-white/20 text-white rounded-lg font-light transition-all hover:border-white/40 hover:bg-white/5"
+              >
+                View in Browser
+              </motion.button>
+            </a>
+          </div>
+        </motion.div>
       </motion.div>
     </motion.section>
   )
@@ -656,14 +649,6 @@ export default function Portfolio() {
     { name: "MongoDB", icon: <Database className="w-5 h-5" /> },
   ]
 
-  const navigationItems = [
-    { label: "About", id: "about" },
-    { label: "Projects", id: "projects" },
-    { label: "Experience", id: "experience" },
-    { label: "Resume", id: "resume" },
-    { label: "Contact", id: "contact" },
-  ]
-
   const experiences = [
     {
       id: 1,
@@ -691,6 +676,14 @@ export default function Portfolio() {
       ],
       tech: ["React", "Node.js", "MongoDB", "Express", "TypeScript"],
     },
+  ]
+
+  const navigationItems = [
+    { label: "About", id: "about" },
+    { label: "Projects", id: "projects" },
+    { label: "Experience", id: "experience" },
+    { label: "Resume", id: "resume" },
+    { label: "Contact", id: "contact" },
   ]
 
   const allTechnologies = Array.from(new Set(projects.flatMap((project) => project.tags))).sort()
@@ -752,304 +745,290 @@ export default function Portfolio() {
           animate={{ x: [0, -100, 0], y: [0, 100, 0] }}
           transition={{ duration: 25, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
         />
-        
-        {/* Right side accent elements */}
-        <motion.div
-          className="absolute top-20 right-0 w-96 h-96 bg-gradient-to-bl from-primary/20 via-secondary/10 to-transparent rounded-full blur-3xl"
-          animate={{ x: [0, 50, 0], y: [0, -80, 0] }}
-          transition={{ duration: 18, repeat: Number.POSITIVE_INFINITY, ease: "linear", delay: 2 }}
-        />
-        <motion.div
-          className="absolute bottom-40 right-20 w-80 h-80 bg-gradient-to-tl from-secondary/15 via-primary/10 to-transparent rounded-full blur-3xl"
-          animate={{ x: [0, -60, 0], y: [0, 90, 0] }}
-          transition={{ duration: 22, repeat: Number.POSITIVE_INFINITY, ease: "linear", delay: 4 }}
-        />
       </motion.div>
 
-      {/* Header Navigation */}
-      <header className="sticky top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="flex items-start justify-between w-full px-4 sm:px-6 lg:px-8 py-6">
-          {/* Left - Suyash Singh Title and Subtitle */}
-          <div className="flex-1">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-1">
-              <span className="bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
-                Suyash Singh
-              </span>
-            </h1>
-            <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-foreground tracking-tight">
-              Software Developer
-            </h2>
+      {/* Horizontal Navigation Bar */}
+      <nav className="sticky top-0 left-0 right-0 z-40 bg-background/60 backdrop-blur-md border-b border-white/10 transition-colors duration-300">
+        <div className="flex items-center justify-between w-full px-4 sm:px-6 lg:px-8 py-4 gap-8">
+          {/* Left Navigation Items */}
+          <div className="flex items-center gap-8">
+            {navigationItems.map((item) => (
+              <motion.button
+                key={item.id}
+                whileHover={{ scale: 1.05 }}
+                onClick={() => scrollToSection(item.id)}
+                className={`font-light text-sm tracking-wide transition-all duration-300 pb-2 relative group ${
+                  activeSection === item.id
+                    ? "text-foreground"
+                    : "text-foreground/70 hover:text-foreground"
+                }`}
+              >
+                {item.label}
+                <motion.div
+                  layoutId="underline"
+                  className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary ${
+                    activeSection === item.id ? "block" : "hidden"
+                  }`}
+                />
+              </motion.button>
+            ))}
           </div>
 
-          {/* Right Column - Social Links at top, Navigation below */}
-          <div className="flex flex-col items-end gap-4">
-            {/* Social links and theme toggle row */}
-            <div className="flex items-center gap-3">
-              <motion.a
-                href="https://github.com/SUYASHSINGH7985"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
-                className="text-foreground/60 hover:text-foreground transition-colors"
-              >
-                <Github size={20} />
-              </motion.a>
-              <motion.a
-                href="https://linkedin.com/in/suyashsingh-dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
-                className="text-foreground/60 hover:text-foreground transition-colors"
-              >
-                <Linkedin size={20} />
-              </motion.a>
-              <motion.a
-                href="mailto:singhsuyash012@gmail.com"
-                whileHover={{ scale: 1.2 }}
-                className="text-foreground/60 hover:text-foreground transition-colors"
-              >
-                <Mail size={20} />
-              </motion.a>
+          {/* Right Side Controls */}
+          <div className="flex items-center gap-3">
+            {/* Social Links */}
+            <motion.a
+              href="https://github.com/SUYASHSINGH7985"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.2 }}
+              className="text-foreground/60 hover:text-foreground transition-colors"
+            >
+              <Github size={18} />
+            </motion.a>
+            <motion.a
+              href="https://linkedin.com/in/suyashsingh-dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.2 }}
+              className="text-foreground/60 hover:text-foreground transition-colors"
+            >
+              <Linkedin size={18} />
+            </motion.a>
+            <motion.a
+              href="mailto:singhsuyash012@gmail.com"
+              whileHover={{ scale: 1.2 }}
+              className="text-foreground/60 hover:text-foreground transition-colors"
+            >
+              <Mail size={18} />
+            </motion.a>
 
-              {/* Theme Toggle */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => {
-                  setTheme(theme === 'dark' ? 'light' : 'dark')
-                }}
-                className="text-foreground/60 hover:text-foreground transition-colors"
-              >
-                {theme === 'dark' ? (
-                  <Sun size={20} />
-                ) : (
-                  <Moon size={20} />
-                )}
-              </motion.button>
+            {/* Theme Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                setTheme(theme === 'dark' ? 'light' : 'dark')
+              }}
+              className="text-foreground/60 hover:text-foreground transition-colors"
+            >
+              {theme === 'dark' ? (
+                <Sun size={18} />
+              ) : (
+                <Moon size={18} />
+              )}
+            </motion.button>
 
-              {/* Music Player Wave Line */}
-              <div className="relative group flex items-center gap-2">
-                {isAudioPlaying ? (
-                  <>
-                    <svg 
-                      width="48" 
-                      height="12" 
-                      viewBox="0 0 48 12" 
-                      className="cursor-pointer hover:brightness-110"
-                    >
-                      <defs>
-                        <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="hsl(var(--primary))" />
-                          <stop offset="100%" stopColor="hsl(var(--secondary))" />
-                        </linearGradient>
-                      </defs>
-                      <motion.path
-                        stroke="url(#waveGradient)"
-                        strokeWidth="1.5"
-                        fill="none"
-                        strokeLinecap="round"
-                        animate={{
-                          d: [
-                            "M 0 6 Q 6 2 12 6 T 24 6 T 36 6 T 48 6",
-                            "M 0 6 Q 6 10 12 6 T 24 6 T 36 6 T 48 6",
-                            "M 0 6 Q 6 2 12 6 T 24 6 T 36 6 T 48 6"
-                          ]
-                        }}
-                        transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-                      />
-                    </svg>
-                    <motion.span
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-xs font-light text-foreground/80 whitespace-nowrap"
-                    >
-                      ≪ Losing My Mind ≫
-                    </motion.span>
-                  </>
-                ) : (
-                  <div className="h-0.5 w-12 bg-gradient-to-r from-primary to-secondary opacity-60"></div>
-                )}
-                
-                {/* Music Player Popup on Hover */}
-                <AnimatePresence>
-                  {showMusicPlayer && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute top-full mt-3 right-0 backdrop-blur-md bg-black/40 border border-white/20 rounded-lg shadow-lg overflow-hidden p-3 w-48 z-50"
-                      onMouseEnter={() => setShowMusicPlayer(true)}
-                      onMouseLeave={() => setShowMusicPlayer(false)}
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-md overflow-hidden flex-shrink-0 bg-gradient-to-br from-pink-500 to-red-500">
-                          <img
-                            src="/losing.png"
-                            alt="Album"
-                            width="40"
-                            height="40"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-white truncate">Lose My Mind</p>
-                          <p className="text-xs text-white/60 truncate">Don Toliver</p>
-                        </div>
-                        <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                          onClick={() => {
-                            if (audioRef.current) {
-                              if (isAudioPlaying) {
-                                audioRef.current.pause()
-                                setIsAudioPlaying(false)
-                              } else {
-                                audioRef.current.play()
-                                setIsAudioPlaying(true)
-                              }
-                            }
-                          }}
-                          className="w-8 h-8 rounded-full backdrop-blur-md bg-white/20 border border-white/30 flex items-center justify-center hover:bg-white/30 transition-all flex-shrink-0"
-                        >
-                          {isAudioPlaying ? (
-                            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-                            </svg>
-                          ) : (
-                            <svg className="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
-                          )}
-                        </motion.button>
+            {/* Music Player */}
+            <div className="relative group flex items-center gap-2">
+              {isAudioPlaying ? (
+                <>
+                  <svg 
+                    width="40" 
+                    height="10" 
+                    viewBox="0 0 48 12" 
+                    className="cursor-pointer hover:brightness-110"
+                    onClick={() => {
+                      if (audioRef.current) audioRef.current.pause()
+                    }}
+                  >
+                    <defs>
+                      <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="hsl(var(--primary))" />
+                        <stop offset="100%" stopColor="hsl(var(--secondary))" />
+                      </linearGradient>
+                    </defs>
+                    <motion.path
+                      stroke="url(#waveGradient)"
+                      strokeWidth="1.5"
+                      fill="none"
+                      strokeLinecap="round"
+                      animate={{
+                        d: [
+                          "M 0 6 Q 6 2 12 6 T 24 6 T 36 6 T 48 6",
+                          "M 0 6 Q 6 10 12 6 T 24 6 T 36 6 T 48 6",
+                          "M 0 6 Q 6 2 12 6 T 24 6 T 36 6 T 48 6"
+                        ]
+                      }}
+                      transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+                    />
+                  </svg>
+                </>
+              ) : (
+                <div 
+                  className="h-0.5 w-10 bg-gradient-to-r from-primary to-secondary opacity-60 cursor-pointer"
+                  onClick={() => {
+                    if (audioRef.current) audioRef.current.play()
+                  }}
+                ></div>
+              )}
+              
+              {/* Music Player Popup on Hover */}
+              <AnimatePresence>
+                {showMusicPlayer && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full mt-3 right-0 backdrop-blur-md bg-black/40 border border-white/20 rounded-lg shadow-lg overflow-hidden p-3 w-48 z-50"
+                    onMouseEnter={() => setShowMusicPlayer(true)}
+                    onMouseLeave={() => setShowMusicPlayer(false)}
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="w-10 h-10 rounded-md overflow-hidden flex-shrink-0 bg-gradient-to-br from-pink-500 to-red-500">
+                        <img
+                          src="/losing.png"
+                          alt="Album"
+                          width="40"
+                          height="40"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
                       </div>
-                      <audio
-                        ref={audioRef}
-                        src="/Losingmymind.mp3"
-                        onPlay={() => setIsAudioPlaying(true)}
-                        onPause={() => setIsAudioPlaying(false)}
-                        onEnded={() => setIsAudioPlaying(false)}
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-semibold text-white truncate">Lose My Mind</p>
+                        <p className="text-xs text-white/60 truncate">Don Toliver</p>
+                      </div>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => {
+                          if (audioRef.current) {
+                            if (isAudioPlaying) {
+                              audioRef.current.pause()
+                              setIsAudioPlaying(false)
+                            } else {
+                              audioRef.current.play()
+                              setIsAudioPlaying(true)
+                            }
+                          }
+                        }}
+                        className="w-8 h-8 rounded-full backdrop-blur-md bg-white/20 border border-white/30 flex items-center justify-center hover:bg-white/30 transition-all flex-shrink-0"
+                      >
+                        {isAudioPlaying ? (
+                          <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                          </svg>
+                        ) : (
+                          <svg className="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        )}
+                      </motion.button>
+                    </div>
+                    <audio
+                      ref={audioRef}
+                      src="/Losingmymind.mp3"
+                      onPlay={() => setIsAudioPlaying(true)}
+                      onPause={() => setIsAudioPlaying(false)}
+                      onEnded={() => setIsAudioPlaying(false)}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>
-      </header>
-
-      {/* Horizontal Navigation Bar */}
-      <nav className="sticky top-[80px] left-0 right-0 z-40 bg-background/60 backdrop-blur-md border-b border-white/10 transition-colors duration-300">
-        <div className="flex items-center justify-start w-full px-4 sm:px-6 lg:px-8 py-4 gap-8">
-          {navigationItems.map((item) => (
-            <motion.button
-              key={item.id}
-              whileHover={{ scale: 1.05 }}
-              onClick={() => scrollToSection(item.id)}
-              className={`font-light text-sm tracking-wide transition-all duration-300 pb-2 relative group ${
-                activeSection === item.id
-                  ? "text-foreground"
-                  : "text-foreground/70 hover:text-foreground"
-              }`}
-            >
-              {item.label}
-              <motion.div
-                layoutId="underline"
-                className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary ${
-                  activeSection === item.id ? "block" : "hidden"
-                }`}
-              />
-            </motion.button>
-          ))}
-        </div>
       </nav>
 
-      {/* Main Layout - Two Column with Sticky Left Navigation */}
-      <div className="flex relative">
-        {/* Left Column - Sticky Section Headings */}
-        <div className="hidden lg:flex w-64 flex-shrink-0 sticky top-[160px] h-fit flex-col gap-8 pt-6 pl-8 pr-8">
-          {["About", "Experience", "Projects", "Resume", "Contact"].map((section) => (
-            <motion.button
-              key={section}
-              onClick={() => scrollToSection(section.toLowerCase())}
-              className={`text-left transition-all duration-300 ${
-                activeSection === section.toLowerCase()
-                  ? "text-foreground"
-                  : "text-foreground/50 hover:text-foreground/70"
-              }`}
+      {/* Main Layout */}
+      <div className="w-full pb-20">
+        {/* Hero Section */}
+        <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20">
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+          >
+            <motion.h1
+              className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-tight mb-8 tracking-tighter"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <h2 className="text-2xl font-light tracking-tight mb-2">
-                {section}
-              </h2>
-              {activeSection === section.toLowerCase() && (
-                <motion.div
-                  className="h-1 w-12 bg-gradient-to-r from-primary to-secondary"
-                  layoutId="sectionIndicator"
-                  transition={{ duration: 0.3 }}
-                />
-              )}
-            </motion.button>
-          ))}
+              <span className="block mb-4">
+                <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
+                  Hi,
+                </span>
+              </span>
+              <span className="block mb-4">
+                <span className="bg-gradient-to-r from-primary via-blue-500 to-secondary bg-clip-text text-transparent">
+                  I'm Suyash Singh
+                </span>
+              </span>
+            </motion.h1>
+
+            <motion.h2
+              className="text-3xl sm:text-4xl md:text-5xl font-light text-foreground/80 mb-12 tracking-tight"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              Aspiring <span className="text-transparent bg-gradient-to-r from-primary to-secondary bg-clip-text">Developer</span>
+            </motion.h2>
+
+            <motion.p
+              className="text-lg sm:text-xl text-foreground/60 mb-12 max-w-2xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              Building amazing web experiences and continuously learning new technologies
+            </motion.p>
+
+            {/* Scroll indicator */}
+            <motion.div
+              className="flex flex-col items-center gap-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+            >
+              <span className="text-sm text-foreground/50">Scroll to explore</span>
+              <svg
+                className="w-5 h-5 text-foreground/50"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+              </svg>
+            </motion.div>
+          </motion.div>
         </div>
 
-        {/* Right Column - Content */}
-        <div className="flex-1 pb-20 relative">
-          {/* Right side accent bar */}
-          <motion.div 
-            className="fixed right-8 top-[200px] bottom-40 w-1 bg-gradient-to-b from-primary via-secondary to-transparent pointer-events-none hidden lg:block"
-            animate={{ scaleY: [0.8, 1, 0.8] }}
-            transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY }}
+        {/* About Section */}
+        <div id="about" className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl pt-6">
+          <AboutSection aboutRef={aboutRef} skills={skills} />
+        </div>
+
+        {/* Projects Section */}
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
+          <ProjectsSection
+            projectsRef={projectsRef}
+            projects={filteredProjects}
+            allTechnologies={allTechnologies}
+            selectedFilter={selectedFilter}
+            setSelectedFilter={setSelectedFilter}
           />
+        </div>
 
-          {/* Floating accent dots on right side */}
-          {[0, 1, 2, 3].map((i) => (
-            <motion.div
-              key={i}
-              className="fixed right-6 w-2 h-2 bg-gradient-to-r from-primary to-secondary rounded-full pointer-events-none hidden lg:block"
-              style={{ top: `${200 + i * 25}%` }}
-              animate={{ 
-                y: [0, 15, 0],
-                opacity: [0.3, 0.8, 0.3]
-              }}
-              transition={{ 
-                duration: 4 + i * 0.5, 
-                repeat: Number.POSITIVE_INFINITY,
-                delay: i * 0.5 
-              }}
-            />
-          ))}
+        {/* Experience Section */}
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
+          <ExperienceSection experienceRef={experienceRef} experiences={experiences} />
+        </div>
 
-          {/* About Section */}
-          <div className="px-4 sm:px-6 lg:px-8 pt-6">
-            <AboutSection aboutRef={aboutRef} skills={skills} />
-          </div>
+        {/* Resume Section */}
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
+          <ResumeSection resumeRef={resumeRef} />
+        </div>
 
-          {/* Experience Section */}
-          <div className="px-4 sm:px-6 lg:px-8">
-            <ExperienceSection experienceRef={experienceRef} experiences={experiences} />
-          </div>
-
-          {/* Projects Section */}
-          <div className="px-4 sm:px-6 lg:px-8">
-            <ProjectsSection
-              projectsRef={projectsRef}
-              projects={filteredProjects}
-              allTechnologies={allTechnologies}
-              selectedFilter={selectedFilter}
-              setSelectedFilter={setSelectedFilter}
-            />
-          </div>
-
-          {/* Resume Section */}
-          <div className="px-4 sm:px-6 lg:px-8">
-            <ResumeSection resumeRef={resumeRef} />
-          </div>
-
-          {/* Contact Section */}
-          <div className="px-4 sm:px-6 lg:px-8">
-            <ContactSection contactRef={contactRef} />
-          </div>
+        {/* Contact Section */}
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
+          <ContactSection contactRef={contactRef} />
         </div>
       </div>
 

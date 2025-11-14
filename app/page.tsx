@@ -562,14 +562,14 @@ export default function Portfolio() {
 
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="flex items-start justify-between w-full h-24">
-          {/* Left - Logo/Empty space */}
+        <div className="flex items-start justify-between w-full">
+          {/* Left - Empty space */}
           <div className="px-6 sm:px-8 lg:px-16 py-6" />
 
-          {/* Right - Social Links & Theme Toggle (Flush to edge) */}
-          <div className="flex flex-col items-end h-full">
+          {/* Right - Social Links, Theme Toggle & Navigation (Flush to edge, vertical) */}
+          <div className="flex flex-col items-end px-6 sm:px-8 lg:px-16 py-6 gap-4">
             {/* Top row: Social links and theme toggle */}
-            <div className="flex items-center gap-3 px-6 sm:px-8 lg:px-16 py-6">
+            <div className="flex items-center gap-3">
               <motion.a
                 href="https://github.com/SUYASHSINGH7985"
                 target="_blank"
@@ -613,17 +613,17 @@ export default function Portfolio() {
               </motion.button>
             </div>
 
-            {/* Bottom row: Navigation items */}
-            <nav className="flex items-center gap-6 px-6 sm:px-8 lg:px-16 pb-2">
+            {/* Navigation items - Vertical layout with more opacity */}
+            <nav className="flex flex-col items-end gap-2">
               {navigationItems.map((item) => (
                 <motion.button
                   key={item.id}
                   whileHover={{ scale: 1.05 }}
                   onClick={() => scrollToSection(item.id)}
-                  className={`font-light text-sm tracking-wide transition-all duration-300 ${
+                  className={`font-light text-xs tracking-wide transition-all duration-300 ${
                     activeSection === item.id
                       ? "text-foreground"
-                      : "text-foreground/60 hover:text-foreground/80"
+                      : "text-foreground/80 hover:text-foreground"
                   }`}
                 >
                   {item.label}

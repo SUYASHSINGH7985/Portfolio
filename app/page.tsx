@@ -529,13 +529,34 @@ export default function Portfolio() {
                 )}
               </motion.button>
 
-              {/* Music Player Hover Line */}
+              {/* Music Player Wave Line */}
               <div className="relative group">
-                <motion.div
-                  animate={isAudioPlaying ? { scaleX: [1, 1.3, 1], opacity: [0.8, 1, 0.8] } : { scaleX: 1, opacity: 0.6 }}
-                  transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-                  className="h-1 w-12 bg-gradient-to-r from-primary to-secondary rounded-full cursor-pointer hover:brightness-110"
-                />
+                {isAudioPlaying ? (
+                  <motion.svg 
+                    width="48" 
+                    height="8" 
+                    viewBox="0 0 48 8" 
+                    className="cursor-pointer hover:brightness-110"
+                    animate={{ scale: [1, 1.05, 1] }}
+                    transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+                  >
+                    <defs>
+                      <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="hsl(var(--primary))" />
+                        <stop offset="100%" stopColor="hsl(var(--secondary))" />
+                      </linearGradient>
+                    </defs>
+                    <path
+                      d="M 0 4 Q 6 1 12 4 T 24 4 T 36 4 T 48 4"
+                      stroke="url(#waveGradient)"
+                      strokeWidth="1.5"
+                      fill="none"
+                      strokeLinecap="round"
+                    />
+                  </motion.svg>
+                ) : (
+                  <div className="h-0.5 w-12 bg-gradient-to-r from-primary to-secondary opacity-60"></div>
+                )}
                 
                 {/* Music Player Popup on Hover */}
                 <AnimatePresence>

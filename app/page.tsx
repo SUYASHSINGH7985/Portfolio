@@ -379,6 +379,117 @@ function ProjectsSection({
   )
 }
 
+// Experience Section Component
+function ExperienceSection({ experienceRef }: { experienceRef: React.RefObject<HTMLElement> }) {
+  const isInView = useInView(experienceRef, { once: true, margin: "-100px" })
+
+  const experiences = [
+    {
+      id: 1,
+      company: "Jol Energy",
+      position: "Software Developer Intern",
+      duration: "Sep 2025 – Present",
+      type: "Remote",
+      description: "Selected as a Software Developer Intern to work on an AI-powered interview platform.",
+      highlights: [
+        "Database design (Supabase) and authentication (NextAuth.js)",
+        "Speech-to-text integration and AI-driven interview logic",
+        "Implementation using Gemini API for intelligent features"
+      ]
+    },
+    {
+      id: 2,
+      company: "Unified Mentor Private Limited",
+      position: "Full Stack Web Development Intern",
+      duration: "Oct 2025 – Present",
+      type: "Remote",
+      description: "Contributing to the development of a SuperMall web application for rural merchants.",
+      highlights: [
+        "Secure product management and vendor dashboard development",
+        "Product uploads, inventory tracking, and order handling",
+        "Responsive frontend components with seamless backend integration"
+      ]
+    }
+  ]
+
+  return (
+    <motion.section
+      id="experience"
+      ref={experienceRef}
+      className="mb-20"
+      initial={{ opacity: 1 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      <motion.div
+        initial={{ opacity: 1, y: 0 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Experience
+          </span>
+        </h2>
+
+        <div className="space-y-6">
+          {experiences.map((exp, index) => (
+            <motion.div
+              key={exp.id}
+              initial={{ opacity: 1, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 1, x: -20 }}
+              transition={{ duration: 0.6, delay: 0.3 + index * 0.15 }}
+              className="relative pl-6 pb-6 border-l-2 border-white/10"
+            >
+              {/* Timeline Dot */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={isInView ? { scale: 1 } : { scale: 0 }}
+                transition={{ duration: 0.4, delay: 0.4 + index * 0.15 }}
+                className="absolute left-0 top-0 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-primary to-secondary border-2 border-background"
+              />
+
+              <div className="group">
+                <div className="mb-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white group-hover:text-primary/80 transition-colors">
+                      {exp.position}
+                    </h3>
+                    <span className="text-xs font-light text-white/50 bg-white/5 px-3 py-1 rounded-full w-fit">
+                      {exp.type}
+                    </span>
+                  </div>
+                  <p className="text-sm text-primary/80 font-light mb-1">{exp.company}</p>
+                  <p className="text-xs text-white/50 font-light">{exp.duration}</p>
+                </div>
+
+                <p className="text-sm text-white/70 leading-relaxed mb-4 font-light">
+                  {exp.description}
+                </p>
+
+                <ul className="space-y-2">
+                  {exp.highlights.map((highlight, i) => (
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 1, x: 0 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.5 + index * 0.15 + i * 0.1 }}
+                      className="text-xs sm:text-sm text-white/60 leading-relaxed flex items-start gap-2"
+                    >
+                      <span className="text-primary/60 mt-1 flex-shrink-0">•</span>
+                      <span>{highlight}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </motion.section>
+  )
+}
+
 // Contact Section Component
 function ContactSection({ contactRef }: { contactRef: React.RefObject<HTMLElement> }) {
   const isInView = useInView(contactRef, { once: true, margin: "-100px" })
@@ -447,6 +558,7 @@ export default function Portfolio() {
   const heroRef = useRef<HTMLElement>(null)
   const aboutRef = useRef<HTMLElement>(null)
   const projectsRef = useRef<HTMLElement>(null)
+  const experienceRef = useRef<HTMLElement>(null)
   const contactRef = useRef<HTMLElement>(null)
 
   const projects = [
@@ -518,7 +630,7 @@ export default function Portfolio() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "about", "projects", "contact"]
+      const sections = ["home", "about", "projects", "experience", "contact"]
       const scrollPosition = window.scrollY + 200
 
       for (const section of sections) {
@@ -668,6 +780,11 @@ export default function Portfolio() {
             selectedFilter={selectedFilter}
             setSelectedFilter={setSelectedFilter}
           />
+        </div>
+
+        {/* Contact Section */}
+        <div className="px-3 sm:px-4 lg:px-6">
+          <ExperienceSection experienceRef={experienceRef} />
         </div>
 
         {/* Contact Section */}

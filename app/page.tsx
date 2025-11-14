@@ -23,209 +23,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion"
 
-// Compact Music Player Component
-interface CompactMusicPlayerProps {
-  isVisible: boolean
-}
-
-function CompactMusicPlayer({ isVisible }: CompactMusicPlayerProps) {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const audioRef = useRef<HTMLAudioElement>(null)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (!audioRef.current || !isMounted) return
-
-    const attemptAutoplay = async () => {
-      try {
-        audioRef.current!.muted = false
-        const playPromise = audioRef.current!.play()
-        if (playPromise !== undefined) {
-          await playPromise
-          setIsPlaying(true)
-        }
-      } catch (error) {
-        const playOnInteraction = async () => {
-          try {
-            audioRef.current!.muted = false
-            await audioRef.current!.play()
-            setIsPlaying(true)
-            document.removeEventListener('click', playOnInteraction)
-            document.removeEventListener('touchstart', playOnInteraction)
-            document.removeEventListener('keydown', playOnInteraction)
-          } catch (e) {
-            // Still blocked
-          }
-        }
-
-        document.addEventListener('click', playOnInteraction, { once: true })
-        document.addEventListener('touchstart', playOnInteraction, { once: true })
-        document.addEventListener('keydown', playOnInteraction, { once: true })
-      }
-    }
-
-    attemptAutoplay()
-    const timer = setTimeout(attemptAutoplay, 1000)
-    
-    return () => clearTimeout(timer)
-  }, [isMounted])
-
-  useEffect(() => {
-    const audio = audioRef.current
-    if (!audio || !isMounted) return
-
-    const updateTime = () => {
-      setCurrentTime(audio.currentTime)
-    }
-
-    const updateDuration = () => {
-      setDuration(audio.duration || 0)
-    }
-
-    audio.addEventListener('timeupdate', updateTime)
-    audio.addEventListener('loadedmetadata', updateDuration)
-    audio.addEventListener('durationchange', updateDuration)
-
-    if (audio.duration) {
-      setDuration(audio.duration)
-    }
-
-    return () => {
-      audio.removeEventListener('timeupdate', updateTime)
-      audio.removeEventListener('loadedmetadata', updateDuration)
-      audio.removeEventListener('durationchange', updateDuration)
-    }
-  }, [isMounted])
-
-  const handlePlayPause = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (!audioRef.current) return
-
-    if (isPlaying) {
-      audioRef.current.pause()
-      setIsPlaying(false)
-    } else {
-      audioRef.current.muted = false
-      audioRef.current.play().then(() => {
-        setIsPlaying(true)
-      }).catch(() => {
-        setIsPlaying(false)
-      })
-    }
-  }
-
-  const handleSkip = (direction: 'forward' | 'back', e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (!audioRef.current || !duration) return
-
-    const newTime = direction === 'forward' 
-      ? Math.min(audioRef.current.currentTime + 10, duration)
-      : Math.max(audioRef.current.currentTime - 10, 0)
-    
-    audioRef.current.currentTime = newTime
-    setCurrentTime(newTime)
-  }
-
-  const formatTime = (time: number) => {
-    if (!time || !isFinite(time)) return '0:00'
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
-  }
-
-  if (!isMounted) return null
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 10 }}
-      transition={{ duration: 0.3 }}
-      className={`backdrop-blur-md bg-black/40 border border-white/20 rounded-2xl shadow-lg overflow-hidden ${!isVisible ? 'pointer-events-none' : ''}`}
-    >
-      <audio
-        ref={audioRef}
-        src="/Losingmymind.mp3"
-        onEnded={() => setIsPlaying(false)}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        autoPlay
-        crossOrigin="anonymous"
-      />
-
-      <div className="flex items-center justify-between px-3 py-2 gap-0">
-        <div className="flex items-center gap-2 flex-1 min-w-0">
-          <div className="w-8 h-8 rounded-md overflow-hidden flex-shrink-0 shadow-lg bg-gradient-to-br from-pink-500 to-red-500">
-            <img
-              src="/losing.png"
-              alt="Album"
-              width="32"
-              height="32"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-white truncate leading-tight">Lose My Mind</p>
-            <p className="text-xs text-white/60 truncate leading-tight">Don Toliver</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4 flex-shrink-0 -ml-3">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={(e) => handleSkip('back', e)}
-            className="text-white/70 hover:text-white transition-all"
-          >
-            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z" />
-            </svg>
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.15 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={handlePlayPause}
-            className="w-7 h-7 rounded-full backdrop-blur-md bg-black/40 border border-white/20 flex items-center justify-center hover:bg-black/50 hover:border-white/30 transition-all shadow-lg"
-          >
-            {isPlaying ? (
-              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-              </svg>
-            ) : (
-              <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            )}
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={(e) => handleSkip('forward', e)}
-            className="text-white/70 hover:text-white transition-all"
-          >
-            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M13 6v12l8.5-6L13 6zM4 18l8.5-6L4 6v12z" />
-            </svg>
-          </motion.button>
-
-          <div className="hidden sm:flex items-center gap-0.5 text-xs font-mono text-white/60 min-w-14 ml-1">
-            <span>{formatTime(currentTime)}</span>
-            <span>/</span>
-            <span>{formatTime(duration)}</span>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
-
 // About Section Component
 function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElement>; skills: any[] }) {
   const isInView = useInView(aboutRef, { once: true, margin: "-100px" })
@@ -254,20 +51,51 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
           I actively work on <strong className="font-normal text-white/90">personal projects</strong>, regularly push my progress to <strong className="font-normal text-white/90">GitHub</strong>, and solve <strong className="font-normal text-white/90">Data Structures & Algorithms (DSA)</strong> problems on platforms like <strong className="font-normal text-white/90">LeetCode</strong> and <strong className="font-normal text-white/90">Codeforces</strong>.
         </p>
 
-        <div className="mt-12">
-          <h3 className="text-2xl font-light mb-8 tracking-tight">Skills & Expertise</h3>
-          <div className="flex flex-wrap gap-4">
-            {skills.map((skill, index) => (
+        <div className="mt-16">
+          {/* Skills Header with Horizontal Lines */}
+          <div className="flex items-center gap-6 mb-12">
+            <div className="flex-1 h-px bg-gradient-to-r from-white/20 via-white/10 to-transparent"></div>
+            <h3 className="text-2xl font-light tracking-tight whitespace-nowrap px-4 text-white/90">
+              -------<span className="mx-2">skills & expertise</span>-------
+            </h3>
+            <div className="flex-1 h-px bg-gradient-to-l from-white/20 via-white/10 to-transparent"></div>
+          </div>
+
+          {/* Horizontal Scrolling Skills Container */}
+          <div className="relative">
+            {/* Top decorative line */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-white/10 via-white/20 to-white/10"></div>
+            
+            {/* Skills scroll container */}
+            <div className="overflow-x-auto py-8 px-2 scrollbar-hide">
               <motion.div
-                key={skill.name}
-                initial={{ opacity: 1, y: 0 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-                className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition-all"
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="flex gap-6 min-w-min"
               >
-                <span className="text-sm font-light text-white/80">{skill.name}</span>
+                {skills.map((skill, index) => (
+                  <motion.div
+                    key={skill.name}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                    transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    className="flex flex-col items-center gap-3 px-6 py-4 rounded-lg bg-gradient-to-br from-white/8 to-white/3 border border-white/15 hover:border-white/30 backdrop-blur-sm transition-all cursor-pointer group"
+                  >
+                    <div className="text-white/70 group-hover:text-white/90 transition-colors">
+                      {skill.icon}
+                    </div>
+                    <span className="text-sm font-light text-white/80 group-hover:text-white/90 transition-colors text-center whitespace-nowrap">
+                      {skill.name}
+                    </span>
+                  </motion.div>
+                ))}
               </motion.div>
-            ))}
+            </div>
+
+            {/* Bottom decorative line */}
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-white/10 via-white/20 to-white/10"></div>
           </div>
         </div>
       </motion.div>
@@ -379,43 +207,14 @@ function ProjectsSection({
   )
 }
 
-// Experience Section Component
-function ExperienceSection({ experienceRef }: { experienceRef: React.RefObject<HTMLElement> }) {
-  const isInView = useInView(experienceRef, { once: true, margin: "-100px" })
-
-  const experiences = [
-    {
-      id: 1,
-      company: "Jol Energy",
-      position: "Software Developer Intern",
-      duration: "Sep 2025 – Present",
-      type: "Remote",
-      description: "Selected as a Software Developer Intern to work on an AI-powered interview platform.",
-      highlights: [
-        "Database design (Supabase) and authentication (NextAuth.js)",
-        "Speech-to-text integration and AI-driven interview logic",
-        "Implementation using Gemini API for intelligent features"
-      ]
-    },
-    {
-      id: 2,
-      company: "Unified Mentor Private Limited",
-      position: "Full Stack Web Development Intern",
-      duration: "Oct 2025 – Present",
-      type: "Remote",
-      description: "Contributing to the development of a SuperMall web application for rural merchants.",
-      highlights: [
-        "Secure product management and vendor dashboard development",
-        "Product uploads, inventory tracking, and order handling",
-        "Responsive frontend components with seamless backend integration"
-      ]
-    }
-  ]
+// Resume Section Component
+function ResumeSection({ resumeRef }: { resumeRef: React.RefObject<HTMLElement> }) {
+  const isInView = useInView(resumeRef, { once: true, margin: "-100px" })
 
   return (
     <motion.section
-      id="experience"
-      ref={experienceRef}
+      id="resume"
+      ref={resumeRef}
       className="mb-20"
       initial={{ opacity: 1 }}
       animate={isInView ? { opacity: 1 } : { opacity: 1 }}
@@ -428,63 +227,43 @@ function ExperienceSection({ experienceRef }: { experienceRef: React.RefObject<H
       >
         <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
           <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Experience
+            Resume
           </span>
         </h2>
 
-        <div className="space-y-6">
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={exp.id}
-              initial={{ opacity: 1, x: -20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 1, x: -20 }}
-              transition={{ duration: 0.6, delay: 0.3 + index * 0.15 }}
-              className="relative pl-6 pb-6 border-l-2 border-white/10"
-            >
-              {/* Timeline Dot */}
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={isInView ? { scale: 1 } : { scale: 0 }}
-                transition={{ duration: 0.4, delay: 0.4 + index * 0.15 }}
-                className="absolute left-0 top-0 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-primary to-secondary border-2 border-background"
-              />
+        <motion.div
+          initial={{ opacity: 1, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="space-y-4"
+        >
+          <p className="text-base sm:text-lg text-white/70 leading-relaxed font-light">
+            Download my complete resume to see my full background, projects, and qualifications.
+          </p>
 
-              <div className="group">
-                <div className="mb-3">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
-                    <h3 className="text-lg sm:text-xl font-semibold text-white group-hover:text-primary/80 transition-colors">
-                      {exp.position}
-                    </h3>
-                    <span className="text-xs font-light text-white/50 bg-white/5 px-3 py-1 rounded-full w-fit">
-                      {exp.type}
-                    </span>
-                  </div>
-                  <p className="text-sm text-primary/80 font-light mb-1">{exp.company}</p>
-                  <p className="text-xs text-white/50 font-light">{exp.duration}</p>
-                </div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <a href="/Suyash_Resume 2.pdf" download target="_blank" rel="noopener noreferrer">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-light transition-all hover:shadow-lg hover:shadow-primary/20"
+              >
+                <ExternalLink size={18} className="inline mr-3" />
+                Download PDF
+              </motion.button>
+            </a>
 
-                <p className="text-sm text-white/70 leading-relaxed mb-4 font-light">
-                  {exp.description}
-                </p>
-
-                <ul className="space-y-2">
-                  {exp.highlights.map((highlight, i) => (
-                    <motion.li
-                      key={i}
-                      initial={{ opacity: 1, x: 0 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.5 + index * 0.15 + i * 0.1 }}
-                      className="text-xs sm:text-sm text-white/60 leading-relaxed flex items-start gap-2"
-                    >
-                      <span className="text-primary/60 mt-1 flex-shrink-0">•</span>
-                      <span>{highlight}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+            <a href="/Suyash_Resume 2.pdf" target="_blank" rel="noopener noreferrer">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full sm:w-auto px-8 py-4 border border-white/20 text-white rounded-lg font-light transition-all hover:border-white/40 hover:bg-white/5"
+              >
+                View in Browser
+              </motion.button>
+            </a>
+          </div>
+        </motion.div>
       </motion.div>
     </motion.section>
   )
@@ -558,7 +337,7 @@ export default function Portfolio() {
   const heroRef = useRef<HTMLElement>(null)
   const aboutRef = useRef<HTMLElement>(null)
   const projectsRef = useRef<HTMLElement>(null)
-  const experienceRef = useRef<HTMLElement>(null)
+  const resumeRef = useRef<HTMLElement>(null)
   const contactRef = useRef<HTMLElement>(null)
 
   const projects = [
@@ -630,7 +409,7 @@ export default function Portfolio() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "about", "experience", "projects", "contact"]
+      const sections = ["home", "about", "projects", "resume", "contact"]
       const scrollPosition = window.scrollY + 200
 
       for (const section of sections) {
@@ -656,7 +435,7 @@ export default function Portfolio() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground transition-colors duration-300 overflow-x-hidden cursor-crosshair">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300 overflow-x-hidden">
       {/* Animated Background */}
       <motion.div className="fixed inset-0 -z-10" style={{ y: backgroundY }}>
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
@@ -673,8 +452,8 @@ export default function Portfolio() {
       </motion.div>
 
       {/* Header Navigation */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="flex items-center justify-end w-full px-3 sm:px-4 lg:px-6 py-6">
+      <header className="sticky top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
+        <div className="flex items-center justify-end w-full px-4 sm:px-6 lg:px-8 py-6 pr-4 sm:pr-6 lg:pr-8">
           {/* Right - Social Links, Theme Toggle & Navigation (Flush to edge) */}
           <div className="flex items-center gap-4">
             {/* Social links and theme toggle row */}
@@ -723,7 +502,7 @@ export default function Portfolio() {
             </div>
 
             {/* Navigation items - Horizontal layout on same line as social */}
-            <nav className="flex items-center gap-4 pl-4 border-l border-foreground/10">
+            <nav className="flex items-center gap-4 pl-4 border-l border-foreground/30">
               {navigationItems.map((item) => (
                 <motion.button
                   key={item.id}
@@ -744,22 +523,49 @@ export default function Portfolio() {
       </header>
 
       {/* Main Layout */}
-      <div className="w-full pt-24 pb-20">
+      <div className="w-full pb-20">
         {/* Hero Section */}
-        <section id="home" ref={heroRef} className="mb-32 px-3 sm:px-4 lg:px-6">
+        <section id="home" ref={heroRef} className="mb-32 px-4 sm:px-6 lg:px-8 pt-12">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-3 tracking-tight leading-tight">
-              <span className="bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
-                Suyash Singh
-              </span>
-            </h1>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-foreground mb-8 tracking-tight leading-normal">
-              Developer
-            </h2>
+            <div className="flex items-center gap-6 mb-3">
+              {/* Name */}
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
+                <span className="bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
+                  Suyash Singh
+                </span>
+              </h1>
+
+              {/* Animated Hyphen - RIGHT SIDE */}
+              <motion.button
+                onClick={() => {
+                  const audio = new Audio('/Losingmymind.mp3')
+                  audio.play().catch(e => console.log('Audio play error:', e))
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative group flex-shrink-0"
+              >
+                <motion.div
+                  animate={{ scaleX: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                  className="h-1 w-16 bg-gradient-to-r from-primary to-secondary rounded-full"
+                />
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity"
+                  animate={{ scaleX: [1, 1.3, 1] }}
+                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                />
+              </motion.button>
+            </div>
+            <div className="flex items-center gap-8 mb-8">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-foreground tracking-tight leading-normal">
+                Software Developer
+              </h2>
+            </div>
             <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-5xl font-light">
               I build <strong className="font-normal text-white/90">scalable applications</strong> with <strong className="font-normal text-white/90">clean code</strong> and <strong className="font-normal text-white/90">intuitive user interfaces</strong>, solving <strong className="font-normal text-white/90">complex problems</strong> using <strong className="font-normal text-white/90">modern technologies</strong>. From global e-commerce platforms to emerging Web3 products, I design frameworks that feel seamless, human, and ready for the future.
             </p>
@@ -767,17 +573,12 @@ export default function Portfolio() {
         </section>
 
         {/* About Section */}
-        <div className="px-3 sm:px-4 lg:px-6">
+        <div className="px-4 sm:px-6 lg:px-8">
           <AboutSection aboutRef={aboutRef} skills={skills} />
         </div>
 
         {/* Projects Section */}
-        <div className="px-3 sm:px-4 lg:px-6">
-          <ExperienceSection experienceRef={experienceRef} />
-        </div>
-
-        {/* Projects Section */}
-        <div className="px-3 sm:px-4 lg:px-6">
+        <div className="px-4 sm:px-6 lg:px-8">
           <ProjectsSection
             projectsRef={projectsRef}
             projects={filteredProjects}
@@ -787,14 +588,19 @@ export default function Portfolio() {
           />
         </div>
 
+        {/* Resume Section */}
+        <div className="px-4 sm:px-6 lg:px-8">
+          <ResumeSection resumeRef={resumeRef} />
+        </div>
+
         {/* Contact Section */}
-        <div className="px-3 sm:px-4 lg:px-6">
+        <div className="px-4 sm:px-6 lg:px-8">
           <ContactSection contactRef={contactRef} />
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="py-8 px-3 text-center border-t border-white/10">
+      <footer className="py-8 px-6 text-center border-t border-white/10">
         <p className="text-sm text-white/50">© {new Date().getFullYear()} Suyash Singh</p>
       </footer>
     </div>

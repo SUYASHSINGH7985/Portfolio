@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     "Portfolio of Suyash Singh, a developer specializing in web technologies. Explore my projects, skills, and experience.",
   icons: {
-    icon: "/Gemini_Generated_Image_fh2ctjfh2ctjfh2c-removebg-preview.png",
+    icon: "/LOGO.png",
   },
 }
 

@@ -23,6 +23,61 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion"
 
+// Skill Tag Component for Horizontal Marquee
+function SkillTag({ skill, index }: { skill: any; index: number }) {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <motion.div
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      animate={isHovered ? { y: -8 } : { y: 0 }}
+      transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
+      className="relative group flex-shrink-0"
+    >
+      <div className="relative px-6 py-3 rounded-full border border-white/20 bg-gradient-to-r from-white/8 to-white/3 backdrop-blur-md group-hover:border-white/40 transition-all duration-300 cursor-pointer overflow-hidden">
+        
+        {/* Animated background on hover */}
+        <motion.div
+          className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/15 via-transparent to-secondary/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          animate={isHovered ? { opacity: 1 } : { opacity: 0 }}
+        />
+
+        {/* Content */}
+        <div className="relative z-10 flex items-center gap-2">
+          <motion.div
+            animate={isHovered ? { scale: 1.15, rotate: 10 } : { scale: 1, rotate: 0 }}
+            transition={{ duration: 0.3 }}
+            className="text-white/70 group-hover:text-white transition-colors"
+          >
+            {skill.icon}
+          </motion.div>
+          <motion.span
+            animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="text-sm font-light text-white/80 group-hover:text-white transition-colors whitespace-nowrap"
+          >
+            {skill.name}
+          </motion.span>
+        </div>
+
+        {/* Glow effect on hover */}
+        {isHovered && (
+          <motion.div
+            className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 blur-lg -z-10"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+          />
+        )}
+      </div>
+    </motion.div>
+  )
+}
+
+// Skill Card Component with Advanced Animations - Stacked Layout
+// Skill Card Component with Advanced Animations - Stacked Layout
+// (Kept for reference, but using SkillTag for marquee)
+
 // About Section Component
 function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElement>; skills: any[] }) {
   const isInView = useInView(aboutRef, { once: true, margin: "-100px" })
@@ -52,51 +107,101 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
         </p>
 
         <div className="mt-16">
-          {/* Skills Header with Horizontal Lines */}
-          <div className="flex items-center gap-6 mb-12">
-            <div className="flex-1 h-px bg-gradient-to-r from-white/20 via-white/10 to-transparent"></div>
-            <h3 className="text-2xl font-light tracking-tight whitespace-nowrap px-4 text-white/90">
-              -------<span className="mx-2">skills & expertise</span>-------
+          {/* Enhanced Skills Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative mb-12"
+          >
+            <h3 className="text-3xl font-light tracking-tight text-white mb-8">
+              <span className="bg-gradient-to-r from-primary via-white to-secondary bg-clip-text text-transparent">
+                Skills & Expertise
+              </span>
             </h3>
-            <div className="flex-1 h-px bg-gradient-to-l from-white/20 via-white/10 to-transparent"></div>
-          </div>
+          </motion.div>
 
-          {/* Horizontal Scrolling Skills Container */}
-          <div className="relative">
-            {/* Top decorative line */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-white/10 via-white/20 to-white/10"></div>
-            
-            {/* Skills scroll container */}
-            <div className="overflow-x-auto py-8 px-2 scrollbar-hide">
+          {/* Horizontal Scrolling Skills with Parallel Lines */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="relative"
+          >
+            {/* Top parallel line with fill animation */}
+            <motion.div
+              className="h-0.5 bg-gradient-to-r from-primary/0 via-primary/80 to-primary/0 mb-6"
+              initial={{ width: 0 }}
+              animate={isInView ? { width: "100%" } : { width: 0 }}
+              transition={{ duration: 1.5, delay: 0.4, ease: "easeOut" }}
+              style={{ originX: 0 }}
+            />
+
+            {/* Skills Container with Rectangle Background Fill */}
+            <div className="relative overflow-hidden rounded-lg">
+              {/* Animated Background Fill Rectangle */}
               <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-primary/15 via-secondary/10 to-primary/10 rounded-lg"
+                initial={{ scaleX: 0, originX: 0 }}
+                animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+                transition={{ duration: 2, delay: 0.3, ease: "easeOut" }}
+                style={{ originX: 0 }}
+              />
+
+              {/* Inner border that fills */}
+              <motion.div
+                className="absolute inset-0 rounded-lg border-2 border-primary/50"
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="flex gap-6 min-w-min"
-              >
-                {skills.map((skill, index) => (
-                  <motion.div
-                    key={skill.name}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                    transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    className="flex flex-col items-center gap-3 px-6 py-4 rounded-lg bg-gradient-to-br from-white/8 to-white/3 border border-white/15 hover:border-white/30 backdrop-blur-sm transition-all cursor-pointer group"
-                  >
-                    <div className="text-white/70 group-hover:text-white/90 transition-colors">
-                      {skill.icon}
-                    </div>
-                    <span className="text-sm font-light text-white/80 group-hover:text-white/90 transition-colors text-center whitespace-nowrap">
-                      {skill.name}
-                    </span>
-                  </motion.div>
-                ))}
-              </motion.div>
+                transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
+              />
+
+              {/* Skills Marquee Container */}
+              <div className="relative py-8 px-8">
+                {/* Left gradient fade */}
+                <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none rounded-l-lg" />
+                
+                {/* Right gradient fade */}
+                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none rounded-r-lg" />
+
+                {/* Scrolling Skills Container */}
+                <motion.div
+                  className="flex gap-8 min-w-min"
+                  animate={{ x: [-2000, 0] }}
+                  transition={{
+                    duration: 35,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: "linear",
+                    delay: 1.8,
+                  }}
+                >
+                  {/* First loop of skills */}
+                  {skills.map((skill, index) => (
+                    <SkillTag key={`${skill.name}-1`} skill={skill} index={index} />
+                  ))}
+                  
+                  {/* Duplicate for seamless loop */}
+                  {skills.map((skill, index) => (
+                    <SkillTag key={`${skill.name}-2`} skill={skill} index={index} />
+                  ))}
+                  
+                  {/* Third loop for extra smoothness */}
+                  {skills.map((skill, index) => (
+                    <SkillTag key={`${skill.name}-3`} skill={skill} index={index} />
+                  ))}
+                </motion.div>
+              </div>
             </div>
 
-            {/* Bottom decorative line */}
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-white/10 via-white/20 to-white/10"></div>
-          </div>
+            {/* Bottom parallel line with fill animation */}
+            <motion.div
+              className="h-0.5 bg-gradient-to-r from-primary/0 via-primary/80 to-primary/0 mt-6"
+              initial={{ width: 0 }}
+              animate={isInView ? { width: "100%" } : { width: 0 }}
+              transition={{ duration: 1.5, delay: 0.7, ease: "easeOut" }}
+              style={{ originX: 0 }}
+            />
+          </motion.div>
         </div>
       </motion.div>
     </motion.section>

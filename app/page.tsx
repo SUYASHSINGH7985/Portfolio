@@ -22,7 +22,6 @@ import { useTheme } from "next-themes"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion"
-import { SmokeEffect } from "@/components/smoke-effect"
 
 // Compact Music Player Component
 interface CompactMusicPlayerProps {
@@ -436,7 +435,6 @@ export default function Portfolio() {
   const [mounted, setMounted] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [selectedFilter, setSelectedFilter] = useState("all")
-  const [showSmokeEffect, setShowSmokeEffect] = useState(false)
   const { theme, setTheme } = useTheme()
 
   useEffect(() => {
@@ -560,9 +558,6 @@ export default function Portfolio() {
         />
       </motion.div>
 
-      {/* Smoke Effect on Theme Switch */}
-      <SmokeEffect isActive={showSmokeEffect} isDark={theme === 'dark'} />
-
       {/* Main Layout */}
       <div className="flex min-h-screen">
         {/* LEFT CONTENT */}
@@ -641,9 +636,7 @@ export default function Portfolio() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => {
-                setShowSmokeEffect(true)
                 setTheme(theme === 'dark' ? 'light' : 'dark')
-                setTimeout(() => setShowSmokeEffect(false), 1000)
               }}
               className="text-white/50 hover:text-white/90 transition-colors"
             >

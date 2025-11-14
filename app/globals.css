@@ -4,27 +4,27 @@
 
 @layer base {
   :root {
-    /* Original theme variables */
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Light mode as default (Neria Katz style) */
+    --background: 0 0% 97%;
+    --foreground: 0 0% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 16%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 16%;
+    --primary: 0 0% 20%;
+    --primary-foreground: 0 0% 97%;
+    --secondary: 0 0% 40%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 60%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
-    --radius: 0.75rem;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 85%;
+    --input: 0 0% 100%;
+    --ring: 0 0% 20%;
+    --radius: 0.5rem;
 
     /* Custom color variables */
     --dark: #1d1d1d;
@@ -41,7 +41,7 @@
     --red: #c82736;
     --orange: #e77614;
     --font-roboto-mono: 'Roboto Mono', monospace;
-    accent-color: var(--green);
+    accent-color: var(--accent);
   }
 
   .dark {
@@ -67,47 +67,47 @@
   }
 
   .light {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 96.5%;
-    --card-foreground: 222.2 84% 4.9%;
+    --background: 0 0% 97%;
+    --foreground: 0 0% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 16%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 217.2 32.6% 17.5%;
+    --popover-foreground: 0 0% 16%;
+    --primary: 0 0% 20%;
+    --primary-foreground: 0 0% 97%;
+    --secondary: 0 0% 40%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 222.2 84% 4.9%;
-    --accent: 217.2 32.6% 17.5%;
+    --muted: 0 0% 60%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 20%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    --border: 0 0% 85%;
+    --input: 0 0% 100%;
+    --ring: 0 0% 20%;
   }
 
   html.light {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 96.5%;
-    --card-foreground: 222.2 84% 4.9%;
+    --background: 0 0% 97%;
+    --foreground: 0 0% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 16%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 217.2 32.6% 17.5%;
+    --popover-foreground: 0 0% 16%;
+    --primary: 0 0% 20%;
+    --primary-foreground: 0 0% 97%;
+    --secondary: 0 0% 40%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 222.2 84% 4.9%;
-    --accent: 217.2 32.6% 17.5%;
+    --muted: 0 0% 60%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 20%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    --border: 0 0% 85%;
+    --input: 0 0% 100%;
+    --ring: 0 0% 20%;
   }
 }
 
@@ -119,20 +119,45 @@ html {
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: 'Signika Negative', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
   overscroll-behavior: none;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
-  /* Custom crosshair cursor - thin, sleek, modern */
-  cursor: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="0.5" fill="white" opacity="0.8"/><line x1="16" y1="8" x2="16" y2="14" stroke="white" stroke-width="0.5" opacity="0.7"/><line x1="16" y1="18" x2="16" y2="24" stroke="white" stroke-width="0.5" opacity="0.7"/><line x1="8" y1="16" x2="14" y2="16" stroke="white" stroke-width="0.5" opacity="0.7"/><line x1="18" y1="16" x2="24" y2="16" stroke="white" stroke-width="0.5" opacity="0.7"/></svg>') 16 16, auto;
+  /* Dark elegant crosshair cursor */
+  cursor: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="0.5" fill="%23333" opacity="0.8"/><line x1="16" y1="8" x2="16" y2="14" stroke="%23333" stroke-width="0.5" opacity="0.7"/><line x1="16" y1="18" x2="16" y2="24" stroke="%23333" stroke-width="0.5" opacity="0.7"/><line x1="8" y1="16" x2="14" y2="16" stroke="%23333" stroke-width="0.5" opacity="0.7"/><line x1="18" y1="16" x2="24" y2="16" stroke="%23333" stroke-width="0.5" opacity="0.7"/></svg>') 16 16, auto;
 }
 
-/* Custom Scrollbar Styling - Off-white with smaller width */
+/* Elegant serif fonts for headings */
+h1, h2, h3, .h1, .h2, .h3 {
+  font-family: var(--font-playfair, Georgia, 'Times New Roman', serif);
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2.25rem;
+  line-height: 1.2;
+  margin-bottom: 0.875rem;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+/* Custom Scrollbar Styling - Light gray for light mode */
 /* Chrome, Safari and Opera */
 ::-webkit-scrollbar {
-  width: 30px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -140,78 +165,75 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d4;
-  border-radius: 15px;
+  background: #cccccc;
+  border-radius: 5px;
   border: 2px solid transparent;
   background-clip: padding-box;
   min-height: 30px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+  background-clip: padding-box;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: #d4d4d4;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
   background: #e5e5e5;
   background-clip: padding-box;
 }
 
-/* Light mode scrollbar */
-.light ::-webkit-scrollbar-thumb {
-  background: #999;
+/* Dark mode text color overrides (for dark theme) */
+.dark .text-white\/70 {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
-.light ::-webkit-scrollbar-thumb:hover {
-  background: #666;
+.dark .text-white\/90 {
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
-/* Light mode text color overrides */
-.light .text-white\/70 {
-  color: rgba(13, 13, 13, 0.7) !important;
+.dark .text-white\/50 {
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 
-.light .text-white\/90 {
-  color: rgba(13, 13, 13, 0.9) !important;
+.dark .text-white\/80 {
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
-.light .text-white\/50 {
-  color: rgba(13, 13, 13, 0.5) !important;
+.dark .text-white\/60 {
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
-.light .text-white\/80 {
-  color: rgba(13, 13, 13, 0.8) !important;
+.dark .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
-.light .text-white\/60 {
-  color: rgba(13, 13, 13, 0.6) !important;
+.dark .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.light .bg-white\/5 {
-  background-color: rgba(13, 13, 13, 0.05) !important;
+.dark .bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.light .bg-white\/10 {
-  background-color: rgba(13, 13, 13, 0.1) !important;
+.dark .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.light .bg-white\/20 {
-  background-color: rgba(13, 13, 13, 0.2) !important;
+.dark .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.light .border-white\/10 {
-  border-color: rgba(13, 13, 13, 0.1) !important;
+.dark .hover\:border-white\/20:hover {
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
-.light .border-white\/20 {
-  border-color: rgba(13, 13, 13, 0.2) !important;
-}
-
-.light .hover\:border-white\/20:hover {
-  border-color: rgba(13, 13, 13, 0.2) !important;
-}
-
-.light .bg-black\/40 {
-  background-color: rgba(255, 255, 255, 0.4) !important;
-}
-
-.light .border-white\/20 {
-  border-color: rgba(13, 13, 13, 0.1) !important;
+.dark .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.4) !important;
 }
 
 /* Firefox */
@@ -243,6 +265,101 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Light Mode Text Color Overrides - ALL text becomes dark/visible */
+.light {
+  --foreground: 0 0% 16%;
+}
+
+.light .text-white {
+  color: #1a1a1a !important;
+}
+
+.light .text-white\/50 {
+  color: #606060 !important;
+}
+
+.light .text-white\/60 {
+  color: #4a4a4a !important;
+}
+
+.light .text-white\/70 {
+  color: #3a3a3a !important;
+}
+
+.light .text-white\/80 {
+  color: #2a2a2a !important;
+}
+
+.light .text-white\/90 {
+  color: #1a1a1a !important;
+}
+
+.light p {
+  color: #404040 !important;
+}
+
+.light strong {
+  color: #1a1a1a !important;
+}
+
+.light h1, .light h2, .light h3, .light h4, .light h5, .light h6 {
+  color: #1a1a1a !important;
+}
+
+/* Light Mode Background Overrides */
+.light .bg-black\/40 {
+  background-color: rgba(200, 200, 200, 0.3) !important;
+}
+
+.light .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+.light .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.light .bg-white\/20 {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Light Mode Border Overrides */
+.light .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.light .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.light .border-white\/30 {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.light .hover\:border-white\/20:hover {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.light .hover\:border-white\/30:hover {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.light .hover\:bg-black\/40:hover {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.light .hover\:bg-black\/50:hover {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+.light .hover\:bg-white\/10:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.light .hover\:bg-white\/20:hover {
+  background-color: rgba(0, 0, 0, 0.08) !important;
 }
 
 /* Enhanced Glassmorphism Styles */

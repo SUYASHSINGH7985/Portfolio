@@ -325,11 +325,40 @@ export default function Portfolio() {
   const [mounted, setMounted] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [selectedFilter, setSelectedFilter] = useState("all")
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false)
+  const [showMusicPlayer, setShowMusicPlayer] = useState(false)
+  const audioRef = useRef<HTMLAudioElement>(null)
   const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // Global click handler to play/pause music
+  useEffect(() => {
+    const handleGlobalClick = () => {
+      if (audioRef.current) {
+        if (isAudioPlaying) {
+          audioRef.current.pause()
+          setIsAudioPlaying(false)
+        } else {
+          audioRef.current.play().catch(e => console.log('Autoplay prevented:', e))
+          setIsAudioPlaying(true)
+        }
+      }
+    }
+
+    // Don't trigger on button clicks or interactive elements
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (!target.closest('button, a, [role="button"]')) {
+        handleGlobalClick()
+      }
+    }
+
+    document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
+  }, [isAudioPlaying])
 
   const { scrollY } = useScroll()
   const backgroundY = useTransform(scrollY, [0, 2000], [0, -500])
@@ -499,6 +528,79 @@ export default function Portfolio() {
                   <Moon size={20} />
                 )}
               </motion.button>
+
+              {/* Music Player Hover Line */}
+              <div className="relative group">
+                <motion.div
+                  animate={isAudioPlaying ? { scaleX: [1, 1.3, 1], opacity: [0.8, 1, 0.8] } : { scaleX: 1, opacity: 0.6 }}
+                  transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+                  className="h-1 w-12 bg-gradient-to-r from-primary to-secondary rounded-full cursor-pointer hover:brightness-110"
+                />
+                
+                {/* Music Player Popup on Hover */}
+                <AnimatePresence>
+                  {showMusicPlayer && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full mt-3 right-0 backdrop-blur-md bg-black/40 border border-white/20 rounded-lg shadow-lg overflow-hidden p-3 w-48 z-50"
+                      onMouseEnter={() => setShowMusicPlayer(true)}
+                      onMouseLeave={() => setShowMusicPlayer(false)}
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 rounded-md overflow-hidden flex-shrink-0 bg-gradient-to-br from-pink-500 to-red-500">
+                          <img
+                            src="/losing.png"
+                            alt="Album"
+                            width="40"
+                            height="40"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-white truncate">Lose My Mind</p>
+                          <p className="text-xs text-white/60 truncate">Don Toliver</p>
+                        </div>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => {
+                            if (audioRef.current) {
+                              if (isAudioPlaying) {
+                                audioRef.current.pause()
+                                setIsAudioPlaying(false)
+                              } else {
+                                audioRef.current.play()
+                                setIsAudioPlaying(true)
+                              }
+                            }
+                          }}
+                          className="w-8 h-8 rounded-full backdrop-blur-md bg-white/20 border border-white/30 flex items-center justify-center hover:bg-white/30 transition-all flex-shrink-0"
+                        >
+                          {isAudioPlaying ? (
+                            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                            </svg>
+                          ) : (
+                            <svg className="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          )}
+                        </motion.button>
+                      </div>
+                      <audio
+                        ref={audioRef}
+                        src="/Losingmymind.mp3"
+                        onPlay={() => setIsAudioPlaying(true)}
+                        onPause={() => setIsAudioPlaying(false)}
+                        onEnded={() => setIsAudioPlaying(false)}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
             {/* Navigation items - Horizontal layout on same line as social */}
@@ -538,28 +640,6 @@ export default function Portfolio() {
                   Suyash Singh
                 </span>
               </h1>
-
-              {/* Animated Hyphen - RIGHT SIDE */}
-              <motion.button
-                onClick={() => {
-                  const audio = new Audio('/Losingmymind.mp3')
-                  audio.play().catch(e => console.log('Audio play error:', e))
-                }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative group flex-shrink-0"
-              >
-                <motion.div
-                  animate={{ scaleX: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                  className="h-1 w-16 bg-gradient-to-r from-primary to-secondary rounded-full"
-                />
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-primary to-secondary rounded-full blur-lg opacity-0 group-hover:opacity-50 transition-opacity"
-                  animate={{ scaleX: [1, 1.3, 1] }}
-                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                />
-              </motion.button>
             </div>
             <div className="flex items-center gap-8 mb-8">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-foreground tracking-tight leading-normal">
@@ -598,6 +678,15 @@ export default function Portfolio() {
           <ContactSection contactRef={contactRef} />
         </div>
       </div>
+
+      {/* Audio Element */}
+      <audio
+        ref={audioRef}
+        src="/Losingmymind.mp3"
+        onPlay={() => setIsAudioPlaying(true)}
+        onPause={() => setIsAudioPlaying(false)}
+        onEnded={() => setIsAudioPlaying(false)}
+      />
 
       {/* Footer */}
       <footer className="py-8 px-6 text-center border-t border-white/10">

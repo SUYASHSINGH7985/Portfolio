@@ -562,7 +562,7 @@ export default function Portfolio() {
 
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="flex items-center justify-end w-full px-6 sm:px-8 lg:px-12 py-6">
+        <div className="flex items-center justify-end w-full px-4 sm:px-6 lg:px-8 py-6 pr-4 sm:pr-6 lg:pr-8">
           {/* Right - Social Links, Theme Toggle & Navigation (Flush to edge) */}
           <div className="flex items-center gap-4">
             {/* Social links and theme toggle row */}
@@ -634,7 +634,7 @@ export default function Portfolio() {
       {/* Main Layout */}
       <div className="w-full pt-24 pb-20">
         {/* Hero Section */}
-        <section id="home" ref={heroRef} className="mb-32 px-6 sm:px-8 lg:px-12">
+        <section id="home" ref={heroRef} className="mb-32 px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -655,12 +655,12 @@ export default function Portfolio() {
         </section>
 
         {/* About Section */}
-        <div className="px-6 sm:px-8 lg:px-12">
+        <div className="px-4 sm:px-6 lg:px-8">
           <AboutSection aboutRef={aboutRef} skills={skills} />
         </div>
 
         {/* Projects Section */}
-        <div className="px-6 sm:px-8 lg:px-12">
+        <div className="px-4 sm:px-6 lg:px-8">
           <ProjectsSection
             projectsRef={projectsRef}
             projects={filteredProjects}
@@ -671,7 +671,7 @@ export default function Portfolio() {
         </div>
 
         {/* Contact Section */}
-        <div className="px-6 sm:px-8 lg:px-12">
+        <div className="px-4 sm:px-6 lg:px-8">
           <ContactSection contactRef={contactRef} />
         </div>
       </div>

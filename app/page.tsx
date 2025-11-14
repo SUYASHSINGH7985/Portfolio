@@ -482,9 +482,9 @@ export default function Portfolio() {
 
       {/* Header Navigation */}
       <header className="sticky top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="flex items-center justify-end w-full px-4 sm:px-6 lg:px-8 py-6 pr-4 sm:pr-6 lg:pr-8">
-          {/* Right - Social Links, Theme Toggle & Navigation (Flush to edge) */}
-          <div className="flex items-center gap-4">
+        <div className="flex items-start justify-end w-full px-4 sm:px-6 lg:px-8 py-6">
+          {/* Right Column - Social Links at top, Navigation below */}
+          <div className="flex flex-col items-end gap-4">
             {/* Social links and theme toggle row */}
             <div className="flex items-center gap-3">
               <motion.a
@@ -638,14 +638,14 @@ export default function Portfolio() {
               </div>
             </div>
 
-            {/* Navigation items - Horizontal layout on same line as social */}
-            <nav className="flex items-center gap-4 pl-4 border-l border-foreground/30">
+            {/* Navigation Items - Vertical below social links */}
+            <nav className="flex flex-col items-end gap-2 pt-2">
               {navigationItems.map((item) => (
                 <motion.button
                   key={item.id}
                   whileHover={{ scale: 1.05 }}
                   onClick={() => scrollToSection(item.id)}
-                  className={`font-light text-xs tracking-wide transition-all duration-300 whitespace-nowrap ${
+                  className={`font-light text-xs tracking-wide transition-all duration-300 ${
                     activeSection === item.id
                       ? "text-foreground"
                       : "text-foreground/70 hover:text-foreground"

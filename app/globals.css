@@ -171,37 +171,38 @@ header nav button {
   font-weight: 500;
 }
 
-/* Custom Scrollbar Styling - Light gray for light mode */
+/* Custom Scrollbar Styling - Hide scrollbar globally */
 /* Chrome, Safari and Opera */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 0px;
+  display: none;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
+  display: none;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cccccc;
-  border-radius: 5px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  min-height: 30px;
+  display: none;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #999999;
-  background-clip: padding-box;
+  display: none;
 }
 
 /* Dark mode scrollbar */
 .dark ::-webkit-scrollbar-thumb {
-  background: #d4d4d4;
+  display: none;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #e5e5e5;
-  background-clip: padding-box;
+  display: none;
+}
+
+/* Firefox scrollbar hide */
+* {
+  scrollbar-width: none;
 }
 
 /* Dark mode text color overrides (for dark theme) */

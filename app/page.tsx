@@ -563,9 +563,9 @@ export default function Portfolio() {
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
         <div className="flex items-center justify-end w-full px-6 sm:px-8 lg:px-12 py-6">
-          {/* Right - Social Links, Theme Toggle & Navigation (Flush to edge, vertical) */}
-          <div className="flex flex-col items-end gap-4">
-            {/* Top row: Social links and theme toggle */}
+          {/* Right - Social Links, Theme Toggle & Navigation (Flush to edge) */}
+          <div className="flex items-center gap-4">
+            {/* Social links and theme toggle row */}
             <div className="flex items-center gap-3">
               <motion.a
                 href="https://github.com/SUYASHSINGH7985"
@@ -610,17 +610,17 @@ export default function Portfolio() {
               </motion.button>
             </div>
 
-            {/* Navigation items - Vertical layout with more opacity */}
-            <nav className="flex flex-col items-end gap-2">
+            {/* Navigation items - Horizontal layout on same line as social */}
+            <nav className="flex items-center gap-4 pl-4 border-l border-foreground/10">
               {navigationItems.map((item) => (
                 <motion.button
                   key={item.id}
                   whileHover={{ scale: 1.05 }}
                   onClick={() => scrollToSection(item.id)}
-                  className={`font-light text-xs tracking-wide transition-all duration-300 ${
+                  className={`font-light text-xs tracking-wide transition-all duration-300 whitespace-nowrap ${
                     activeSection === item.id
                       ? "text-foreground"
-                      : "text-foreground/80 hover:text-foreground"
+                      : "text-foreground/70 hover:text-foreground"
                   }`}
                 >
                   {item.label}
@@ -645,7 +645,7 @@ export default function Portfolio() {
                 Suyash Singh
               </span>
             </h1>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white/90 mb-8 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-foreground mb-8 tracking-tight leading-normal">
               Developer
             </h2>
             <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-5xl font-light">

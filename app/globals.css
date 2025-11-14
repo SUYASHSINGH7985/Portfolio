@@ -757,3 +757,13 @@ html {
     text-shadow: 2px 0 #FF006E, -2px 0 #00D9FF;
   }
 }
+
+/* Hide scrollbars while keeping scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+

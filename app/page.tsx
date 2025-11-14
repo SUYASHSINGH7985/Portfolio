@@ -147,17 +147,17 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-light mb-6 sm:mb-8 tracking-tight">
           <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             About Me
           </span>
         </h2>
-        <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-3xl font-light">
+        <p className="text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-3xl font-light">
           I'm a <strong className="font-normal text-white/90">2nd-year Computer Science student</strong> at <strong className="font-normal text-white/90">VIT Vellore</strong> with a passion for building <strong className="font-normal text-white/90">clean, scalable web apps</strong> and solving <strong className="font-normal text-white/90">real-world problems through code</strong>.
           I actively work on <strong className="font-normal text-white/90">personal projects</strong>, regularly push my progress to <strong className="font-normal text-white/90">GitHub</strong>, and solve <strong className="font-normal text-white/90">Data Structures & Algorithms (DSA)</strong> problems on platforms like <strong className="font-normal text-white/90">LeetCode</strong> and <strong className="font-normal text-white/90">Codeforces</strong>.
         </p>
 
-        <div className="mt-16">
+        <div className="mt-10 sm:mt-12 md:mt-16">
           {/* Enhanced Skills Section Header with Hover Cover Animation on Text */}
           <SkillsHeadlineHover isInView={isInView} />
 
@@ -170,7 +170,7 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
           >
             {/* Top parallel line with fill animation */}
             <motion.div
-              className="h-0.5 bg-gradient-to-r from-primary/0 via-primary/80 to-primary/0 mb-6"
+              className="h-0.5 bg-gradient-to-r from-primary/0 via-primary/80 to-primary/0 mb-4 sm:mb-6"
               initial={{ width: 0 }}
               animate={isInView ? { width: "100%" } : { width: 0 }}
               transition={{ duration: 1.5, delay: 0.4, ease: "easeOut" }}
@@ -197,7 +197,7 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
               />
 
               {/* Skills Marquee Container */}
-              <div className="relative py-8 px-8">
+              <div className="relative py-4 sm:py-6 md:py-8 px-4 sm:px-6 md:px-8">
                 {/* Left gradient fade */}
                 <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none rounded-l-lg" />
                 
@@ -235,7 +235,7 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
 
             {/* Bottom parallel line with fill animation */}
             <motion.div
-              className="h-0.5 bg-gradient-to-r from-primary/0 via-primary/80 to-primary/0 mt-6"
+              className="h-0.5 bg-gradient-to-r from-primary/0 via-primary/80 to-primary/0 mt-4 sm:mt-6"
               initial={{ width: 0 }}
               animate={isInView ? { width: "100%" } : { width: 0 }}
               transition={{ duration: 1.5, delay: 0.7, ease: "easeOut" }}
@@ -268,7 +268,7 @@ function ProjectsSection({
     <motion.section
       id="projects"
       ref={projectsRef}
-      className="mb-20"
+      className="mb-16 sm:mb-20"
       initial={{ opacity: 1 }}
       animate={isInView ? { opacity: 1 } : { opacity: 1 }}
       transition={{ duration: 0.8 }}
@@ -278,17 +278,17 @@ function ProjectsSection({
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-light mb-6 sm:mb-8 tracking-tight">
           <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Projects
           </span>
         </h2>
 
-        <div className="flex flex-wrap gap-2 mb-12">
+        <div className="flex flex-wrap gap-2 mb-8 sm:mb-12">
           <motion.button
             whileHover={{ scale: 1.05 }}
             onClick={() => setSelectedFilter("all")}
-            className={`px-4 py-2 rounded-lg font-light transition-all ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-light text-xs sm:text-sm transition-all ${
               selectedFilter === "all"
                 ? "bg-white/20 text-white"
                 : "bg-white/5 text-white/70 hover:bg-white/10"
@@ -301,7 +301,7 @@ function ProjectsSection({
               key={tech}
               whileHover={{ scale: 1.05 }}
               onClick={() => setSelectedFilter(tech)}
-              className={`px-4 py-2 rounded-lg font-light transition-all ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-light text-xs sm:text-sm transition-all ${
                 selectedFilter === tech
                   ? "bg-white/20 text-white"
                   : "bg-white/5 text-white/70 hover:bg-white/10"
@@ -312,35 +312,37 @@ function ProjectsSection({
           ))}
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 1, y: 0 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-              className="border border-white/10 rounded-lg p-6 hover:border-white/20 transition-all"
+              className="border border-white/10 rounded-lg p-4 sm:p-6 hover:border-white/20 transition-all"
             >
-              <h3 className="text-xl font-light mb-2 text-white">{project.title}</h3>
-              <p className="text-white/70 text-sm mb-4 leading-relaxed">{project.description}</p>
-              <div className="flex flex-wrap gap-2 mb-4">
+              <h3 className="text-lg sm:text-xl font-light mb-2 text-white">{project.title}</h3>
+              <p className="text-white/70 text-xs sm:text-sm mb-4 leading-relaxed">{project.description}</p>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
                 {project.tags.map((tag: string) => (
                   <Badge key={tag} className="bg-white/10 text-white/80 text-xs">
                     {tag}
                   </Badge>
                 ))}
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3">
                 <Link href={project.link} target="_blank">
                   <Button size="sm" className="bg-white/10 hover:bg-white/20 text-white text-xs">
-                    <Github size={14} className="mr-2" />
-                    Code
+                    <Github size={14} className="mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Code</span>
+                    <span className="sm:hidden">Code</span>
                   </Button>
                 </Link>
                 <Link href={project.demo} target="_blank">
                   <Button size="sm" variant="outline" className="text-white text-xs">
-                    <ExternalLink size={14} className="mr-2" />
-                    Demo
+                    <ExternalLink size={14} className="mr-1 sm:mr-2" />
+                    <span className="hidden sm:inline">Demo</span>
+                    <span className="sm:hidden">Demo</span>
                   </Button>
                 </Link>
               </div>
@@ -360,7 +362,7 @@ function ExperienceSection({ experienceRef, experiences }: { experienceRef: Reac
     <motion.section
       id="experience"
       ref={experienceRef}
-      className="mb-20"
+      className="mb-16 sm:mb-20"
       initial={{ opacity: 0 }}
       animate={isInView ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 0.8 }}
@@ -370,13 +372,13 @@ function ExperienceSection({ experienceRef, experiences }: { experienceRef: Reac
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-light mb-6 sm:mb-8 tracking-tight">
           <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Experience
           </span>
         </h2>
 
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {experiences.map((exp: any, idx: number) => (
             <motion.div
               key={exp.id}
@@ -386,7 +388,7 @@ function ExperienceSection({ experienceRef, experiences }: { experienceRef: Reac
               className="group relative"
             >
               {/* Card */}
-              <div className="relative p-6 rounded-lg border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm hover:border-white/20 transition-all duration-300 overflow-hidden">
+              <div className="relative p-4 sm:p-6 rounded-lg border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm hover:border-white/20 transition-all duration-300 overflow-hidden">
                 
                 {/* Animated background on hover */}
                 <motion.div
@@ -396,11 +398,11 @@ function ExperienceSection({ experienceRef, experiences }: { experienceRef: Reac
                 {/* Content */}
                 <div className="relative z-10">
                   {/* Header: Role @ Company | Period • Location */}
-                  <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-white mb-2">
+                  <div className="mb-3 sm:mb-4">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-1 sm:mb-2">
                       {exp.role} <span className="text-white/60 font-normal">@ {exp.company}</span>
                     </h3>
-                    <p className="text-sm text-white/50 flex items-center gap-2">
+                    <p className="text-xs sm:text-sm text-white/50 flex items-center gap-2 flex-wrap">
                       <span>{exp.period}</span>
                       <span>•</span>
                       <span>{exp.location}</span>
@@ -408,22 +410,22 @@ function ExperienceSection({ experienceRef, experiences }: { experienceRef: Reac
                   </div>
 
                   {/* Bullets */}
-                  <ul className="space-y-2 mb-4">
+                  <ul className="space-y-1.5 sm:space-y-2 mb-3 sm:mb-4">
                     {exp.bullets.map((bullet: string, i: number) => (
-                      <li key={i} className="text-sm text-white/70 flex gap-3">
-                        <span className="text-primary/80 mt-1 flex-shrink-0">▸</span>
+                      <li key={i} className="text-xs sm:text-sm text-white/70 flex gap-2 sm:gap-3">
+                        <span className="text-primary/80 mt-0.5 sm:mt-1 flex-shrink-0">▸</span>
                         <span>{bullet}</span>
                       </li>
                     ))}
                   </ul>
 
                   {/* Tech Stack Badges */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {exp.tech.map((tech: string) => (
                       <motion.div
                         key={tech}
                         whileHover={{ scale: 1.05 }}
-                        className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs text-white/80 font-light hover:border-primary/50 transition-colors duration-300"
+                        className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 border border-white/20 text-xs text-white/80 font-light hover:border-primary/50 transition-colors duration-300"
                       >
                         {tech}
                       </motion.div>
@@ -749,15 +751,15 @@ export default function Portfolio() {
 
       {/* Horizontal Navigation Bar */}
       <nav className="sticky top-0 left-0 right-0 z-40 bg-background/60 backdrop-blur-md transition-colors duration-300">
-        <div className="flex items-center justify-between w-full px-4 sm:px-6 lg:px-8 py-4 gap-8">
+        <div className="flex items-center justify-between w-full px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 gap-4 sm:gap-6 md:gap-8">
           {/* Left Navigation Items */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 overflow-x-auto scrollbar-hide">
             {navigationItems.map((item) => (
               <motion.button
                 key={item.id}
                 whileHover={{ scale: 1.05 }}
                 onClick={() => scrollToSection(item.id)}
-                className={`font-light text-lg tracking-wide transition-all duration-300 pb-2 relative group ${
+                className={`font-light text-xs sm:text-sm md:text-base tracking-wide transition-all duration-300 pb-2 relative group whitespace-nowrap ${
                   activeSection === item.id
                     ? "text-foreground"
                     : "text-foreground/70 hover:text-foreground"
@@ -775,9 +777,9 @@ export default function Portfolio() {
           </div>
 
           {/* Right Side Controls */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             {/* Theme Toggle & Music Player */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               {/* Theme Toggle */}
               <motion.button
                 whileHover={{ scale: 1.1 }}
@@ -785,17 +787,17 @@ export default function Portfolio() {
                 onClick={() => {
                   setTheme(theme === 'dark' ? 'light' : 'dark')
                 }}
-                className="text-foreground/60 hover:text-foreground transition-colors"
+                className="text-foreground/60 hover:text-foreground transition-colors p-1 sm:p-0"
               >
                 {theme === 'dark' ? (
-                  <Sun size={18} />
+                  <Sun size={16} className="sm:w-5 sm:h-5" />
                 ) : (
-                  <Moon size={18} />
+                  <Moon size={16} className="sm:w-5 sm:h-5" />
                 )}
               </motion.button>
 
               {/* Music Player */}
-              <div className="flex items-center gap-2 cursor-pointer h-6" onClick={() => {
+              <div className="flex items-center gap-1 sm:gap-2 cursor-pointer h-6" onClick={() => {
                 if (audioRef.current) {
                   if (isAudioPlaying) {
                     audioRef.current.pause()
@@ -805,10 +807,10 @@ export default function Portfolio() {
                 }
               }}>
               <svg 
-                width="55" 
-                height="16" 
+                width="45" 
+                height="14" 
                 viewBox="0 0 55 16"
-                className="flex-shrink-0 opacity-100"
+                className="flex-shrink-0 opacity-100 sm:w-14"
               >
                 <defs>
                   <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -847,10 +849,10 @@ export default function Portfolio() {
                     animate={{ opacity: 1, scale: 1, x: 0 }}
                     exit={{ opacity: 0, scale: 0.9, x: -20 }}
                     transition={{ duration: 0.8, ease: "easeInOut" }}
-                    className="text-sm whitespace-nowrap font-mono overflow-hidden"
+                    className="text-xs sm:text-sm whitespace-nowrap font-mono overflow-hidden hidden sm:block"
                     style={{
                       color: "#A78BFA",
-                      width: "120px"
+                      width: "100px"
                     }}
                   >
                     <motion.span
@@ -871,7 +873,7 @@ export default function Portfolio() {
       {/* Main Layout */}
       <div className="w-full pb-20">
         {/* Hero Section */}
-        <div className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 pt-20">
+        <div className="min-h-screen flex items-center px-4 sm:px-6 md:px-8 lg:px-12 pt-20 sm:pt-24 md:pt-28">
           <motion.div
             className="w-full"
             initial={{ opacity: 0 }}
@@ -879,15 +881,15 @@ export default function Portfolio() {
             transition={{ duration: 1 }}
           >
             {/* Main Content - Left Aligned */}
-            <div className="max-w-5xl">
+            <div className="w-full max-w-6xl">
               {/* "Hi" - appears first */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0 }}
-                className="mb-4"
+                className="mb-2 sm:mb-4 md:mb-6"
               >
-                <h1 className="text-8xl sm:text-9xl lg:text-[10rem] font-light tracking-tighter leading-tight">
+                <h1 className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-light tracking-tighter leading-tight">
                   <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
                     Hi,
                   </span>
@@ -899,9 +901,9 @@ export default function Portfolio() {
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="mb-12 relative inline-block"
+                className="mb-6 sm:mb-8 md:mb-12 relative inline-block"
               >
-                <h2 className="text-7xl sm:text-8xl lg:text-9xl font-semibold tracking-tighter leading-tight relative">
+                <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-semibold tracking-tighter leading-tight relative">
                   I'm{" "}
                   <span className="relative inline-block">
                     {/* Black text background */}
@@ -926,9 +928,9 @@ export default function Portfolio() {
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1.2 }}
-                className="mb-12"
+                className="mb-8 sm:mb-10 md:mb-12"
               >
-                <p className="text-3xl sm:text-4xl md:text-5xl font-light text-foreground/80 tracking-tight">
+                <p className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-foreground/80 tracking-tight leading-snug">
                   Pushing <span style={{ color: "#880808", fontFamily: "Dancing Script, cursive", fontWeight: 600 }}>ideas</span> into <span style={{ color: "#880808", fontFamily: "Dancing Script, cursive", fontWeight: 600 }}>reality</span>
                 </p>
               </motion.div>
@@ -944,15 +946,15 @@ export default function Portfolio() {
 
               {/* Let's Connect Section */}
               <motion.div
-                className="mt-20 flex flex-col gap-6"
+                className="mt-12 sm:mt-16 md:mt-20 flex flex-col gap-4 sm:gap-6"
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 2 }}
               >
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 sm:gap-8">
                   <div></div>
-                  <div className="flex items-center gap-4">
-                    <h3 className="text-2xl sm:text-3xl font-light text-foreground/80">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+                    <h3 className="text-xl xs:text-2xl sm:text-2xl md:text-3xl font-light text-foreground/80 whitespace-nowrap">
                       Let's{" "}
                       <span style={{ color: "#0232B8", fontFamily: "Dancing Script, cursive", fontWeight: 600, textDecoration: "underline", textDecorationColor: "#880808", textDecorationThickness: "2px", textUnderlineOffset: "4px" }}>
                         Connect
@@ -960,7 +962,7 @@ export default function Portfolio() {
                     </h3>
                     
                     {/* Social Icons */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 sm:gap-4">
                       <motion.a
                         href="https://github.com/SUYASHSINGH7985"
                         target="_blank"
@@ -968,7 +970,7 @@ export default function Portfolio() {
                         whileHover={{ scale: 1.2, y: -2 }}
                         className="text-foreground/60 hover:text-foreground transition-colors duration-300"
                       >
-                        <Github size={24} />
+                        <Github size={20} className="sm:w-6 sm:h-6" />
                       </motion.a>
                       
                       <motion.a
@@ -978,7 +980,7 @@ export default function Portfolio() {
                         whileHover={{ scale: 1.2, y: -2 }}
                         className="text-foreground/60 hover:text-foreground transition-colors duration-300"
                       >
-                        <Linkedin size={24} />
+                        <Linkedin size={20} className="sm:w-6 sm:h-6" />
                       </motion.a>
                       
                       <motion.a
@@ -986,7 +988,7 @@ export default function Portfolio() {
                         whileHover={{ scale: 1.2, y: -2 }}
                         className="text-foreground/60 hover:text-foreground transition-colors duration-300"
                       >
-                        <Mail size={24} />
+                        <Mail size={20} className="sm:w-6 sm:h-6" />
                       </motion.a>
                     </div>
                   </div>
@@ -997,12 +999,12 @@ export default function Portfolio() {
         </div>
 
         {/* About Section */}
-        <div id="about" className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl pt-6">
+        <div id="about" className="px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl pt-6 sm:pt-8 md:pt-10">
           <AboutSection aboutRef={aboutRef} skills={skills} />
         </div>
 
         {/* Projects Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl">
           <ProjectsSection
             projectsRef={projectsRef}
             projects={filteredProjects}
@@ -1013,17 +1015,17 @@ export default function Portfolio() {
         </div>
 
         {/* Experience Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl">
           <ExperienceSection experienceRef={experienceRef} experiences={experiences} />
         </div>
 
         {/* Resume Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl">
           <ResumeSection resumeRef={resumeRef} />
         </div>
 
         {/* Contact Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl">
           <ContactSection contactRef={contactRef} />
         </div>
       </div>
@@ -1038,8 +1040,8 @@ export default function Portfolio() {
       />
 
       {/* Footer */}
-      <footer className="py-8 px-6 text-center border-t border-white/10">
-        <p className="text-sm text-white/50">© {new Date().getFullYear()} Suyash Singh</p>
+      <footer className="py-6 sm:py-8 px-4 sm:px-6 md:px-8 text-center border-t border-white/10">
+        <p className="text-xs sm:text-sm text-white/50">© {new Date().getFullYear()} Suyash Singh</p>
       </footer>
     </div>
   )

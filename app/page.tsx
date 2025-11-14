@@ -662,7 +662,7 @@ export default function Portfolio() {
       {/* Main Layout */}
       <div className="w-full pb-20">
         {/* Hero Section */}
-        <section id="home" ref={heroRef} className="mb-32 px-4 sm:px-6 lg:px-8 pt-12">
+        <section id="home" ref={heroRef} className="mb-32 px-0 sm:px-0 lg:px-0 pt-12 pl-4 sm:pl-6 lg:pl-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -688,12 +688,12 @@ export default function Portfolio() {
         </section>
 
         {/* About Section */}
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8">
           <AboutSection aboutRef={aboutRef} skills={skills} />
         </div>
 
         {/* Projects Section */}
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8">
           <ProjectsSection
             projectsRef={projectsRef}
             projects={filteredProjects}
@@ -704,12 +704,12 @@ export default function Portfolio() {
         </div>
 
         {/* Resume Section */}
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8">
           <ResumeSection resumeRef={resumeRef} />
         </div>
 
         {/* Contact Section */}
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8">
           <ContactSection contactRef={contactRef} />
         </div>
       </div>

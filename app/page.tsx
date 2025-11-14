@@ -560,7 +560,7 @@ export default function Portfolio() {
 
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="px-6 sm:px-8 lg:px-16 py-6 flex items-center justify-between max-w-7xl mx-auto w-full">
+        <div className="px-6 sm:px-8 lg:px-16 py-6 flex items-center justify-between w-full">
           {/* Left - Navigation */}
           <nav className="flex items-center gap-8">
             {navigationItems.map((item) => (
@@ -579,35 +579,33 @@ export default function Portfolio() {
             ))}
           </nav>
 
-          {/* Right - Social Links & Theme Toggle */}
-          <div className="flex items-center gap-6">
-            <div className="flex gap-4">
-              <motion.a
-                href="https://github.com/SUYASHSINGH7985"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
-                className="text-foreground/60 hover:text-foreground transition-colors"
-              >
-                <Github size={18} />
-              </motion.a>
-              <motion.a
-                href="https://linkedin.com/in/suyashsingh-dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
-                className="text-foreground/60 hover:text-foreground transition-colors"
-              >
-                <Linkedin size={18} />
-              </motion.a>
-              <motion.a
-                href="mailto:singhsuyash012@gmail.com"
-                whileHover={{ scale: 1.2 }}
-                className="text-foreground/60 hover:text-foreground transition-colors"
-              >
-                <Mail size={18} />
-              </motion.a>
-            </div>
+          {/* Right - Social Links & Theme Toggle (No Gap from Edge) */}
+          <div className="flex items-center gap-4">
+            <motion.a
+              href="https://github.com/SUYASHSINGH7985"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.2 }}
+              className="text-foreground/60 hover:text-foreground transition-colors"
+            >
+              <Github size={20} />
+            </motion.a>
+            <motion.a
+              href="https://linkedin.com/in/suyashsingh-dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.2 }}
+              className="text-foreground/60 hover:text-foreground transition-colors"
+            >
+              <Linkedin size={20} />
+            </motion.a>
+            <motion.a
+              href="mailto:singhsuyash012@gmail.com"
+              whileHover={{ scale: 1.2 }}
+              className="text-foreground/60 hover:text-foreground transition-colors"
+            >
+              <Mail size={20} />
+            </motion.a>
 
             {/* Theme Toggle */}
             <motion.button
@@ -619,9 +617,9 @@ export default function Portfolio() {
               className="text-foreground/60 hover:text-foreground transition-colors"
             >
               {theme === 'dark' ? (
-                <Sun size={18} />
+                <Sun size={20} />
               ) : (
-                <Moon size={18} />
+                <Moon size={20} />
               )}
             </motion.button>
           </div>

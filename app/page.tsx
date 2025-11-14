@@ -562,7 +562,7 @@ export default function Portfolio() {
 
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="flex items-start justify-end w-full px-6 sm:px-8 lg:px-16 py-6">
+        <div className="flex items-start justify-end w-full px-6 sm:px-8 lg:px-12 py-6">
           {/* Right - Social Links, Theme Toggle & Navigation (Flush to edge, vertical) */}
           <div className="flex flex-col items-end gap-4">
             {/* Top row: Social links and theme toggle */}
@@ -632,50 +632,42 @@ export default function Portfolio() {
       </header>
 
       {/* Main Layout */}
-      <div className="flex min-h-screen">
-        {/* CONTENT */}
-        <div className="flex-1 w-full pt-32 pb-20">
-          {/* Hero Section */}
-          <section id="home" ref={heroRef} className="mb-32 px-6 sm:px-8 lg:px-12">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-3 tracking-tight leading-tight">
-                <span className="bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
-                  Suyash Singh
-                </span>
-              </h1>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white/90 mb-8 tracking-tight">
-                Developer
-              </h2>
-              <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-4xl font-light">
-                I build <strong className="font-normal text-white/90">scalable applications</strong> with <strong className="font-normal text-white/90">clean code</strong> and <strong className="font-normal text-white/90">intuitive user interfaces</strong>, solving <strong className="font-normal text-white/90">complex problems</strong> using <strong className="font-normal text-white/90">modern technologies</strong>. From global e-commerce platforms to emerging Web3 products, I design frameworks that feel seamless, human, and ready for the future.
-              </p>
-            </motion.div>
-          </section>
+      <div className="w-full pt-24 pb-20">
+        {/* Hero Section */}
+        <section id="home" ref={heroRef} className="mb-32 px-6 sm:px-8 lg:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white/90 mb-8 tracking-tight">
+              Developer
+            </h2>
+            <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-5xl font-light">
+              I build <strong className="font-normal text-white/90">scalable applications</strong> with <strong className="font-normal text-white/90">clean code</strong> and <strong className="font-normal text-white/90">intuitive user interfaces</strong>, solving <strong className="font-normal text-white/90">complex problems</strong> using <strong className="font-normal text-white/90">modern technologies</strong>. From global e-commerce platforms to emerging Web3 products, I design frameworks that feel seamless, human, and ready for the future.
+            </p>
+          </motion.div>
+        </section>
 
-          {/* About Section */}
-          <div className="px-6 sm:px-8 lg:px-12">
-            <AboutSection aboutRef={aboutRef} skills={skills} />
-          </div>
+        {/* About Section */}
+        <div className="px-6 sm:px-8 lg:px-12">
+          <AboutSection aboutRef={aboutRef} skills={skills} />
+        </div>
 
-          {/* Projects Section */}
-          <div className="px-6 sm:px-8 lg:px-12">
-            <ProjectsSection
-              projectsRef={projectsRef}
-              projects={filteredProjects}
-              allTechnologies={allTechnologies}
-              selectedFilter={selectedFilter}
-              setSelectedFilter={setSelectedFilter}
-            />
-          </div>
+        {/* Projects Section */}
+        <div className="px-6 sm:px-8 lg:px-12">
+          <ProjectsSection
+            projectsRef={projectsRef}
+            projects={filteredProjects}
+            allTechnologies={allTechnologies}
+            selectedFilter={selectedFilter}
+            setSelectedFilter={setSelectedFilter}
+          />
+        </div>
 
-          {/* Contact Section */}
-          <div className="px-6 sm:px-8 lg:px-12">
-            <ContactSection contactRef={contactRef} />
-          </div>
+        {/* Contact Section */}
+        <div className="px-6 sm:px-8 lg:px-12">
+          <ContactSection contactRef={contactRef} />
         </div>
       </div>
 

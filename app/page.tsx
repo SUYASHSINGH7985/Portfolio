@@ -78,6 +78,43 @@ function SkillTag({ skill, index }: { skill: any; index: number }) {
 // Skill Card Component with Advanced Animations - Stacked Layout
 // (Kept for reference, but using SkillTag for marquee)
 
+// Reusable Interactive Heading Component with Hover Animation
+function InteractiveHeading({ text }: { text: string }) {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <h2
+      className="text-3xl sm:text-4xl font-light mb-8 tracking-tight inline-block relative cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative inline-block">
+        {/* Gradient text */}
+        <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent relative z-10">
+          {text}
+        </span>
+
+        {/* Covering light grey rectangle */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 pointer-events-none"
+          animate={{ scaleX: isHovered ? 1 : 0 }}
+          transition={{ duration: 1, ease: "easeInOut" }}
+          style={{ originX: 0 }}
+        />
+
+        {/* White text on hover */}
+        <motion.span
+          className="absolute inset-0 text-white font-light tracking-tight"
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.5, delay: isHovered ? 0.2 : 0 }}
+        >
+          {text}
+        </motion.span>
+      </div>
+    </h2>
+  )
+}
+
 // Skills Headline Hover Component
 function SkillsHeadlineHover({ isInView }: { isInView: boolean }) {
   const [isHovered, setIsHovered] = useState(false)
@@ -353,6 +390,59 @@ function ProjectsSection({
 }
 
 // Resume Section Component
+function ExperienceSection({ experienceRef, experiences }: { experienceRef: React.RefObject<HTMLElement>; experiences: any[] }) {
+  const isInView = useInView(experienceRef, { once: true, margin: "-100px" })
+
+  return (
+    <motion.section
+      id="experience"
+      ref={experienceRef}
+      className="mb-20"
+      initial={{ opacity: 1 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      <motion.div
+        initial={{ opacity: 1, y: 0 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <InteractiveHeading text="Experience" />
+
+        <div className="space-y-4 mt-4">
+          {experiences.map((exp, idx) => (
+            <motion.div
+              key={exp.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: 0.6, delay: 0.1 + idx * 0.12 }}
+              className="p-5 rounded-lg border border-white/10 bg-gradient-to-br from-white/3 to-white/6 backdrop-blur-sm"
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-lg font-semibold text-white">{exp.role} <span className="text-white/60 font-light">@ {exp.company}</span></p>
+                  <p className="text-sm text-white/60">{exp.period} • {exp.location}</p>
+                </div>
+                <div className="text-sm text-white/80 flex gap-2">
+                  {exp.tech.map((t: string) => (
+                    <span key={t} className="px-2 py-1 bg-white/6 rounded text-xs">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              <ul className="mt-3 list-disc list-inside text-white/70 space-y-1">
+                {exp.bullets.map((b: string, i: number) => (
+                  <li key={i} className="text-sm">{b}</li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </motion.section>
+  )
+}
+
 function ResumeSection({ resumeRef }: { resumeRef: React.RefObject<HTMLElement> }) {
   const isInView = useInView(resumeRef, { once: true, margin: "-100px" })
 
@@ -511,6 +601,7 @@ export default function Portfolio() {
   const heroRef = useRef<HTMLElement>(null)
   const aboutRef = useRef<HTMLElement>(null)
   const projectsRef = useRef<HTMLElement>(null)
+  const experienceRef = useRef<HTMLElement>(null)
   const resumeRef = useRef<HTMLElement>(null)
   const contactRef = useRef<HTMLElement>(null)
 
@@ -544,6 +635,36 @@ export default function Portfolio() {
       category: "web",
       link: "https://github.com/SUYASHSINGH7985/APPLE-LandingPage-",
       demo: "https://suyashsingh7985.github.io/APPLE-LandingPage-/",
+    },
+  ]
+
+  // Sample work experience data (you can edit these entries)
+  const experiences = [
+    {
+      id: 1,
+      company: "Jol Energy",
+      role: "Software Developer Intern",
+      period: "Sep 2025 – Present",
+      location: "Remote",
+      bullets: [
+        "Selected as a Software Developer Intern to work on an AI-powered interview platform.",
+        "Internship scope includes database design (Supabase), authentication (NextAuth.js), speech-to-text integration, and AI-driven interview logic using Gemini API.",
+        "Currently onboarding and beginning implementation of core features.",
+      ],
+      tech: ["Next.js", "Supabase", "NextAuth.js", "Gemini API", "TypeScript"],
+    },
+    {
+      id: 2,
+      company: "Unified Mentor Private Limited",
+      role: "Full Stack Web Development Intern",
+      period: "Oct 2025 – Present",
+      location: "Remote",
+      bullets: [
+        "Contributing to the development of a SuperMall web application enabling rural merchants to sell products globally through a digital marketplace.",
+        "Developing secure product management and vendor dashboard modules with product uploads, inventory tracking, and order handling.",
+        "Building responsive and user-friendly frontend components while integrating backend APIs for seamless data flow.",
+      ],
+      tech: ["React", "Node.js", "MongoDB", "Express", "TypeScript"],
     },
   ]
 
@@ -840,6 +961,11 @@ export default function Portfolio() {
             selectedFilter={selectedFilter}
             setSelectedFilter={setSelectedFilter}
           />
+        </div>
+
+        {/* Experience Section */}
+        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
+          <ExperienceSection experienceRef={experienceRef} experiences={experiences} />
         </div>
 
         {/* Resume Section */}

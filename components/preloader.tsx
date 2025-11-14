@@ -5,42 +5,12 @@ import { motion, AnimatePresence } from "framer-motion"
 import gsap from "gsap"
 
 export default function Preloader() {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [count, setCount] = useState(0)
 
   useEffect(() => {
-    // GSAP counter animation from 0 to 100
-    gsap.to({ value: 0 }, {
-      value: 100,
-      duration: 2.5,
-      onUpdate: function () {
-        setCount(Math.floor(this.targets()[0].value))
-      },
-      ease: "power2.inOut",
-    })
-
-    // Page reveal with GSAP after loading completes
-    const timer = setTimeout(() => {
-      // Animate the preloader out
-      gsap.to(".preloader-overlay", {
-        opacity: 0,
-        duration: 0.8,
-        ease: "power2.inOut",
-        pointerEvents: "none",
-        onComplete: () => {
-          setIsLoading(false)
-        },
-      })
-
-      // Reveal page content with split effect
-      gsap.to(".page-content", {
-        clipPath: "inset(0% 0% 0% 0%)",
-        duration: 0.8,
-        ease: "power2.inOut",
-      })
-    }, 2800)
-
-    return () => clearTimeout(timer)
+    // Preloader disabled - page loads immediately
+    setIsLoading(false)
   }, [])
 
   return (

@@ -28,7 +28,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <Preloader />
           <SmoothScroll>
-            <div className="page-content" style={{ clipPath: "inset(0% 100% 0% 0%)" }}>
+            <div className="page-content">
               {children}
             </div>
           </SmoothScroll>

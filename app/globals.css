@@ -683,3 +683,34 @@ html {
 .light .smoke-particle {
   mix-blend-mode: screen;
 }
+
+/* Scrollbar styling - hidden by default but visible on hover */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.scrollbar-hide:hover::-webkit-scrollbar {
+  display: block;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  height: 4px;
+}
+
+.scrollbar-hide::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.scrollbar-hide::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+.scrollbar-hide::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}

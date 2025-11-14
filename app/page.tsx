@@ -78,43 +78,6 @@ function SkillTag({ skill, index }: { skill: any; index: number }) {
 // Skill Card Component with Advanced Animations - Stacked Layout
 // (Kept for reference, but using SkillTag for marquee)
 
-// Reusable Interactive Heading Component with Hover Animation
-function InteractiveHeading({ text }: { text: string }) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <h2
-      className="text-3xl sm:text-4xl font-light mb-8 tracking-tight inline-block relative cursor-pointer"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="relative inline-block">
-        {/* Gradient text */}
-        <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent relative z-10">
-          {text}
-        </span>
-
-        {/* Covering light grey rectangle */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 pointer-events-none"
-          animate={{ scaleX: isHovered ? 1 : 0 }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-          style={{ originX: 0 }}
-        />
-
-        {/* White text on hover */}
-        <motion.span
-          className="absolute inset-0 text-white font-light tracking-tight"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.5, delay: isHovered ? 0.2 : 0 }}
-        >
-          {text}
-        </motion.span>
-      </div>
-    </h2>
-  )
-}
-
 // Skills Headline Hover Component
 function SkillsHeadlineHover({ isInView }: { isInView: boolean }) {
   const [isHovered, setIsHovered] = useState(false)
@@ -149,14 +112,16 @@ function SkillsHeadlineHover({ isInView }: { isInView: boolean }) {
             />
 
             {/* White text on top of grey */}
-            <motion.span
-              className="absolute inset-0 text-white font-light tracking-tight"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.5, delay: isHovered ? 0.2 : 0 }}
-            >
-              Skills & Expertise
-            </motion.span>
+            {isHovered && (
+              <motion.span
+                className="absolute inset-0 text-white font-light tracking-tight"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                Skills & Expertise
+              </motion.span>
+            )}
           </motion.span>
         </h3>
       </div>
@@ -182,7 +147,11 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <InteractiveHeading text="About Me" />
+        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            About Me
+          </span>
+        </h2>
         <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-3xl font-light">
           I'm a <strong className="font-normal text-white/90">2nd-year Computer Science student</strong> at <strong className="font-normal text-white/90">VIT Vellore</strong> with a passion for building <strong className="font-normal text-white/90">clean, scalable web apps</strong> and solving <strong className="font-normal text-white/90">real-world problems through code</strong>.
           I actively work on <strong className="font-normal text-white/90">personal projects</strong>, regularly push my progress to <strong className="font-normal text-white/90">GitHub</strong>, and solve <strong className="font-normal text-white/90">Data Structures & Algorithms (DSA)</strong> problems on platforms like <strong className="font-normal text-white/90">LeetCode</strong> and <strong className="font-normal text-white/90">Codeforces</strong>.
@@ -309,7 +278,11 @@ function ProjectsSection({
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <InteractiveHeading text="Projects" />
+        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Projects
+          </span>
+        </h2>
 
         <div className="flex flex-wrap gap-2 mb-12">
           <motion.button
@@ -397,7 +370,11 @@ function ResumeSection({ resumeRef }: { resumeRef: React.RefObject<HTMLElement> 
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <InteractiveHeading text="Resume" />
+        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Resume
+          </span>
+        </h2>
 
         <motion.div
           initial={{ opacity: 1, y: 20 }}
@@ -455,7 +432,11 @@ function ContactSection({ contactRef }: { contactRef: React.RefObject<HTMLElemen
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <InteractiveHeading text="Get In Touch" />
+        <h2 className="text-3xl sm:text-4xl font-light mb-8 tracking-tight">
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Get In Touch
+          </span>
+        </h2>
         <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-2xl mb-8 font-light">
           I'm always interested in new opportunities and exciting projects. Let's discuss how we can bring your ideas to life.
         </p>

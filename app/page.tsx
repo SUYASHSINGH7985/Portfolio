@@ -831,11 +831,11 @@ export default function Portfolio() {
                     d: "M 0 8 L 55 8"
                   }}
                   transition={isAudioPlaying ? { 
-                    duration: 0.8, 
+                    duration: 0.6, 
                     repeat: Number.POSITIVE_INFINITY, 
                     ease: "easeInOut" 
                   } : { 
-                    duration: 0.8, 
+                    duration: 1.2, 
                     ease: "easeInOut" 
                   }}
                 />
@@ -843,10 +843,10 @@ export default function Portfolio() {
               <AnimatePresence mode="wait">
                 {isAudioPlaying && (
                   <motion.p
-                    initial={{ opacity: 0, scale: 0.95, x: -15 }}
+                    initial={{ opacity: 0, scale: 0.9, x: -20 }}
                     animate={{ opacity: 1, scale: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, x: -15 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    exit={{ opacity: 0, scale: 0.9, x: -20 }}
+                    transition={{ duration: 0.8, ease: "easeInOut" }}
                     className="text-sm whitespace-nowrap font-mono overflow-hidden"
                     style={{
                       color: "#A78BFA",
@@ -952,7 +952,7 @@ export default function Portfolio() {
                 <div className="flex items-center justify-between">
                   <div></div>
                   <div className="flex items-center gap-4">
-                    <h3 className="text-4xl sm:text-5xl font-light text-foreground/80">
+                    <h3 className="text-2xl sm:text-3xl font-light text-foreground/80">
                       Let's{" "}
                       <span style={{ color: "#0232B8", fontFamily: "Dancing Script, cursive", fontWeight: 600, textDecoration: "underline", textDecorationColor: "#880808", textDecorationThickness: "2px", textUnderlineOffset: "4px" }}>
                         Connect

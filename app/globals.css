@@ -122,6 +122,13 @@
 /* GSAP Smooth Scroll Setup */
 html {
   scroll-behavior: smooth;
+  /* Hide scrollbar while keeping scroll functionality */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 body {

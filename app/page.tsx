@@ -78,43 +78,6 @@ function SkillTag({ skill, index }: { skill: any; index: number }) {
 // Skill Card Component with Advanced Animations - Stacked Layout
 // (Kept for reference, but using SkillTag for marquee)
 
-// Reusable Interactive Heading Component with Hover Animation
-function InteractiveHeading({ text }: { text: string }) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <h2
-      className="text-3xl sm:text-4xl font-light mb-8 tracking-tight inline-block relative cursor-pointer"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="relative inline-block">
-        {/* Gradient text */}
-        <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent relative z-10">
-          {text}
-        </span>
-
-        {/* Covering light grey rectangle */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 pointer-events-none"
-          animate={{ scaleX: isHovered ? 1 : 0 }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-          style={{ originX: 0 }}
-        />
-
-        {/* White text on hover */}
-        <motion.span
-          className="absolute inset-0 text-white font-light tracking-tight"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.5, delay: isHovered ? 0.2 : 0 }}
-        >
-          {text}
-        </motion.span>
-      </div>
-    </h2>
-  )
-}
-
 // Skills Headline Hover Component
 function SkillsHeadlineHover({ isInView }: { isInView: boolean }) {
   const [isHovered, setIsHovered] = useState(false)
@@ -390,59 +353,6 @@ function ProjectsSection({
 }
 
 // Resume Section Component
-function ExperienceSection({ experienceRef, experiences }: { experienceRef: React.RefObject<HTMLElement>; experiences: any[] }) {
-  const isInView = useInView(experienceRef, { once: true, margin: "-100px" })
-
-  return (
-    <motion.section
-      id="experience"
-      ref={experienceRef}
-      className="mb-20"
-      initial={{ opacity: 1 }}
-      animate={isInView ? { opacity: 1 } : { opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
-      <motion.div
-        initial={{ opacity: 1, y: 0 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      >
-        <InteractiveHeading text="Experience" />
-
-        <div className="space-y-4 mt-4">
-          {experiences.map((exp, idx) => (
-            <motion.div
-              key={exp.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.6, delay: 0.1 + idx * 0.12 }}
-              className="p-5 rounded-lg border border-white/10 bg-gradient-to-br from-white/3 to-white/6 backdrop-blur-sm"
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-lg font-semibold text-white">{exp.role} <span className="text-white/60 font-light">@ {exp.company}</span></p>
-                  <p className="text-sm text-white/60">{exp.period} • {exp.location}</p>
-                </div>
-                <div className="text-sm text-white/80 flex gap-2">
-                  {exp.tech.map((t: string) => (
-                    <span key={t} className="px-2 py-1 bg-white/6 rounded text-xs">{t}</span>
-                  ))}
-                </div>
-              </div>
-
-              <ul className="mt-3 list-disc list-inside text-white/70 space-y-1">
-                {exp.bullets.map((b: string, i: number) => (
-                  <li key={i} className="text-sm">{b}</li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-    </motion.section>
-  )
-}
-
 function ResumeSection({ resumeRef }: { resumeRef: React.RefObject<HTMLElement> }) {
   const isInView = useInView(resumeRef, { once: true, margin: "-100px" })
 
@@ -499,6 +409,105 @@ function ResumeSection({ resumeRef }: { resumeRef: React.RefObject<HTMLElement> 
             </a>
           </div>
         </motion.div>
+      </motion.div>
+    </motion.section>
+  )
+}
+
+// Experience Section Component
+function ExperienceSection({ experienceRef, experiences }: { experienceRef: React.RefObject<HTMLElement>; experiences: any[] }) {
+  const isInView = useInView(experienceRef, { once: true, margin: "-100px" })
+
+  return (
+    <motion.section
+      id="experience"
+      ref={experienceRef}
+      className="py-20 scroll-mt-40 relative"
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <h2 className="text-3xl sm:text-4xl font-light mb-12 tracking-tight inline-block relative">
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Experience
+          </span>
+          <motion.div
+            className="absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-primary to-secondary"
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            style={{ originX: 0 }}
+          />
+        </h2>
+
+        <div className="space-y-6 mt-8">
+          {experiences.map((exp, idx) => (
+            <motion.div
+              key={exp.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: 0.6, delay: 0.1 + idx * 0.12 }}
+              className="group relative"
+            >
+              {/* Card */}
+              <div className="relative p-6 rounded-lg border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm hover:border-white/20 transition-all duration-300 overflow-hidden">
+                
+                {/* Animated background on hover */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                />
+
+                {/* Content */}
+                <div className="relative z-10">
+                  {/* Header: Role @ Company | Period • Location */}
+                  <div className="mb-4">
+                    <h3 className="text-lg font-semibold text-white mb-2">
+                      {exp.role} <span className="text-white/60 font-normal">@ {exp.company}</span>
+                    </h3>
+                    <p className="text-sm text-white/50 flex items-center gap-2">
+                      <span>{exp.period}</span>
+                      <span>•</span>
+                      <span>{exp.location}</span>
+                    </p>
+                  </div>
+
+                  {/* Bullets */}
+                  <ul className="space-y-2 mb-4">
+                    {exp.bullets.map((bullet: string, i: number) => (
+                      <li key={i} className="text-sm text-white/70 flex gap-3">
+                        <span className="text-primary/80 mt-1 flex-shrink-0">▸</span>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Tech Stack Badges */}
+                  <div className="flex flex-wrap gap-2">
+                    {exp.tech.map((tech: string) => (
+                      <motion.div
+                        key={tech}
+                        whileHover={{ scale: 1.05 }}
+                        className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs text-white/80 font-light hover:border-primary/50 transition-colors duration-300"
+                      >
+                        {tech}
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Left accent bar */}
+                <motion.div
+                  className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                />
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </motion.div>
     </motion.section>
   )
@@ -638,36 +647,6 @@ export default function Portfolio() {
     },
   ]
 
-  // Sample work experience data (you can edit these entries)
-  const experiences = [
-    {
-      id: 1,
-      company: "Jol Energy",
-      role: "Software Developer Intern",
-      period: "Sep 2025 – Present",
-      location: "Remote",
-      bullets: [
-        "Selected as a Software Developer Intern to work on an AI-powered interview platform.",
-        "Internship scope includes database design (Supabase), authentication (NextAuth.js), speech-to-text integration, and AI-driven interview logic using Gemini API.",
-        "Currently onboarding and beginning implementation of core features.",
-      ],
-      tech: ["Next.js", "Supabase", "NextAuth.js", "Gemini API", "TypeScript"],
-    },
-    {
-      id: 2,
-      company: "Unified Mentor Private Limited",
-      role: "Full Stack Web Development Intern",
-      period: "Oct 2025 – Present",
-      location: "Remote",
-      bullets: [
-        "Contributing to the development of a SuperMall web application enabling rural merchants to sell products globally through a digital marketplace.",
-        "Developing secure product management and vendor dashboard modules with product uploads, inventory tracking, and order handling.",
-        "Building responsive and user-friendly frontend components while integrating backend APIs for seamless data flow.",
-      ],
-      tech: ["React", "Node.js", "MongoDB", "Express", "TypeScript"],
-    },
-  ]
-
   const skills = [
     { name: "React/Next.js", icon: <Globe className="w-5 h-5" /> },
     { name: "Swift/SwiftUI", icon: <Smartphone className="w-5 h-5" /> },
@@ -683,6 +662,35 @@ export default function Portfolio() {
     { label: "Experience", id: "experience" },
     { label: "Resume", id: "resume" },
     { label: "Contact", id: "contact" },
+  ]
+
+  const experiences = [
+    {
+      id: 1,
+      company: "Jol Energy",
+      role: "Software Developer Intern",
+      period: "Sep 2025 – Present",
+      location: "Remote",
+      bullets: [
+        "Built AI-powered interview platform with real-time feedback system",
+        "Designed and optimized Supabase database schema for user authentication and interview data",
+        "Integrated Gemini API for advanced speech-to-text transcription and analysis",
+      ],
+      tech: ["Next.js", "Supabase", "NextAuth.js", "Gemini API", "TypeScript"],
+    },
+    {
+      id: 2,
+      company: "Unified Mentor Private Limited",
+      role: "Full Stack Web Development Intern",
+      period: "Oct 2025 – Present",
+      location: "Remote",
+      bullets: [
+        "Developed SuperMall marketplace platform with 15+ product management features",
+        "Created vendor dashboard with analytics and order management system",
+        "Implemented RESTful APIs and integrated payment gateway integration",
+      ],
+      tech: ["React", "Node.js", "MongoDB", "Express", "TypeScript"],
+    },
   ]
 
   const allTechnologies = Array.from(new Set(projects.flatMap((project) => project.tags))).sort()
@@ -743,6 +751,18 @@ export default function Portfolio() {
           className="absolute top-3/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"
           animate={{ x: [0, -100, 0], y: [0, 100, 0] }}
           transition={{ duration: 25, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        />
+        
+        {/* Right side accent elements */}
+        <motion.div
+          className="absolute top-20 right-0 w-96 h-96 bg-gradient-to-bl from-primary/20 via-secondary/10 to-transparent rounded-full blur-3xl"
+          animate={{ x: [0, 50, 0], y: [0, -80, 0] }}
+          transition={{ duration: 18, repeat: Number.POSITIVE_INFINITY, ease: "linear", delay: 2 }}
+        />
+        <motion.div
+          className="absolute bottom-40 right-20 w-80 h-80 bg-gradient-to-tl from-secondary/15 via-primary/10 to-transparent rounded-full blur-3xl"
+          animate={{ x: [0, -60, 0], y: [0, 90, 0] }}
+          transition={{ duration: 22, repeat: Number.POSITIVE_INFINITY, ease: "linear", delay: 4 }}
         />
       </motion.div>
 
@@ -945,37 +965,91 @@ export default function Portfolio() {
         </div>
       </nav>
 
-      {/* Main Layout */}
-      <div className="w-full pb-20">
-        {/* About Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl pt-6">
-          <AboutSection aboutRef={aboutRef} skills={skills} />
+      {/* Main Layout - Two Column with Sticky Left Navigation */}
+      <div className="flex relative">
+        {/* Left Column - Sticky Section Headings */}
+        <div className="hidden lg:flex w-64 flex-shrink-0 sticky top-[160px] h-fit flex-col gap-8 pt-6 pl-8 pr-8">
+          {["About", "Experience", "Projects", "Resume", "Contact"].map((section) => (
+            <motion.button
+              key={section}
+              onClick={() => scrollToSection(section.toLowerCase())}
+              className={`text-left transition-all duration-300 ${
+                activeSection === section.toLowerCase()
+                  ? "text-foreground"
+                  : "text-foreground/50 hover:text-foreground/70"
+              }`}
+            >
+              <h2 className="text-2xl font-light tracking-tight mb-2">
+                {section}
+              </h2>
+              {activeSection === section.toLowerCase() && (
+                <motion.div
+                  className="h-1 w-12 bg-gradient-to-r from-primary to-secondary"
+                  layoutId="sectionIndicator"
+                  transition={{ duration: 0.3 }}
+                />
+              )}
+            </motion.button>
+          ))}
         </div>
 
-        {/* Projects Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
-          <ProjectsSection
-            projectsRef={projectsRef}
-            projects={filteredProjects}
-            allTechnologies={allTechnologies}
-            selectedFilter={selectedFilter}
-            setSelectedFilter={setSelectedFilter}
+        {/* Right Column - Content */}
+        <div className="flex-1 pb-20 relative">
+          {/* Right side accent bar */}
+          <motion.div 
+            className="fixed right-8 top-[200px] bottom-40 w-1 bg-gradient-to-b from-primary via-secondary to-transparent pointer-events-none hidden lg:block"
+            animate={{ scaleY: [0.8, 1, 0.8] }}
+            transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY }}
           />
-        </div>
 
-        {/* Experience Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
-          <ExperienceSection experienceRef={experienceRef} experiences={experiences} />
-        </div>
+          {/* Floating accent dots on right side */}
+          {[0, 1, 2, 3].map((i) => (
+            <motion.div
+              key={i}
+              className="fixed right-6 w-2 h-2 bg-gradient-to-r from-primary to-secondary rounded-full pointer-events-none hidden lg:block"
+              style={{ top: `${200 + i * 25}%` }}
+              animate={{ 
+                y: [0, 15, 0],
+                opacity: [0.3, 0.8, 0.3]
+              }}
+              transition={{ 
+                duration: 4 + i * 0.5, 
+                repeat: Number.POSITIVE_INFINITY,
+                delay: i * 0.5 
+              }}
+            />
+          ))}
 
-        {/* Resume Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
-          <ResumeSection resumeRef={resumeRef} />
-        </div>
+          {/* About Section */}
+          <div className="px-4 sm:px-6 lg:px-8 pt-6">
+            <AboutSection aboutRef={aboutRef} skills={skills} />
+          </div>
 
-        {/* Contact Section */}
-        <div className="px-0 sm:px-0 lg:px-0 pl-4 sm:pl-6 lg:pl-8 max-w-4xl">
-          <ContactSection contactRef={contactRef} />
+          {/* Experience Section */}
+          <div className="px-4 sm:px-6 lg:px-8">
+            <ExperienceSection experienceRef={experienceRef} experiences={experiences} />
+          </div>
+
+          {/* Projects Section */}
+          <div className="px-4 sm:px-6 lg:px-8">
+            <ProjectsSection
+              projectsRef={projectsRef}
+              projects={filteredProjects}
+              allTechnologies={allTechnologies}
+              selectedFilter={selectedFilter}
+              setSelectedFilter={setSelectedFilter}
+            />
+          </div>
+
+          {/* Resume Section */}
+          <div className="px-4 sm:px-6 lg:px-8">
+            <ResumeSection resumeRef={resumeRef} />
+          </div>
+
+          {/* Contact Section */}
+          <div className="px-4 sm:px-6 lg:px-8">
+            <ContactSection contactRef={contactRef} />
+          </div>
         </div>
       </div>
 

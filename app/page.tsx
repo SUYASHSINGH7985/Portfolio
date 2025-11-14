@@ -78,6 +78,44 @@ function SkillTag({ skill, index }: { skill: any; index: number }) {
 // Skill Card Component with Advanced Animations - Stacked Layout
 // (Kept for reference, but using SkillTag for marquee)
 
+// Skills Headline Hover Component
+function SkillsHeadlineHover({ isInView }: { isInView: boolean }) {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.8, delay: 0.3 }}
+      className="relative mb-12"
+    >
+      <div
+        className="relative inline-block cursor-pointer"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {/* Covering grey rectangle - sharp corners */}
+        <motion.div
+          className="absolute inset-0 bg-gray-500 pointer-events-none"
+          animate={{ scaleX: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+          style={{ originX: 0 }}
+        />
+
+        {/* Original gradient text that stays visible */}
+        <h3 className="relative z-20 text-3xl font-light tracking-tight text-white mb-8">
+          <motion.span
+            className={`${isHovered ? "text-white" : "bg-gradient-to-r from-primary via-white to-secondary bg-clip-text text-transparent"} transition-all duration-600`}
+            animate={{ color: isHovered ? "#ffffff" : undefined }}
+          >
+            Skills & Expertise
+          </motion.span>
+        </h3>
+      </div>
+    </motion.div>
+  )
+}
+
 // About Section Component
 function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElement>; skills: any[] }) {
   const isInView = useInView(aboutRef, { once: true, margin: "-100px" })
@@ -108,29 +146,7 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
 
         <div className="mt-16">
           {/* Enhanced Skills Section Header with Hover Cover Animation on Text */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative mb-12"
-          >
-            <div className="relative inline-block group cursor-pointer">
-              {/* Covering grey rectangle - sharp corners */}
-              <motion.div
-                className="absolute inset-0 bg-gray-500 pointer-events-none"
-                initial={{ scaleX: 0, originX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
-              />
-
-              {/* Original gradient text that stays visible */}
-              <h3 className="relative z-20 text-3xl font-light tracking-tight text-white mb-8">
-                <span className="bg-gradient-to-r from-primary via-white to-secondary bg-clip-text text-transparent group-hover:text-white transition-colors duration-600">
-                  Skills & Expertise
-                </span>
-              </h3>
-            </div>
-          </motion.div>
+          <SkillsHeadlineHover isInView={isInView} />
 
           {/* Horizontal Scrolling Skills with Parallel Lines */}
           <motion.div

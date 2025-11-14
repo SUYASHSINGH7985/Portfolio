@@ -562,7 +562,7 @@ export default function Portfolio() {
 
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="flex items-start justify-end w-full px-6 sm:px-8 lg:px-12 py-6">
+        <div className="flex items-center justify-end w-full px-6 sm:px-8 lg:px-12 py-6">
           {/* Right - Social Links, Theme Toggle & Navigation (Flush to edge, vertical) */}
           <div className="flex flex-col items-end gap-4">
             {/* Top row: Social links and theme toggle */}
@@ -640,6 +640,11 @@ export default function Portfolio() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-3 tracking-tight leading-tight">
+              <span className="bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
+                Suyash Singh
+              </span>
+            </h1>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white/90 mb-8 tracking-tight">
               Developer
             </h2>

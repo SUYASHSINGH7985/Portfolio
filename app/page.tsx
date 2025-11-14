@@ -558,10 +558,80 @@ export default function Portfolio() {
         />
       </motion.div>
 
+      {/* Header Navigation */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
+        <div className="px-6 sm:px-8 lg:px-16 py-6 flex items-center justify-between max-w-7xl mx-auto w-full">
+          {/* Left - Navigation */}
+          <nav className="flex items-center gap-8">
+            {navigationItems.map((item) => (
+              <motion.button
+                key={item.id}
+                whileHover={{ scale: 1.05 }}
+                onClick={() => scrollToSection(item.id)}
+                className={`font-light text-lg tracking-wide transition-all duration-300 ${
+                  activeSection === item.id
+                    ? "text-foreground"
+                    : "text-foreground/60 hover:text-foreground/80"
+                }`}
+              >
+                {item.label}
+              </motion.button>
+            ))}
+          </nav>
+
+          {/* Right - Social Links & Theme Toggle */}
+          <div className="flex items-center gap-6">
+            <div className="flex gap-4">
+              <motion.a
+                href="https://github.com/SUYASHSINGH7985"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2 }}
+                className="text-foreground/60 hover:text-foreground transition-colors"
+              >
+                <Github size={18} />
+              </motion.a>
+              <motion.a
+                href="https://linkedin.com/in/suyashsingh-dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2 }}
+                className="text-foreground/60 hover:text-foreground transition-colors"
+              >
+                <Linkedin size={18} />
+              </motion.a>
+              <motion.a
+                href="mailto:singhsuyash012@gmail.com"
+                whileHover={{ scale: 1.2 }}
+                className="text-foreground/60 hover:text-foreground transition-colors"
+              >
+                <Mail size={18} />
+              </motion.a>
+            </div>
+
+            {/* Theme Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                setTheme(theme === 'dark' ? 'light' : 'dark')
+              }}
+              className="text-foreground/60 hover:text-foreground transition-colors"
+            >
+              {theme === 'dark' ? (
+                <Sun size={18} />
+              ) : (
+                <Moon size={18} />
+              )}
+            </motion.button>
+          </div>
+        </div>
+      </header>
+
       {/* Main Layout */}
       <div className="flex min-h-screen">
-        {/* LEFT CONTENT */}
-        <div className="flex-1 lg:pr-80 px-6 sm:px-8 lg:px-16 pt-20 pb-20">
+        {/* CONTENT */}
+        <div className="flex-1 px-6 sm:px-8 lg:px-16 pt-24 pb-20">
           {/* Hero Section */}
           <section id="home" ref={heroRef} className="mb-32">
             <motion.div
@@ -597,84 +667,6 @@ export default function Portfolio() {
 
           {/* Contact Section */}
           <ContactSection contactRef={contactRef} />
-        </div>
-
-        {/* RIGHT SIDEBAR - Fixed Navigation */}
-        <div className="hidden lg:flex flex-col fixed right-0 top-0 w-80 h-screen bg-gradient-to-b from-background via-background to-background/50 border-l border-white/10 p-8 justify-between">
-          {/* Top - Social Links & Theme Toggle */}
-          <div className="flex items-center justify-between">
-            <div className="flex gap-4">
-              <motion.a
-                href="https://github.com/SUYASHSINGH7985"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
-                className="text-white/50 hover:text-white/90 transition-colors"
-              >
-                <Github size={20} />
-              </motion.a>
-              <motion.a
-                href="https://linkedin.com/in/suyashsingh-dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
-                className="text-white/50 hover:text-white/90 transition-colors"
-              >
-                <Linkedin size={20} />
-              </motion.a>
-              <motion.a
-                href="mailto:singhsuyash012@gmail.com"
-                whileHover={{ scale: 1.2 }}
-                className="text-white/50 hover:text-white/90 transition-colors"
-              >
-                <Mail size={20} />
-              </motion.a>
-            </div>
-
-            {/* Theme Toggle */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => {
-                setTheme(theme === 'dark' ? 'light' : 'dark')
-              }}
-              className="text-white/50 hover:text-white/90 transition-colors"
-            >
-              {theme === 'dark' ? (
-                <Sun size={20} />
-              ) : (
-                <Moon size={20} />
-              )}
-            </motion.button>
-          </div>
-
-          {/* Middle - Music Player & Navigation */}
-          <div>
-            <CompactMusicPlayer isVisible={true} />
-
-            {/* Navigation */}
-            <nav className="mt-16 space-y-8">
-              {navigationItems.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <button
-                    onClick={() => scrollToSection(item.id)}
-                    className={`text-lg font-light tracking-wide transition-all duration-300 ${
-                      activeSection === item.id
-                        ? "text-white/90"
-                        : "text-white/50 hover:text-white/70"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                </motion.div>
-              ))}
-            </nav>
-          </div>
         </div>
       </div>
 

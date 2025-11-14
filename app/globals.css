@@ -154,6 +154,13 @@ h3 {
   line-height: 1.3;
 }
 
+/* Header Navigation Styles */
+header nav button {
+  font-family: var(--font-playfair, Georgia, 'Times New Roman', serif);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
 /* Custom Scrollbar Styling - Light gray for light mode */
 /* Chrome, Safari and Opera */
 ::-webkit-scrollbar {

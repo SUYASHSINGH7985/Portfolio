@@ -94,21 +94,34 @@ function SkillsHeadlineHover({ isInView }: { isInView: boolean }) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Covering grey rectangle - sharp corners */}
-        <motion.div
-          className="absolute inset-0 bg-gray-500 pointer-events-none"
-          animate={{ scaleX: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-          style={{ originX: 0 }}
-        />
-
         {/* Original gradient text that stays visible */}
-        <h3 className="relative z-20 text-3xl font-light tracking-tight text-white mb-8">
+        <h3 className="relative z-20 text-3xl font-light tracking-tight mb-8 inline-block">
           <motion.span
-            className={`${isHovered ? "text-white" : "bg-gradient-to-r from-primary via-white to-secondary bg-clip-text text-transparent"} transition-all duration-600`}
-            animate={{ color: isHovered ? "#ffffff" : undefined }}
+            className="inline-block relative"
           >
-            Skills & Expertise
+            <span className="bg-gradient-to-r from-primary via-white to-secondary bg-clip-text text-transparent">
+              Skills & Expertise
+            </span>
+            
+            {/* Covering light grey rectangle - perfectly centered on text */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 pointer-events-none"
+              animate={{ scaleX: isHovered ? 1 : 0 }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+              style={{ originX: 0 }}
+            />
+
+            {/* White text on top of grey */}
+            {isHovered && (
+              <motion.span
+                className="absolute inset-0 text-white font-light tracking-tight"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                Skills & Expertise
+              </motion.span>
+            )}
           </motion.span>
         </h3>
       </div>

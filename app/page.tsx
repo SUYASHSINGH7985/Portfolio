@@ -494,6 +494,8 @@ export default function Portfolio() {
   const navigationItems = [
     { label: "About", id: "about" },
     { label: "Projects", id: "projects" },
+    { label: "Experience", id: "experience" },
+    { label: "Resume", id: "resume" },
     { label: "Contact", id: "contact" },
   ]
 
@@ -560,68 +562,74 @@ export default function Portfolio() {
 
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md transition-colors duration-300">
-        <div className="px-6 sm:px-8 lg:px-16 py-6 flex items-center justify-between w-full">
-          {/* Left - Navigation */}
-          <nav className="flex items-center gap-8">
-            {navigationItems.map((item) => (
-              <motion.button
-                key={item.id}
-                whileHover={{ scale: 1.05 }}
-                onClick={() => scrollToSection(item.id)}
-                className={`font-light text-lg tracking-wide transition-all duration-300 ${
-                  activeSection === item.id
-                    ? "text-foreground"
-                    : "text-foreground/60 hover:text-foreground/80"
-                }`}
+        <div className="flex items-start justify-between w-full h-24">
+          {/* Left - Logo/Empty space */}
+          <div className="px-6 sm:px-8 lg:px-16 py-6" />
+
+          {/* Right - Social Links & Theme Toggle (Flush to edge) */}
+          <div className="flex flex-col items-end h-full">
+            {/* Top row: Social links and theme toggle */}
+            <div className="flex items-center gap-3 px-6 sm:px-8 lg:px-16 py-6">
+              <motion.a
+                href="https://github.com/SUYASHSINGH7985"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2 }}
+                className="text-foreground/60 hover:text-foreground transition-colors"
               >
-                {item.label}
+                <Github size={20} />
+              </motion.a>
+              <motion.a
+                href="https://linkedin.com/in/suyashsingh-dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2 }}
+                className="text-foreground/60 hover:text-foreground transition-colors"
+              >
+                <Linkedin size={20} />
+              </motion.a>
+              <motion.a
+                href="mailto:singhsuyash012@gmail.com"
+                whileHover={{ scale: 1.2 }}
+                className="text-foreground/60 hover:text-foreground transition-colors"
+              >
+                <Mail size={20} />
+              </motion.a>
+
+              {/* Theme Toggle */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => {
+                  setTheme(theme === 'dark' ? 'light' : 'dark')
+                }}
+                className="text-foreground/60 hover:text-foreground transition-colors"
+              >
+                {theme === 'dark' ? (
+                  <Sun size={20} />
+                ) : (
+                  <Moon size={20} />
+                )}
               </motion.button>
-            ))}
-          </nav>
+            </div>
 
-          {/* Right - Social Links & Theme Toggle (No Gap from Edge) */}
-          <div className="flex items-center gap-4">
-            <motion.a
-              href="https://github.com/SUYASHSINGH7985"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2 }}
-              className="text-foreground/60 hover:text-foreground transition-colors"
-            >
-              <Github size={20} />
-            </motion.a>
-            <motion.a
-              href="https://linkedin.com/in/suyashsingh-dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2 }}
-              className="text-foreground/60 hover:text-foreground transition-colors"
-            >
-              <Linkedin size={20} />
-            </motion.a>
-            <motion.a
-              href="mailto:singhsuyash012@gmail.com"
-              whileHover={{ scale: 1.2 }}
-              className="text-foreground/60 hover:text-foreground transition-colors"
-            >
-              <Mail size={20} />
-            </motion.a>
-
-            {/* Theme Toggle */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => {
-                setTheme(theme === 'dark' ? 'light' : 'dark')
-              }}
-              className="text-foreground/60 hover:text-foreground transition-colors"
-            >
-              {theme === 'dark' ? (
-                <Sun size={20} />
-              ) : (
-                <Moon size={20} />
-              )}
-            </motion.button>
+            {/* Bottom row: Navigation items */}
+            <nav className="flex items-center gap-6 px-6 sm:px-8 lg:px-16 pb-2">
+              {navigationItems.map((item) => (
+                <motion.button
+                  key={item.id}
+                  whileHover={{ scale: 1.05 }}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`font-light text-sm tracking-wide transition-all duration-300 ${
+                    activeSection === item.id
+                      ? "text-foreground"
+                      : "text-foreground/60 hover:text-foreground/80"
+                  }`}
+                >
+                  {item.label}
+                </motion.button>
+              ))}
+            </nav>
           </div>
         </div>
       </header>

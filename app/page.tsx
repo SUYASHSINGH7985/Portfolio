@@ -630,7 +630,7 @@ export default function Portfolio() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "about", "projects", "experience", "contact"]
+      const sections = ["home", "about", "experience", "projects", "contact"]
       const scrollPosition = window.scrollY + 200
 
       for (const section of sections) {
@@ -773,6 +773,11 @@ export default function Portfolio() {
 
         {/* Projects Section */}
         <div className="px-3 sm:px-4 lg:px-6">
+          <ExperienceSection experienceRef={experienceRef} />
+        </div>
+
+        {/* Projects Section */}
+        <div className="px-3 sm:px-4 lg:px-6">
           <ProjectsSection
             projectsRef={projectsRef}
             projects={filteredProjects}
@@ -780,11 +785,6 @@ export default function Portfolio() {
             selectedFilter={selectedFilter}
             setSelectedFilter={setSelectedFilter}
           />
-        </div>
-
-        {/* Contact Section */}
-        <div className="px-3 sm:px-4 lg:px-6">
-          <ExperienceSection experienceRef={experienceRef} />
         </div>
 
         {/* Contact Section */}

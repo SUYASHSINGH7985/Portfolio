@@ -15,10 +15,7 @@ import {
   Smartphone,
   Globe,
   Database,
-  Sun,
-  Moon,
 } from "lucide-react"
-import { useTheme } from "next-themes"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion"
@@ -567,7 +564,6 @@ export default function Portfolio() {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false)
   const [showMusicPlayer, setShowMusicPlayer] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(null)
-  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     setMounted(true)
@@ -778,26 +774,8 @@ export default function Portfolio() {
 
           {/* Right Side Controls */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            {/* Theme Toggle & Music Player */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              {/* Theme Toggle */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => {
-                  setTheme(theme === 'dark' ? 'light' : 'dark')
-                }}
-                className="text-foreground/60 hover:text-foreground transition-colors p-1 sm:p-0"
-              >
-                {theme === 'dark' ? (
-                  <Sun size={16} className="sm:w-5 sm:h-5" />
-                ) : (
-                  <Moon size={16} className="sm:w-5 sm:h-5" />
-                )}
-              </motion.button>
-
-              {/* Music Player */}
-              <div className="flex items-center gap-1 sm:gap-2 cursor-pointer h-6" onClick={() => {
+            {/* Music Player */}
+            <div className="flex flex-col items-center gap-1 sm:gap-2 cursor-pointer" onClick={() => {
                 if (audioRef.current) {
                   if (isAudioPlaying) {
                     audioRef.current.pause()
@@ -806,66 +784,64 @@ export default function Portfolio() {
                   }
                 }
               }}>
-              <svg 
-                width="45" 
-                height="14" 
-                viewBox="0 0 55 16"
-                className="flex-shrink-0 opacity-100 sm:w-14"
-              >
-                <defs>
-                  <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#000000" />
-                    <stop offset="100%" stopColor="#5a5a5a" />
-                  </linearGradient>
-                </defs>
-                <motion.path
-                  stroke="url(#waveGradient)"
-                  strokeWidth="2.5"
-                  fill="none"
-                  strokeLinecap="round"
-                  animate={isAudioPlaying ? {
-                    d: [
-                      "M 0 8 Q 7 2 14 8 T 28 8 T 42 8 T 56 8",
-                      "M 0 8 Q 7 14 14 8 T 28 8 T 42 8 T 56 8",
-                      "M 0 8 Q 7 2 14 8 T 28 8 T 42 8 T 56 8"
-                    ]
-                  } : {
-                    d: "M 0 8 L 55 8"
-                  }}
-                  transition={isAudioPlaying ? { 
-                    duration: 0.6, 
-                    repeat: Number.POSITIVE_INFINITY, 
-                    ease: "easeInOut" 
-                  } : { 
-                    duration: 1.2, 
-                    ease: "easeInOut" 
-                  }}
-                />
-              </svg>
-              <AnimatePresence mode="wait">
-                {isAudioPlaying && (
-                  <motion.p
-                    initial={{ opacity: 0, scale: 0.9, x: -20 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, x: -20 }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
-                    className="text-xs sm:text-sm whitespace-nowrap font-mono overflow-hidden hidden sm:block"
-                    style={{
-                      color: "#A78BFA",
-                      width: "100px"
+                {/* Wave SVG */}
+                <svg 
+                  width="45" 
+                  height="14" 
+                  viewBox="0 0 55 16"
+                  className="flex-shrink-0 opacity-100 sm:w-14"
+                >
+                  <defs>
+                    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#000000" />
+                      <stop offset="100%" stopColor="#5a5a5a" />
+                    </linearGradient>
+                  </defs>
+                  <motion.path
+                    stroke="url(#waveGradient)"
+                    strokeWidth="2.5"
+                    fill="none"
+                    strokeLinecap="round"
+                    animate={isAudioPlaying ? {
+                      d: [
+                        "M 0 8 Q 7 2 14 8 T 28 8 T 42 8 T 56 8",
+                        "M 0 8 Q 7 14 14 8 T 28 8 T 42 8 T 56 8",
+                        "M 0 8 Q 7 2 14 8 T 28 8 T 42 8 T 56 8"
+                      ]
+                    } : {
+                      d: "M 0 8 L 55 8"
                     }}
-                  >
-                    <motion.span
-                      animate={{ x: [-120, 0] }}
-                      transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                    transition={isAudioPlaying ? { 
+                      duration: 0.6, 
+                      repeat: Number.POSITIVE_INFINITY, 
+                      ease: "easeInOut" 
+                    } : { 
+                      duration: 1.2, 
+                      ease: "easeInOut" 
+                    }}
+                  />
+                </svg>
+
+                {/* Song Name Below Wave */}
+                <AnimatePresence mode="wait">
+                  {isAudioPlaying && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.8, ease: "easeInOut" }}
+                      className="text-xs sm:text-sm whitespace-nowrap font-light"
+                      style={{
+                        color: "#0EA5E9",
+                        fontWeight: 500,
+                        letterSpacing: "0.05em"
+                      }}
                     >
-                      &lt;&lt;Lose My Mind&gt;&gt;
-                    </motion.span>
-                  </motion.p>
-                )}
-              </AnimatePresence>
+                      Lose My Mind
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
-            </div>
           </div>
         </div>
       </nav>

@@ -58,10 +58,27 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
             style={{ width: "100%" }}
           />
         </motion.div>
-                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/70 leading-relaxed max-w-3xl font-light" style={{ fontFamily: "var(--font-nunito)" }}>
-          I'm a <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>2nd-year Computer Science student</span> at <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>VIT Vellore</span> with a passion for building <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>clean, scalable web apps</span> and solving <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>real-world problems through code</span>.
-          I actively work on <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>personal projects</span>, regularly push my progress to <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>GitHub</span>, and solve <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>Data Structures & Algorithms (DSA)</span> problems on platforms like <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>LeetCode</span> and <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>Codeforces</span>.
-        </p>
+                <motion.p 
+          className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/70 leading-relaxed max-w-3xl font-light" 
+          style={{ fontFamily: "var(--font-nunito)" }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 1, delay: 1.0, ease: "easeOut" }}
+            className="block mb-4"
+          >
+            I'm a <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>2nd-year Computer Science student</span> at <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>VIT Vellore</span> with a passion for building <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>clean, scalable web apps</span> and solving <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>real-world problems through code</span>.
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 1, delay: 1.6, ease: "easeOut" }}
+            className="block"
+          >
+            I actively work on <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>personal projects</span>, regularly push my progress to <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>GitHub</span>, and solve <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>Data Structures & Algorithms (DSA)</span> problems on platforms like <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>LeetCode</span> and <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>Codeforces</span>.
+          </motion.div>
+        </motion.p>
 
         <div className="mt-10 sm:mt-12 md:mt-16">
           {/* Skills & Expertise Heading */}

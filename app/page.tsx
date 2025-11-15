@@ -20,112 +20,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion"
 
-// Skill Tag Component for Horizontal Marquee
-function SkillTag({ skill, index }: { skill: any; index: number }) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <motion.div
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      animate={isHovered ? { y: -8 } : { y: 0 }}
-      transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
-      className="relative group flex-shrink-0"
-    >
-      <div className="relative px-6 py-3 rounded-full border border-white/20 bg-gradient-to-r from-white/8 to-white/3 backdrop-blur-md group-hover:border-white/40 transition-all duration-300 cursor-pointer overflow-hidden">
-        
-        {/* Animated background on hover */}
-        <motion.div
-          className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/15 via-transparent to-secondary/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          animate={isHovered ? { opacity: 1 } : { opacity: 0 }}
-        />
-
-        {/* Content */}
-        <div className="relative z-10 flex items-center gap-2">
-          <motion.div
-            animate={isHovered ? { scale: 1.15, rotate: 10 } : { scale: 1, rotate: 0 }}
-            transition={{ duration: 0.3 }}
-            className="text-white/70 group-hover:text-white transition-colors"
-          >
-            {skill.icon}
-          </motion.div>
-          <motion.span
-            animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
-            transition={{ duration: 0.3 }}
-            className="text-sm font-light text-white/80 group-hover:text-white transition-colors whitespace-nowrap"
-          >
-            {skill.name}
-          </motion.span>
-        </div>
-
-        {/* Glow effect on hover */}
-        {isHovered && (
-          <motion.div
-            className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 blur-lg -z-10"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-          />
-        )}
-      </div>
-    </motion.div>
-  )
-}
-
-// Skill Card Component with Advanced Animations - Stacked Layout
-// Skill Card Component with Advanced Animations - Stacked Layout
-// (Kept for reference, but using SkillTag for marquee)
-
-// Skills Headline Hover Component
-function SkillsHeadlineHover({ isInView }: { isInView: boolean }) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
-      className="relative mb-12"
-    >
-      <div
-        className="relative inline-block cursor-pointer"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Original gradient text that stays visible */}
-        <h3 className="relative z-20 text-3xl font-light tracking-tight mb-8 inline-block">
-          <motion.span
-            className="inline-block relative"
-          > 
-            <span className="bg-gradient-to-r from-primary via-white to-secondary bg-clip-text text-transparent">
-              Skills & Expertise
-            </span>
-            
-            {/* Covering light grey rectangle - perfectly centered on text */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-500 pointer-events-none"
-              animate={{ scaleX: isHovered ? 1 : 0 }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-              style={{ originX: 0 }}
-            />
-
-            {/* White text on top of grey */}
-            {isHovered && (
-              <motion.span
-                className="absolute inset-0 text-white font-light tracking-tight"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                Skills & Expertise
-              </motion.span>
-            )}
-          </motion.span>
-        </h3>
-      </div>
-    </motion.div>
-  )
-}
-
 // About Section Component
 function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElement>; skills: any[] }) {
   const isInView = useInView(aboutRef, { once: true, margin: "-100px" })
@@ -140,104 +34,86 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
       transition={{ duration: 0.8 }}
     >
       <motion.div
-        initial={{ opacity: 1, y: 0 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+        initial={{ opacity: 0, x: -50 }}
+        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-light mb-6 sm:mb-8 tracking-tight">
-          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            About Me
-          </span>
-        </h2>
-        <p className="text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-3xl font-light">
-          I'm a <strong className="font-normal text-white/90">2nd-year Computer Science student</strong> at <strong className="font-normal text-white/90">VIT Vellore</strong> with a passion for building <strong className="font-normal text-white/90">clean, scalable web apps</strong> and solving <strong className="font-normal text-white/90">real-world problems through code</strong>.
-          I actively work on <strong className="font-normal text-white/90">personal projects</strong>, regularly push my progress to <strong className="font-normal text-white/90">GitHub</strong>, and solve <strong className="font-normal text-white/90">Data Structures & Algorithms (DSA)</strong> problems on platforms like <strong className="font-normal text-white/90">LeetCode</strong> and <strong className="font-normal text-white/90">Codeforces</strong>.
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="mb-8 sm:mb-10 md:mb-12"
+        >
+          <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold mb-6 sm:mb-8 tracking-tighter leading-tight">
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              About Me
+            </span>
+          </h2>
+        </motion.div>
+                <p className="text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-3xl font-light" style={{ fontFamily: "var(--font-nunito)" }}>
+          I'm a <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>2nd-year Computer Science student</span> at <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>VIT Vellore</span> with a passion for building <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>clean, scalable web apps</span> and solving <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>real-world problems through code</span>.
+          I actively work on <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>personal projects</span>, regularly push my progress to <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>GitHub</span>, and solve <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>Data Structures & Algorithms (DSA)</span> problems on platforms like <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>LeetCode</span> and <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>Codeforces</span>.
         </p>
 
         <div className="mt-10 sm:mt-12 md:mt-16">
-          {/* Enhanced Skills Section Header with Hover Cover Animation on Text */}
-          <SkillsHeadlineHover isInView={isInView} />
+          {/* Skills & Expertise Heading */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="mb-8 sm:mb-10 md:mb-12"
+          >
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-light tracking-tight">
+              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Skills & Expertise
+              </span>
+            </h3>
+          </motion.div>
 
-          {/* Horizontal Scrolling Skills with Parallel Lines */}
+          {/* Skills Grid */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative"
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5"
           >
-            {/* Top parallel line with fill animation */}
-            <motion.div
-              className="h-0.5 bg-gradient-to-r from-primary/0 via-primary/80 to-primary/0 mb-4 sm:mb-6"
-              initial={{ width: 0 }}
-              animate={isInView ? { width: "100%" } : { width: 0 }}
-              transition={{ duration: 1.5, delay: 0.4, ease: "easeOut" }}
-              style={{ originX: 0 }}
-            />
-
-            {/* Skills Container with Rectangle Background Fill */}
-            <div className="relative overflow-hidden rounded-lg">
-              {/* Animated Background Fill Rectangle */}
+            {skills.map((skill, index) => (
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-primary/15 via-secondary/10 to-primary/10 rounded-lg"
-                initial={{ scaleX: 0, originX: 0 }}
-                animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-                transition={{ duration: 2, delay: 0.3, ease: "easeOut" }}
-                style={{ originX: 0 }}
-              />
-
-              {/* Inner border that fills */}
-              <motion.div
-                className="absolute inset-0 rounded-lg border-2 border-primary/50"
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
-              />
-
-              {/* Skills Marquee Container */}
-              <div className="relative py-4 sm:py-6 md:py-8 px-4 sm:px-6 md:px-8">
-                {/* Left gradient fade */}
-                <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none rounded-l-lg" />
-                
-                {/* Right gradient fade */}
-                <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none rounded-r-lg" />
-
-                {/* Scrolling Skills Container */}
-                <motion.div
-                  className="flex gap-8 min-w-min"
-                  animate={{ x: [-2000, 0] }}
-                  transition={{
-                    duration: 35,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "linear",
-                    delay: 1.8,
-                  }}
-                >
-                  {/* First loop of skills */}
-                  {skills.map((skill, index) => (
-                    <SkillTag key={`${skill.name}-1`} skill={skill} index={index} />
-                  ))}
+                key={skill.name}
+                initial={{ opacity: 0, y: 10 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                transition={{ duration: 0.6, delay: 0.5 + index * 0.05 }}
+                whileHover={{ y: -4 }}
+                className="group relative"
+              >
+                <div className="relative p-4 sm:p-5 md:p-6 rounded-lg border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm hover:border-white/20 transition-all duration-300 overflow-hidden h-full flex flex-col items-center justify-center gap-2 sm:gap-3">
                   
-                  {/* Duplicate for seamless loop */}
-                  {skills.map((skill, index) => (
-                    <SkillTag key={`${skill.name}-2`} skill={skill} index={index} />
-                  ))}
-                  
-                  {/* Third loop for extra smoothness */}
-                  {skills.map((skill, index) => (
-                    <SkillTag key={`${skill.name}-3`} skill={skill} index={index} />
-                  ))}
-                </motion.div>
-              </div>
-            </div>
+                  {/* Animated background on hover */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  />
 
-            {/* Bottom parallel line with fill animation */}
-            <motion.div
-              className="h-0.5 bg-gradient-to-r from-primary/0 via-primary/80 to-primary/0 mt-4 sm:mt-6"
-              initial={{ width: 0 }}
-              animate={isInView ? { width: "100%" } : { width: 0 }}
-              transition={{ duration: 1.5, delay: 0.7, ease: "easeOut" }}
-              style={{ originX: 0 }}
-            />
+                  {/* Content */}
+                  <div className="relative z-10 flex flex-col items-center gap-2 text-center">
+                    <motion.div
+                      whileHover={{ scale: 1.2, rotate: 10 }}
+                      transition={{ duration: 0.3 }}
+                      className="text-white/70 group-hover:text-white transition-colors"
+                    >
+                      {skill.icon}
+                    </motion.div>
+                    <p className="text-xs sm:text-sm font-light text-white/80 group-hover:text-white transition-colors whitespace-nowrap">
+                      {skill.name}
+                    </p>
+                  </div>
+
+                  {/* Left accent bar */}
+                  <motion.div
+                    className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </motion.div>
@@ -702,26 +578,34 @@ export default function Portfolio() {
   }
 
   useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout
+    
     const handleScroll = () => {
-      const sections = ["home", "about", "projects", "resume", "contact"]
-      const scrollPosition = window.scrollY + 200
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(() => {
+        const sections = ["home", "about", "projects", "resume", "contact"]
+        const scrollPosition = window.scrollY + 200
 
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const offsetTop = element.offsetTop
-          const offsetHeight = element.offsetHeight
+        for (const section of sections) {
+          const element = document.getElementById(section)
+          if (element) {
+            const offsetTop = element.offsetTop
+            const offsetHeight = element.offsetHeight
 
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
+            if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+              setActiveSection(section)
+              break
+            }
           }
         }
-      }
+      }, 50)
     }
 
     window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    return () => {
+      clearTimeout(scrollTimeout)
+      window.removeEventListener("scroll", handleScroll)
+    }
   }, [])
 
   if (!mounted) {
@@ -736,12 +620,12 @@ export default function Portfolio() {
         <motion.div
           className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
           animate={{ x: [0, 100, 0], y: [0, -100, 0] }}
-          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear", repeatType: "loop" }}
         />
         <motion.div
           className="absolute top-3/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"
           animate={{ x: [0, -100, 0], y: [0, 100, 0] }}
-          transition={{ duration: 25, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          transition={{ duration: 25, repeat: Number.POSITIVE_INFINITY, ease: "linear", repeatType: "loop" }}
         />
       </motion.div>
 
@@ -774,74 +658,78 @@ export default function Portfolio() {
 
           {/* Right Side Controls */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            {/* Music Player */}
-            <div className="flex flex-col items-center gap-1 sm:gap-2 cursor-pointer" onClick={() => {
+            {/* Music Player - Dots when paused, Equalizer when playing */}
+            <motion.div 
+              className="flex items-center gap-1 h-6 cursor-pointer"
+              onClick={() => {
                 if (audioRef.current) {
                   if (isAudioPlaying) {
                     audioRef.current.pause()
+                    setIsAudioPlaying(false)
                   } else {
                     audioRef.current.play()
+                    setIsAudioPlaying(true)
                   }
                 }
-              }}>
-                {/* Wave SVG */}
-                <svg 
-                  width="45" 
-                  height="14" 
-                  viewBox="0 0 55 16"
-                  className="flex-shrink-0 opacity-100 sm:w-14"
-                >
-                  <defs>
-                    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#000000" />
-                      <stop offset="100%" stopColor="#5a5a5a" />
-                    </linearGradient>
-                  </defs>
-                  <motion.path
-                    stroke="url(#waveGradient)"
-                    strokeWidth="2.5"
-                    fill="none"
-                    strokeLinecap="round"
-                    animate={isAudioPlaying ? {
-                      d: [
-                        "M 0 8 Q 7 2 14 8 T 28 8 T 42 8 T 56 8",
-                        "M 0 8 Q 7 14 14 8 T 28 8 T 42 8 T 56 8",
-                        "M 0 8 Q 7 2 14 8 T 28 8 T 42 8 T 56 8"
-                      ]
-                    } : {
-                      d: "M 0 8 L 55 8"
-                    }}
-                    transition={isAudioPlaying ? { 
-                      duration: 0.6, 
-                      repeat: Number.POSITIVE_INFINITY, 
-                      ease: "easeInOut" 
-                    } : { 
-                      duration: 1.2, 
-                      ease: "easeInOut" 
-                    }}
-                  />
-                </svg>
-
-                {/* Song Name Below Wave */}
-                <AnimatePresence mode="wait">
-                  {isAudioPlaying && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.8, ease: "easeInOut" }}
-                      className="text-xs sm:text-sm whitespace-nowrap font-light"
-                      style={{
-                        color: "#0EA5E9",
-                        fontWeight: 500,
-                        letterSpacing: "0.05em"
-                      }}
-                    >
-                      Lose My Mind
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
+              }}
+              whileHover={{ scale: 1.1 }}
+            >
+              <AnimatePresence mode="wait">
+                {isAudioPlaying ? (
+                  // Equalizer Bars when playing
+                  <motion.div
+                    key="equalizer"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center gap-1"
+                  >
+                    {[0, 1, 2].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="w-1 rounded-full bg-gradient-to-t from-primary to-secondary"
+                        animate={{
+                          height: ["4px", "12px", "8px", "12px", "4px"]
+                        }}
+                        transition={{
+                          duration: 0.5,
+                          repeat: Number.POSITIVE_INFINITY,
+                          delay: i * 0.1,
+                          ease: "easeInOut"
+                        }}
+                      />
+                    ))}
+                  </motion.div>
+                ) : (
+                  // Three Dots when paused
+                  <motion.div
+                    key="dots"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center gap-1.5"
+                  >
+                    {[0, 1, 2].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary to-secondary"
+                        animate={{
+                          opacity: [0.4, 1, 0.4]
+                        }}
+                        transition={{
+                          duration: 1.5,
+                          repeat: Number.POSITIVE_INFINITY,
+                          delay: i * 0.2,
+                          ease: "easeInOut"
+                        }}
+                      />
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           </div>
         </div>
       </nav>
@@ -883,7 +771,7 @@ export default function Portfolio() {
                   I'm{" "}
                   <span className="relative inline-block">
                     {/* Black text background */}
-                    <span className="text-black dark:text-black relative z-10">
+                    <span className="text-black dark:text-black relative z-10" style={{ color: "#0232B8" }}>
                       Suyash
                     </span>
                     

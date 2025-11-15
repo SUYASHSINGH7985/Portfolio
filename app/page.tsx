@@ -974,7 +974,7 @@ export default function Portfolio() {
                       </motion.a>
                       
                       <motion.a
-                        href="https://linkedin.com/in/suyashsingh-dev"
+                        href="https://linkedin.com/in/s4yashh"
                         target="_blank"
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.2, y: -2 }}

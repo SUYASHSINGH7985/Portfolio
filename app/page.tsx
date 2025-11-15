@@ -42,15 +42,23 @@ function AboutSection({ aboutRef, skills }: { aboutRef: React.RefObject<HTMLElem
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mb-8 sm:mb-10 md:mb-12"
+          className="mb-8 sm:mb-10 md:mb-12 relative inline-block pb-2"
         >
-          <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold mb-6 sm:mb-8 tracking-tighter leading-tight">
+          <h2 className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold tracking-tighter leading-tight">
             <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               About Me
             </span>
           </h2>
+          {/* Underline animation */}
+          <motion.div
+            className="absolute bottom-0 left-0 h-1 bg-black"
+            initial={{ scaleX: 0, originX: 0 }}
+            animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+            style={{ width: "100%" }}
+          />
         </motion.div>
-                <p className="text-sm sm:text-base md:text-lg text-white/70 leading-relaxed max-w-3xl font-light" style={{ fontFamily: "var(--font-nunito)" }}>
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/70 leading-relaxed max-w-3xl font-light" style={{ fontFamily: "var(--font-nunito)" }}>
           I'm a <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>2nd-year Computer Science student</span> at <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>VIT Vellore</span> with a passion for building <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>clean, scalable web apps</span> and solving <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>real-world problems through code</span>.
           I actively work on <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>personal projects</span>, regularly push my progress to <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>GitHub</span>, and solve <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>Data Structures & Algorithms (DSA)</span> problems on platforms like <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>LeetCode</span> and <span style={{ color: "#880808", fontFamily: "var(--font-dancing-script)", fontWeight: 700, display: "inline" }}>Codeforces</span>.
         </p>
@@ -658,9 +666,9 @@ export default function Portfolio() {
 
           {/* Right Side Controls */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            {/* Music Player - Dots when paused, Equalizer when playing */}
+            {/* Music Player - Dots when paused, Equalizer when playing with Song Name */}
             <motion.div 
-              className="flex items-center gap-1 h-6 cursor-pointer"
+              className="flex items-center gap-2 h-6 cursor-pointer"
               onClick={() => {
                 if (audioRef.current) {
                   if (isAudioPlaying) {
@@ -676,54 +684,59 @@ export default function Portfolio() {
             >
               <AnimatePresence mode="wait">
                 {isAudioPlaying ? (
-                  // Equalizer Bars when playing
+                  // Equalizer Bars when playing with Song Name
                   <motion.div
-                    key="equalizer"
+                    key="equalizer-group"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex items-center gap-1"
+                    transition={{ duration: 0.4 }}
+                    className="flex items-center gap-2"
                   >
-                    {[0, 1, 2].map((i) => (
-                      <motion.div
-                        key={i}
-                        className="w-1 rounded-full bg-gradient-to-t from-primary to-secondary"
-                        animate={{
-                          height: ["4px", "12px", "8px", "12px", "4px"]
-                        }}
-                        transition={{
-                          duration: 0.5,
-                          repeat: Number.POSITIVE_INFINITY,
-                          delay: i * 0.1,
-                          ease: "easeInOut"
-                        }}
-                      />
-                    ))}
+                    {/* Equalizer Bars */}
+                    <div className="flex items-center gap-1">
+                      {[0, 1, 2].map((i) => (
+                        <motion.div
+                          key={i}
+                          className="w-1 rounded-full"
+                          style={{ backgroundColor: "#001085" }}
+                          animate={{
+                            height: ["4px", "12px", "8px", "12px", "4px"]
+                          }}
+                          transition={{
+                            duration: 0.5,
+                            repeat: Number.POSITIVE_INFINITY,
+                            delay: i * 0.1,
+                            ease: "easeInOut"
+                          }}
+                        />
+                      ))}
+                    </div>
+                    {/* Song Name */}
+                    <motion.span
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="text-xs font-light text-white/80 whitespace-nowrap"
+                    >
+                      ≪Lose My Mind≫
+                    </motion.span>
                   </motion.div>
                 ) : (
-                  // Three Dots when paused
+                  // Three Dots when paused (stationary, no color change)
                   <motion.div
                     key="dots"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.4 }}
                     className="flex items-center gap-1.5"
                   >
                     {[0, 1, 2].map((i) => (
                       <motion.div
                         key={i}
                         className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary to-secondary"
-                        animate={{
-                          opacity: [0.4, 1, 0.4]
-                        }}
-                        transition={{
-                          duration: 1.5,
-                          repeat: Number.POSITIVE_INFINITY,
-                          delay: i * 0.2,
-                          ease: "easeInOut"
-                        }}
                       />
                     ))}
                   </motion.div>

@@ -11,7 +11,7 @@ const navItems = [
   ["Contact", "contact"],
 ]
 
-const resumeHref = "/Suyash_Resume 2.pdf"
+const resumeHref = "https://drive.google.com/file/d/1_bTiCSB2bz_Kvl9ZA_QSBh0G1ulrAA5x/view?usp=sharing"
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)

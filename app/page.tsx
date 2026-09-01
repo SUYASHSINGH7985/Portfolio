@@ -87,7 +87,7 @@ export default function Portfolio() {
             <p className="hero-intro">I build software, web applications, and practical digital experiences while exploring technology and solving real problems.</p>
             <div className="hero-actions">
               <a className="button button-dark" href="#projects">View my work <ArrowUpRight size={16} /></a>
-              <a className="text-link" href="/Suyash_Resume 2.pdf" target="_blank" rel="noreferrer">Resume <ArrowUpRight size={15} /></a>
+              <a className="text-link" href="https://drive.google.com/file/d/1_bTiCSB2bz_Kvl9ZA_QSBh0G1ulrAA5x/view?usp=sharing" target="_blank" rel="noreferrer">Resume <ArrowUpRight size={15} /></a>
             </div>
           </div>
           <div className="hero-meta">

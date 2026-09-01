@@ -72,12 +72,13 @@
   main { grid-column: 2; min-width: 0; }
   .site-footer { grid-column: 2; min-width: 0; }
   .section-shell { max-width: 76rem; margin: 0 auto; padding-left: 4rem; padding-right: 4rem; }
-  .hero { min-height: min(44rem, 82vh); display: flex; flex-direction: column; justify-content: center; padding-top: 7rem; padding-bottom: 4rem; }
+  .hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-top: 7rem; padding-bottom: 4rem; }
   .hero-copy { max-width: 54rem; }
   .eyebrow { margin: 0 0 1.4rem; color: hsl(var(--accent)); font-size: 0.7rem; font-weight: 650; letter-spacing: 0.14em; text-transform: uppercase; }
   .hero h1 { max-width: 13ch; margin: 0; font-size: clamp(4rem, 11vw, 9rem); font-weight: 650; letter-spacing: -0.085em; line-height: 0.87; }
   .hero h1 span { display: block; }
   .hero-role { margin: 1.75rem 0 0; color: hsl(var(--foreground)); font-size: clamp(1.1rem, 2vw, 1.4rem); font-weight: 500; letter-spacing: -0.025em; }
+  .hero-role span { margin: 0 0.35rem; color: hsl(var(--muted)); font-weight: 400; }
   .hero-intro { max-width: 31rem; margin: 2rem 0 0; color: hsl(var(--muted)); font-size: clamp(1.05rem, 1.8vw, 1.25rem); line-height: 1.65; }
   .hero-actions { display: flex; align-items: center; gap: 1.5rem; margin-top: 2.25rem; }
   .button { display: inline-flex; align-items: center; gap: 0.65rem; min-height: 2.8rem; padding: 0.7rem 1.05rem; font-size: 0.85rem; font-weight: 600; transition: background 160ms ease, color 160ms ease; }
@@ -88,16 +89,11 @@
   .hero-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.55rem; margin-top: auto; color: hsl(var(--muted)); font-size: 0.75rem; }
   .status-dot { width: 0.45rem; height: 0.45rem; border-radius: 999px; background: #4d9b6b; }
   .hero-location { margin-left: 1rem; color: hsl(var(--muted) / 0.7); }
-  .personal-facts { display: grid; gap: 0.9rem; margin-top: 2rem; border-top: 1px solid hsl(var(--line)); padding-top: 1.25rem; }
-  .personal-facts div { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; }
-  .personal-facts span { color: hsl(var(--muted)); font-size: 0.75rem; }
-  .personal-facts strong { font-size: 0.82rem; font-weight: 500; }
 
   .content-section { scroll-margin-top: 2rem; padding-top: 8rem; padding-bottom: 8rem; }
   .section-heading { display: grid; grid-template-columns: minmax(8rem, 0.35fr) 1fr; gap: 2rem; align-items: start; margin-bottom: 3.5rem; }
   .section-heading .eyebrow { margin-top: 0.6rem; }
   .section-heading h2 { max-width: 18ch; margin: 0; font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 600; letter-spacing: -0.065em; line-height: 1.02; }
-  .about-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 5rem; border-top: 1px solid hsl(var(--line)); padding-top: 2.5rem; }
   .lead-copy { max-width: 28rem; margin: 0; font-size: clamp(1.35rem, 2.3vw, 2rem); letter-spacing: -0.04em; line-height: 1.3; }
   .body-copy { max-width: 34rem; margin: 0; color: hsl(var(--muted)); font-size: 0.98rem; line-height: 1.8; }
   .body-copy p { margin: 0 0 1rem; }
@@ -106,18 +102,14 @@
   .skill-row { display: grid; grid-template-columns: minmax(8rem, 0.35fr) 1fr; gap: 2rem; border-bottom: 1px solid hsl(var(--line)); padding: 1.25rem 0; }
   .skill-row span { color: hsl(var(--muted)); font-size: 0.75rem; font-weight: 650; letter-spacing: 0.12em; text-transform: uppercase; }
   .skill-row strong { font-size: 1rem; font-weight: 500; line-height: 1.6; }
-  .education-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; border-top: 1px solid hsl(var(--line)); border-bottom: 1px solid hsl(var(--line)); padding: 2rem 0; }
-  .education-row h3 { margin: 0; font-size: 1.35rem; font-weight: 600; letter-spacing: -0.04em; }
-  .education-row p { margin: 0.5rem 0 0; color: hsl(var(--muted)); font-size: 0.9rem; }
-  .education-row > span { color: hsl(var(--muted)); font-size: 0.78rem; }
 
   .projects-list { border-top: 1px solid hsl(var(--line)); }
   .project-item { border-bottom: 1px solid hsl(var(--line)); padding: 2rem 0; }
   .project-featured { padding-top: 2.5rem; padding-bottom: 2.5rem; }
   .project-item > div { gap: 2.5rem; }
-  .project-item .relative.w-full { width: 34%; padding: 0; }
+  .project-item .relative.w-full { width: 46%; padding: 0; }
   .project-item .relative.aspect-video { border-color: hsl(var(--line)); background: hsl(0 0% 100%); }
-  .project-item .flex.flex-col.justify-center { width: 66%; padding: 0; }
+  .project-item .flex.flex-col.justify-center { width: 54%; padding: 0; }
   .project-item h3 { margin: 0; font-size: clamp(1.35rem, 2.5vw, 2rem); font-weight: 600; letter-spacing: -0.05em; }
   .project-item .inline-flex.items-center { border: 0; padding: 0; color: hsl(var(--muted)); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
   .project-tags, .experience-tech { margin: 0.9rem 0 0; color: hsl(var(--accent)); font-size: 0.78rem; line-height: 1.6; }
@@ -158,7 +150,7 @@
   .mobile-nav a:last-child { color: hsl(var(--foreground)); }
   .mobile-socials { display: flex; gap: 1.25rem; border-top: 1px solid hsl(var(--line)); margin-top: 0.5rem; padding-top: 1rem; color: hsl(var(--muted)); font-size: 0.8rem; }
   .section-shell { padding-left: 1.25rem; padding-right: 1.25rem; }
-  .hero { min-height: 82vh; padding-top: 6rem; padding-bottom: 3rem; }
+  .hero { min-height: 100svh; padding-top: 6rem; padding-bottom: 3rem; }
   .hero h1 { max-width: 10ch; font-size: clamp(3.5rem, 18vw, 6rem); }
   .hero-role { margin-top: 1.35rem; }
   .hero-intro { margin-top: 1.5rem; font-size: 1rem; }
@@ -167,13 +159,8 @@
   .section-heading { display: block; margin-bottom: 2.5rem; }
   .section-heading .eyebrow { margin-bottom: 1rem; }
   .section-heading h2 { font-size: 2.5rem; }
-  .about-grid, .contact-row { display: block; }
-  .about-grid { padding-top: 1.75rem; }
-  .about-grid .body-copy { margin-top: 2rem; }
-  .personal-facts div { grid-template-columns: 5.5rem 1fr; }
+  .contact-row { display: block; }
   .skill-row, .experience-item { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.25rem 0; }
-  .education-row { display: block; padding: 1.5rem 0; }
-  .education-row > span { display: block; margin-top: 1rem; }
   .project-item, .project-featured { padding: 1.75rem 0; }
   .project-item > div { gap: 1.25rem; }
   .project-item .relative.w-full, .project-item .flex.flex-col.justify-center { width: 100%; }

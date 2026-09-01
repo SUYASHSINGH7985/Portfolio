@@ -163,7 +163,7 @@ export default function Portfolio() {
                     transition={{ duration: 0.8, delay: 0.6 }}
                     className="mb-6 sm:mb-8 md:mb-12 relative inline-block"
                   >
-                  <h2 className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-semibold tracking-tighter leading-tight relative whitespace-nowrap">
+                  <h2 className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] font-semibold tracking-tighter leading-tight relative sm:whitespace-nowrap">
                     I'm{" "}
                     <span className="relative inline">
                       {/* Black text background */}
@@ -192,7 +192,7 @@ export default function Portfolio() {
                     transition={{ duration: 0.8, delay: 1.2 }}
                     className="mb-8 sm:mb-10 md:mb-12"
                   >
-                    <p className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-foreground/80 tracking-tight leading-snug whitespace-nowrap">
+                    <p className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-foreground/80 tracking-tight leading-snug sm:whitespace-nowrap">
                    <span style={{ color: "#880808", fontFamily: "var(--font-vt323), monospace", fontWeight: 400 }}>Full Stack Developer</span> 
                     </p>
                   </motion.div>

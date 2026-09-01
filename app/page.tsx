@@ -7,7 +7,7 @@ import { usePreloaderContext } from "@/components/preloader-wrapper"
 
 import { Github, Linkedin, Mail } from "lucide-react"
 import Image from "next/image"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion } from "framer-motion"
 import { ExperienceStack } from "@/components/experience-stack"
 import { Navbar } from "@/components/navbar"
 
@@ -18,56 +18,28 @@ const ProjectsSection = dynamic(
 
 export default function Portfolio() {
   const { preloaderComplete } = usePreloaderContext()
-  const [mounted, setMounted] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const activeSectionRef = useRef("home")
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const { scrollY } = useScroll()
-  const backgroundY = useTransform(scrollY, [0, 2000], [0, -500])
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["home", "experience", "projects"]
-      const scrollPosition = window.scrollY + 200
-      let newSection = "home"
-      for (const section of sections) {
-        const el = document.getElementById(section)
-        if (el && scrollPosition >= el.offsetTop && scrollPosition < el.offsetTop + el.offsetHeight) {
-          newSection = section
-          break
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+        if (visible && visible.target.id !== activeSectionRef.current) {
+          activeSectionRef.current = visible.target.id
+          setActiveSection(visible.target.id)
         }
-      }
-      if (newSection !== activeSectionRef.current) {
-        activeSectionRef.current = newSection
-        setActiveSection(newSection)
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+      },
+      { rootMargin: "-20% 0px -60%", threshold: [0, 0.25, 0.5] },
+    )
+    ;["home", "experience", "projects"].forEach((id) => {
+      const section = document.getElementById(id)
+      if (section) observer.observe(section)
+    })
+    return () => observer.disconnect()
   }, [])
-  useEffect(() => {
-  const glass = document.querySelector(".liquid-glass") as HTMLElement | null;
-
-  if (!glass) return;
-
-  const handleMove = (e: MouseEvent) => {
-    const rect = glass.getBoundingClientRect();
-
-    glass.style.setProperty("--x", `${e.clientX - rect.left}px`);
-    glass.style.setProperty("--y", `${e.clientY - rect.top}px`);
-  };
-
-  glass.addEventListener("mousemove", handleMove);
-
-  return () => {
-    glass.removeEventListener("mousemove", handleMove);
-  };
-}, []);
 
 
   const projectsRef = useRef<HTMLElement>(null)
@@ -137,36 +109,19 @@ export default function Portfolio() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
-      const lenis = (window as any).__lenis
-      if (lenis) {
-        lenis.scrollTo(element, { offset: 0, duration: 1.5 })
-      } else {
-        element.scrollIntoView({ behavior: "smooth" })
-      }
+      element.scrollIntoView({ behavior: "smooth", block: "start" })
       setActiveSection(sectionId)
     }
-  }
-
-  if (!mounted) {
-    return null
   }
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* Animated Background */}
-      <motion.div className="fixed inset-0 -z-10" style={{ y: backgroundY }}>
+      <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
-          animate={{ x: [0, 100, 0], y: [0, -100, 0] }}
-          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear", repeatType: "loop" }}
-        />
-        <motion.div
-          className="absolute top-3/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"
-          animate={{ x: [0, -100, 0], y: [0, 100, 0] }}
-          transition={{ duration: 25, repeat: Number.POSITIVE_INFINITY, ease: "linear", repeatType: "loop" }}
-        />
-      </motion.div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
+      </div>
 
       {/* Navigation Bar */}
       {preloaderComplete && <Navbar activeSection={activeSection} scrollToSection={scrollToSection} />}

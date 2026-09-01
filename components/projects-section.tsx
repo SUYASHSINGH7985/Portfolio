@@ -1,7 +1,3 @@
-"use client"
-
-import { useState, useCallback, memo, type ReactNode } from "react"
-import { motion, AnimatePresence } from "framer-motion"
 import { Github, ExternalLink, ArrowUpRight } from "lucide-react"
 import Image from "next/image"
 
@@ -9,43 +5,16 @@ interface Project {
   id: number
   title: string
   description: string
+  contribution: string
   image: string
   tags: string[]
-  category: string
   link: string
   demo: string
 }
 
 interface ProjectsSectionProps {
-  projectsRef: React.RefObject<HTMLElement>
   projects: Project[]
 }
-
-const SectionHeading = memo(function SectionHeading() {
-  return (
-    <div className="mb-10 sm:mb-14 lg:flex lg:items-end lg:justify-between">
-      <div>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-primary/70">
-          Featured work
-        </p>
-        <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-          Projects
-        </h2>
-      </div>
-      <p className="mt-2 max-w-md text-sm leading-7 text-foreground/65 lg:mt-0 lg:text-right">
-        A selection of things I&apos;ve built — from full-stack apps to open-source contributions.
-      </p>
-    </div>
-  )
-})
-
-const TechBadge = memo(function TechBadge({ label }: { label: string }) {
-  return (
-    <span className="rounded-full border border-foreground/10 bg-foreground/[0.035] px-3 py-1.5 text-xs font-medium text-foreground/70">
-      {label}
-    </span>
-  )
-})
 
 function ProjectCard({
   project,
@@ -54,23 +23,8 @@ function ProjectCard({
   project: Project
   index: number
 }) {
-  const [isExpanded, setIsExpanded] = useState(false)
-
-  const descriptionLimit = 140
-  const needsTruncation = project.description.length > descriptionLimit
-  const displayText =
-    isExpanded || !needsTruncation
-      ? project.description
-      : project.description.slice(0, descriptionLimit) + "..."
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, delay: index * 0.06 }}
-      className="group relative overflow-hidden rounded-2xl border border-foreground/10 bg-card transition-colors duration-300 hover:border-foreground/20"
-    >
+    <article className={`project-item ${index === 0 ? "project-featured" : ""}`}>
       <div className="relative flex flex-col md:flex-row">
         {/* Image panel */}
         <div className="relative w-full md:w-[38%] shrink-0 p-5 md:p-6 md:pr-0">
@@ -81,7 +35,8 @@ function ProjectCard({
               fill
               className="object-contain p-3 md:p-4"
               sizes="(max-width: 768px) 100vw, 38vw"
-              loading="lazy"
+              loading={index === 0 ? "eager" : "lazy"}
+              priority={index === 0}
             />
           </div>
         </div>
@@ -102,28 +57,13 @@ function ProjectCard({
             </div>
           </div>
 
-          {/* Tags */}
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {project.tags.map((tag) => (
-              <TechBadge key={tag} label={tag} />
-            ))}
-          </div>
+          <p className="project-tags">{project.tags.join(" · ")}</p>
 
           {/* Description */}
           <p className="mt-4 text-sm leading-7 text-foreground/68 sm:text-base">
-            {displayText}
+            {project.description}
           </p>
-          {needsTruncation && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                setIsExpanded(!isExpanded)
-              }}
-              className="mt-1 self-start text-xs font-medium text-foreground/50 hover:text-foreground transition-colors duration-200"
-            >
-              {isExpanded ? "Show less" : "Read more"}
-            </button>
-          )}
+          <p className="project-contribution"><span>Contribution</span>{project.contribution}</p>
 
           {/* Actions */}
           <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -132,7 +72,7 @@ function ProjectCard({
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-white/70 px-4 py-2 text-sm font-medium text-foreground/70 shadow-sm transition-all duration-200 hover:scale-105 hover:border-foreground/20 hover:bg-white/90 hover:text-foreground hover:shadow-md"
+                className="inline-flex items-center gap-1.5 border-b border-foreground/20 pb-1 text-sm font-medium text-foreground/70 transition-colors duration-200 hover:border-foreground hover:text-foreground"
               >
                 <Github size={14} />
                 Code
@@ -144,7 +84,7 @@ function ProjectCard({
                 href={project.demo}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-foreground/[0.03] px-4 py-2 text-sm font-medium text-foreground/60 transition-all duration-200 hover:scale-105 hover:border-foreground/20 hover:bg-foreground/[0.06] hover:text-foreground"
+                className="inline-flex items-center gap-1.5 border-b border-foreground/20 pb-1 text-sm font-medium text-foreground/60 transition-colors duration-200 hover:border-foreground hover:text-foreground"
               >
                 <ExternalLink size={14} />
                 Live
@@ -154,17 +94,15 @@ function ProjectCard({
           </div>
         </div>
       </div>
-    </motion.div>
+    </article>
   )
 }
 
-export function ProjectsSection({ projectsRef, projects }: ProjectsSectionProps) {
+export function ProjectsSection({ projects }: ProjectsSectionProps) {
   return (
-    <section id="projects" ref={projectsRef} className="scroll-mt-28 py-12 sm:py-16">
-      <div className="px-4 sm:px-6 md:px-8 lg:px-12 max-w-6xl mx-auto">
-        <SectionHeading />
-
-        <div className="flex flex-col gap-6 sm:gap-8">
+    <section id="projects" className="section-shell content-section">
+      <div className="section-heading"><p className="eyebrow">03 / Selected work</p><h2>Projects with a purpose.</h2></div>
+      <div className="projects-list">
           {projects.map((project, index) => (
             <ProjectCard
               key={project.id}
@@ -172,7 +110,6 @@ export function ProjectsSection({ projectsRef, projects }: ProjectsSectionProps)
               index={index}
             />
           ))}
-        </div>
       </div>
     </section>
   )

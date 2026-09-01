@@ -59,8 +59,8 @@ const navItems = [
   { id: "home", label: "HOME" },
   { id: "experience", label: "EXPERIENCE" },
   { id: "projects", label: "PROJECTS" },
-  { id: "tech", label: "TECH STACK", hasDropdown: true },
-  { id: "about", label: "ABOUT", hasDropdown: true },
+  { id: "tech", label: "TECH STACK" },
+  { id: "about", label: "ABOUT" },
 ]
 
 const techIconMap: Record<string, ReactNode> = {
@@ -113,7 +113,6 @@ export function Navbar({
   }, [mobileOpen])
 
   const handleNavClick = useCallback((id: string) => {
-    if (id === "tech" || id === "about") return
     scrollToSection(id)
     setMobileOpen(false)
     setOpenDropdown(null)

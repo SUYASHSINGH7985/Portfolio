@@ -4,7 +4,6 @@ import { VT323 } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import PreloaderWrapper from "@/components/preloader-wrapper"
-import SmoothScroll from "@/components/smooth-scroll"
 
 const vt323 = VT323({ subsets: ["latin"], weight: "400", variable: "--font-vt323" })
 
@@ -27,11 +26,9 @@ export default function RootLayout({
       <body className={`${vt323.variable} ${vt323.className}`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <PreloaderWrapper>
-            <SmoothScroll>
-              <div className="page-content min-h-screen">
-                {children}
-              </div>
-            </SmoothScroll>
+            <div className="page-content min-h-screen">
+              {children}
+            </div>
           </PreloaderWrapper>
         </ThemeProvider>
       </body>

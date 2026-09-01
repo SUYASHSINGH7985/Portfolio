@@ -9,20 +9,6 @@
     overflow-y: auto;
   }
 
-  html.lenis {
-    overflow: hidden;
-  }
-
-  html.lenis-smooth {
-    scroll-behavior: auto;
-    overflow: hidden;
-    touch-action: none;
-  }
-
-  html.lenis-stopped {
-    overflow: hidden;
-  }
-
   body {
     color-scheme: dark;
     min-height: 100%;
@@ -293,7 +279,6 @@ header nav button {
 }
 
 #smooth-content {
-  overflow: visible;
   width: 100%;
 }
 
@@ -895,5 +880,4 @@ header nav button {
     padding-right: 0.3rem;
   }
 }
-
 

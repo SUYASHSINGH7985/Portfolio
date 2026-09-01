@@ -94,6 +94,10 @@
   .skill-row { display: grid; grid-template-columns: minmax(8rem, 0.35fr) 1fr; gap: 2rem; border-bottom: 1px solid hsl(var(--line)); padding: 1.25rem 0; }
   .skill-row span { color: hsl(var(--muted)); font-size: 0.75rem; font-weight: 650; letter-spacing: 0.12em; text-transform: uppercase; }
   .skill-row strong { font-size: 1rem; font-weight: 500; line-height: 1.6; }
+  .education-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; border-top: 1px solid hsl(var(--line)); border-bottom: 1px solid hsl(var(--line)); padding: 2rem 0; }
+  .education-row h3 { margin: 0; font-size: 1.35rem; font-weight: 600; letter-spacing: -0.04em; }
+  .education-row p { margin: 0.5rem 0 0; color: hsl(var(--muted)); font-size: 0.9rem; }
+  .education-row > span { color: hsl(var(--muted)); font-size: 0.78rem; }
 
   .projects-list { border-top: 1px solid hsl(var(--line)); }
   .project-item { border-bottom: 1px solid hsl(var(--line)); padding: 2rem 0; }
@@ -155,6 +159,8 @@
   .about-grid .body-copy { margin-top: 2rem; }
   .personal-facts div { grid-template-columns: 5.5rem 1fr; }
   .skill-row, .experience-item { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.25rem 0; }
+  .education-row { display: block; padding: 1.5rem 0; }
+  .education-row > span { display: block; margin-top: 1rem; }
   .project-item, .project-featured { padding: 1.75rem 0; }
   .project-item > div { gap: 1.25rem; }
   .project-item .relative.w-full, .project-item .flex.flex-col.justify-center { width: 100%; }

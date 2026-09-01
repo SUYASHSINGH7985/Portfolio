@@ -107,15 +107,20 @@ export default function Portfolio() {
           </div>
         </section>
 
+        <section id="education" className="section-shell content-section education-section">
+          <div className="section-heading"><p className="eyebrow">03 / Education</p><h2>Learning by building.</h2></div>
+          <div className="education-row"><div><h3>Computer Science Engineering</h3><p>VIT Vellore</p></div><span>Current student</span></div>
+        </section>
+
         <ExperienceStack experiences={experiences} />
 
         <section id="skills" className="section-shell content-section">
-          <div className="section-heading"><p className="eyebrow">04 / Skills</p><h2>Tools for building well.</h2></div>
+          <div className="section-heading"><p className="eyebrow">05 / Skills</p><h2>Tools for building well.</h2></div>
           <div className="skill-list">{skillGroups.map(([category, skills]) => <div className="skill-row" key={category}><span>{category}</span><strong>{skills}</strong></div>)}</div>
         </section>
 
         <section id="contact" className="section-shell contact-section">
-          <div className="section-heading"><p className="eyebrow">05 / Contact</p><h2>Let&apos;s make something useful.</h2></div>
+          <div className="section-heading"><p className="eyebrow">06 / Contact</p><h2>Let&apos;s make something useful.</h2></div>
           <div className="contact-row"><p className="lead-copy">Have a project, opportunity, or idea in mind? I&apos;d be glad to hear from you.</p><div className="contact-links"><a href="mailto:singhsuyash012@gmail.com">Email <ArrowUpRight size={15} /></a><a href="tel:+917985043880">+91 79850 43880 <ArrowUpRight size={15} /></a><a href="https://github.com/s4yashh" target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={15} /></a><a href="https://www.linkedin.com/in/s4yashh/" target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={15} /></a><a href="https://twitter.com/S4yash" target="_blank" rel="noreferrer">Twitter <ArrowUpRight size={15} /></a></div></div>
         </section>
       </main>

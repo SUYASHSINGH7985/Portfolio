@@ -34,7 +34,7 @@ export default function Portfolio() {
       },
       { rootMargin: "-20% 0px -60%", threshold: [0, 0.25, 0.5] },
     )
-    ;["home", "experience", "projects"].forEach((id) => {
+    ;["home", "about", "tech", "experience", "projects"].forEach((id) => {
       const section = document.getElementById(id)
       if (section) observer.observe(section)
     })
@@ -277,6 +277,56 @@ export default function Portfolio() {
                 </div>
               )}
             </motion.div>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section id="about" className="scroll-mt-28 py-16 sm:py-20">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 lg:px-12">
+            <div className="mb-10 sm:mb-14">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-primary/70">A little about me</p>
+              <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl">About</h2>
+            </div>
+            <div className="grid gap-8 border-y border-foreground/10 py-8 sm:grid-cols-[1fr_1.2fr] sm:gap-12 sm:py-10">
+              <p className="text-xl leading-relaxed text-foreground sm:text-2xl">
+                I&apos;m Suyash Singh, a Computer Science student and full stack developer based in Vellore, India.
+              </p>
+              <div className="space-y-4 text-sm leading-7 text-foreground/65 sm:text-base">
+                <p>I build reliable web applications and enjoy turning thoughtful ideas into clear, useful products.</p>
+                <p>My strengths are practical problem solving, learning quickly, and working across the frontend, backend, and cloud.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Tech Stack Section */}
+        <section id="tech" className="scroll-mt-28 py-16 sm:py-20">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 lg:px-12">
+            <div className="mb-10 sm:mb-14">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-primary/70">Tools I use</p>
+              <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl">Tech Stack</h2>
+            </div>
+            <div className="grid gap-x-8 gap-y-8 border-y border-foreground/10 py-8 sm:grid-cols-2 sm:gap-y-10 sm:py-10 lg:grid-cols-3">
+              {[
+                ["Languages", ["HTML", "CSS", "JavaScript", "Swift", "SQL"]],
+                ["Frontend", ["React", "React Native", "SwiftUI", "Tailwind CSS"]],
+                ["Backend", ["Node.js", "REST APIs", "MVC", "Authentication"]],
+                ["Databases", ["MongoDB"]],
+                ["DevOps & Cloud", ["AWS", "Docker", "Kubernetes", "CI/CD", "Caching"]],
+                ["Tools", ["Git", "GitHub", "Unit Testing"]],
+              ].map(([category, technologies]) => (
+                <div key={category}>
+                  <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-foreground/55">{category}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {(technologies as string[]).map((technology) => (
+                      <span key={technology} className="rounded-full border border-foreground/10 bg-card px-3 py-1.5 text-sm text-foreground/70">
+                        {technology}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

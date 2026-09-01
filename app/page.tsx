@@ -287,8 +287,8 @@ export default function Portfolio() {
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-primary/70">A little about me</p>
               <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl">About</h2>
             </div>
-            <div className="grid gap-8 border-y border-foreground/10 py-8 sm:grid-cols-[1fr_1.2fr] sm:gap-12 sm:py-10">
-              <p className="text-xl leading-relaxed text-foreground sm:text-2xl">
+            <div className="grid gap-8 border-y border-foreground/10 py-8 sm:grid-cols-[1fr_1.2fr] sm:gap-16 sm:py-12">
+              <p className="max-w-lg text-xl leading-relaxed text-foreground sm:text-2xl">
                 I&apos;m Suyash Singh, a Computer Science student and full stack developer based in Vellore, India.
               </p>
               <div className="space-y-4 text-sm leading-7 text-foreground/65 sm:text-base">
@@ -306,7 +306,7 @@ export default function Portfolio() {
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-primary/70">Tools I use</p>
               <h2 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl">Tech Stack</h2>
             </div>
-            <div className="grid gap-x-8 gap-y-8 border-y border-foreground/10 py-8 sm:grid-cols-2 sm:gap-y-10 sm:py-10 lg:grid-cols-3">
+            <div className="divide-y border-y border-foreground/10 sm:grid sm:grid-cols-2 sm:divide-y-0 sm:gap-x-12 sm:gap-y-0 lg:grid-cols-3">
               {[
                 ["Languages", ["HTML", "CSS", "JavaScript", "Swift", "SQL"]],
                 ["Frontend", ["React", "React Native", "SwiftUI", "Tailwind CSS"]],
@@ -315,15 +315,9 @@ export default function Portfolio() {
                 ["DevOps & Cloud", ["AWS", "Docker", "Kubernetes", "CI/CD", "Caching"]],
                 ["Tools", ["Git", "GitHub", "Unit Testing"]],
               ].map(([category, technologies]) => (
-                <div key={category}>
-                  <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-foreground/55">{category}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {(technologies as string[]).map((technology) => (
-                      <span key={technology} className="rounded-full border border-foreground/10 bg-card px-3 py-1.5 text-sm text-foreground/70">
-                        {technology}
-                      </span>
-                    ))}
-                  </div>
+                <div key={category} className="py-5 first:pt-6 last:pb-6 sm:border-b sm:border-foreground/10 sm:py-6 sm:last:border-b-0">
+                  <h3 className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-foreground/50">{category}</h3>
+                  <p className="text-base leading-7 text-foreground/75">{(technologies as string[]).join(" · ")}</p>
                 </div>
               ))}
             </div>

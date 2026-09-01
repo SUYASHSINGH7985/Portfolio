@@ -13,7 +13,7 @@ interface Experience {
 export function ExperienceStack({ experiences }: { experiences: Experience[] }) {
   return (
     <section id="experience" className="section-shell content-section">
-      <div className="section-heading"><p className="eyebrow">04 / Experience</p><h2>Where I&apos;ve been building.</h2></div>
+      <div className="section-heading"><p className="eyebrow">03 / Experience</p><h2>Where I&apos;ve been building.</h2></div>
       <div className="experience-list">
         {experiences.map((experience) => (
           <article className="experience-item" key={experience.id}>

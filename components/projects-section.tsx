@@ -69,15 +69,12 @@ function ProjectCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, delay: index * 0.06 }}
-      className="group relative overflow-hidden rounded-3xl border border-foreground/10 bg-card shadow-[0_18px_45px_rgba(30,35,43,0.08)] will-change-transform transition-all duration-500 hover:shadow-[0_24px_60px_rgba(30,35,43,0.12)] hover:-translate-y-0.5"
+      className="group relative overflow-hidden rounded-2xl border border-foreground/10 bg-card transition-colors duration-300 hover:border-foreground/20"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_0%,rgba(218,229,239,0.7),transparent_32%)] pointer-events-none" />
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/15 to-transparent pointer-events-none" />
-
       <div className="relative flex flex-col md:flex-row">
         {/* Image panel */}
         <div className="relative w-full md:w-[38%] shrink-0 p-5 md:p-6 md:pr-0">
-          <div className="relative aspect-video md:aspect-[4/3] w-full overflow-hidden rounded-2xl border border-foreground/8 bg-foreground/[0.02]">
+          <div className="relative aspect-video md:aspect-[4/3] w-full overflow-hidden rounded-xl border border-foreground/8 bg-foreground/[0.02]">
             <Image
               src={`/${project.image}`}
               alt={`${project.title} preview`}

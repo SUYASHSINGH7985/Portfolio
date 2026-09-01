@@ -30,16 +30,27 @@
 }
 
 @layer components {
+  .site-layout {
+    display: grid;
+    grid-template-columns: 15.5rem minmax(0, 1fr);
+    gap: 3.5rem;
+    max-width: 88rem;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
   .site-sidebar {
-    position: fixed;
-    inset: 0 auto 0 0;
-    z-index: 20;
+    position: sticky;
+    top: 2rem;
+    align-self: start;
     display: flex;
-    width: 15.5rem;
+    width: 100%;
+    height: calc(100vh - 4rem);
     flex-direction: column;
     border-right: 1px solid hsl(var(--line));
     background: hsl(var(--background) / 0.94);
-    padding: 2.5rem 2rem 2rem;
+    padding: 2.5rem 1.5rem 2rem 0.5rem;
   }
 
   .sidebar-brand { display: flex; flex-direction: column; width: fit-content; font-size: 0.86rem; font-weight: 700; letter-spacing: 0.08em; line-height: 1.45; }
@@ -58,7 +69,8 @@
   .menu-toggle { display: none; border: 0; background: transparent; color: hsl(var(--foreground)); padding: 0.45rem; }
   .mobile-nav { display: none; }
 
-  main, .site-footer { margin-left: 15.5rem; }
+  main { grid-column: 2; min-width: 0; }
+  .site-footer { grid-column: 2; min-width: 0; }
   .section-shell { max-width: 76rem; margin: 0 auto; padding-left: 4rem; padding-right: 4rem; }
   .hero { min-height: min(44rem, 82vh); display: flex; flex-direction: column; justify-content: center; padding-top: 7rem; padding-bottom: 4rem; }
   .hero-copy { max-width: 54rem; }
@@ -134,9 +146,10 @@
   .site-footer a:hover { color: hsl(var(--foreground)); }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 900px) {
+  .site-layout { display: block; max-width: none; padding: 0; }
   .site-sidebar { display: none; }
-  main, .site-footer { margin-left: 0; }
+  main, .site-footer { grid-column: auto; margin-left: 0; }
   .mobile-header { position: fixed; inset: 0 0 auto; z-index: 20; display: flex; height: 3.9rem; align-items: center; justify-content: space-between; border-bottom: 1px solid hsl(var(--line)); background: hsl(var(--background) / 0.96); padding: 0 1.25rem; }
   .mobile-brand { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; }
   .menu-toggle { display: inline-flex; }

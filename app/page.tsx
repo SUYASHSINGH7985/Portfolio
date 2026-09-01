@@ -76,7 +76,7 @@ const skillGroups = [
 
 export default function Portfolio() {
   return (
-    <>
+    <div className="site-layout">
       <Navbar />
       <main>
         <section id="home" className="hero section-shell">
@@ -126,6 +126,6 @@ export default function Portfolio() {
       </main>
 
       <footer className="site-footer"><span>Suyash Singh</span><span>© {new Date().getFullYear()}</span><div><a href="mailto:singhsuyash012@gmail.com"><Mail size={15} /></a><a href="https://github.com/s4yashh" target="_blank" rel="noreferrer"><Github size={15} /></a><a href="https://www.linkedin.com/in/s4yashh/" target="_blank" rel="noreferrer"><Linkedin size={15} /></a></div></footer>
-    </>
+    </div>
   )
 }

@@ -9,34 +9,19 @@ interface PreloaderProps {
 
 export default function Preloader({ onComplete }: PreloaderProps) {
   const [isLoading, setIsLoading] = useState(true)
-  const [displayNumber, setDisplayNumber] = useState(0)
   const [enterClicked, setEnterClicked] = useState(false)
 
   useEffect(() => {
-    // Smooth counter from 0 to 100 (faster - 20ms per increment)
-    let currentNumber = 0
-    
-    const interval = setInterval(() => {
-      currentNumber += 1
-      if (currentNumber >= 100) {
-        currentNumber = 100
-        setDisplayNumber(100)
-        clearInterval(interval)
-        // Auto-transition when counter reaches 100
-        setTimeout(() => {
-          setEnterClicked(true)
-          setTimeout(() => {
-            setIsLoading(false)
-            // Notify parent component that preloader has completed
-            onComplete?.()
-          }, 800)
-        }, 300) // Small delay before auto-transitioning
-      } else {
-        setDisplayNumber(currentNumber)
-      }
-    }, 20)
+    const enterTimer = setTimeout(() => setEnterClicked(true), 1800)
+    const completeTimer = setTimeout(() => {
+      setIsLoading(false)
+      onComplete?.()
+    }, 2600)
 
-    return () => clearInterval(interval)
+    return () => {
+      clearTimeout(enterTimer)
+      clearTimeout(completeTimer)
+    }
   }, [])
 
   return (
@@ -130,10 +115,12 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                   style={{
                     height: "100%",
                     backgroundColor: "#FFFFFF",
-                    width: `${displayNumber}%`,
+                  width: "100%",
                     borderRadius: "1px",
                   }}
-                  transition={{ duration: 0.05 }}
+                  initial={{ scaleX: 0, transformOrigin: "left" }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 1.8, ease: "linear" }}
                 />
               </motion.div>
             </motion.div>

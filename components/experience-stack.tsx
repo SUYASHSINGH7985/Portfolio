@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { ArrowDown, Building2, MapPin } from "lucide-react"
+import Image from "next/image"
 
 const logos = ["/jolenergy.png", "/unifiedmentor.jpeg", "/hacktoberfest.png", "/adg.jpeg"]
 
@@ -63,9 +64,12 @@ export function ExperienceStack({ experiences = [] }: { experiences: any[] }) {
 
                   <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-foreground/10 bg-white shadow-sm">
                     {logos[index] ? (
-                      <img
+                      <Image
                         src={logos[index]}
                         alt={`${exp.company} logo`}
+                        width={96}
+                        height={96}
+                        loading="lazy"
                         className="h-full w-full object-contain"
                       />
                     ) : (

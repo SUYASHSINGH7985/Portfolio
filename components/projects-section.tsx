@@ -101,7 +101,7 @@ function ProjectCard({
 export function ProjectsSection({ projects }: ProjectsSectionProps) {
   return (
     <section id="projects" className="section-shell content-section">
-      <div className="section-heading"><p className="eyebrow">01 / Selected work</p><h2>Projects with a purpose.</h2></div>
+      <div className="section-heading"><p className="eyebrow">02 / Selected work</p><h2>Projects with a purpose.</h2></div>
       <div className="projects-list">
           {projects.map((project, index) => (
             <ProjectCard

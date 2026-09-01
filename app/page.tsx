@@ -83,7 +83,7 @@ export default function Portfolio() {
           <div className="hero-copy">
             <p className="eyebrow">Software Developer · Computer Science Student</p>
             <h1><span>SUYASH</span><span>SINGH</span></h1>
-            <p className="hero-role">Full Stack Developer</p>
+            <p className="hero-role">Full Stack Developer <span>/</span> Computer Science Student</p>
             <p className="hero-intro">I build software, web applications, and practical digital experiences while exploring technology and solving real problems.</p>
             <div className="hero-actions">
               <a className="button button-dark" href="#projects">View my work <ArrowUpRight size={16} /></a>
@@ -97,30 +97,16 @@ export default function Portfolio() {
           </div>
         </section>
 
+        <ExperienceStack experiences={experiences} />
         <ProjectsSection projects={projects} />
 
-        <section id="about" className="section-shell content-section">
-          <div className="section-heading"><p className="eyebrow">02 / About</p><h2>A developer who cares about the details.</h2></div>
-          <div className="about-grid">
-            <p className="lead-copy">I&apos;m Suyash Singh, a Computer Science Engineering student at VIT Vellore and a full stack developer.</p>
-            <div className="body-copy"><p>I enjoy turning thoughtful ideas into clear, useful products that are dependable in the details.</p><p>My work spans frontend interfaces, backend systems, databases, and cloud technologies. I&apos;m especially interested in full stack development, AI, and system design.</p><div className="personal-facts"><div><span>Education</span><strong>Computer Science Engineering · VIT Vellore</strong></div><div><span>Based in</span><strong>Vellore, India</strong></div></div></div>
-          </div>
-        </section>
-
-        <section id="education" className="section-shell content-section education-section">
-          <div className="section-heading"><p className="eyebrow">03 / Education</p><h2>Learning by building.</h2></div>
-          <div className="education-row"><div><h3>Computer Science Engineering</h3><p>VIT Vellore</p></div><span>Current student</span></div>
-        </section>
-
-        <ExperienceStack experiences={experiences} />
-
         <section id="skills" className="section-shell content-section">
-          <div className="section-heading"><p className="eyebrow">05 / Skills</p><h2>Tools for building well.</h2></div>
+          <div className="section-heading"><p className="eyebrow">03 / Skills</p><h2>Tools for building well.</h2></div>
           <div className="skill-list">{skillGroups.map(([category, skills]) => <div className="skill-row" key={category}><span>{category}</span><strong>{skills}</strong></div>)}</div>
         </section>
 
         <section id="contact" className="section-shell contact-section">
-          <div className="section-heading"><p className="eyebrow">06 / Contact</p><h2>Let&apos;s make something useful.</h2></div>
+          <div className="section-heading"><p className="eyebrow">04 / Contact</p><h2>Let&apos;s make something useful.</h2></div>
           <div className="contact-row"><p className="lead-copy">Have a project, opportunity, or idea in mind? I&apos;d be glad to hear from you.</p><div className="contact-links"><a href="mailto:singhsuyash012@gmail.com">Email <ArrowUpRight size={15} /></a><a href="tel:+917985043880">+91 79850 43880 <ArrowUpRight size={15} /></a><a href="https://github.com/s4yashh" target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={15} /></a><a href="https://www.linkedin.com/in/s4yashh/" target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={15} /></a><a href="https://twitter.com/S4yash" target="_blank" rel="noreferrer">Twitter <ArrowUpRight size={15} /></a></div></div>
         </section>
       </main>

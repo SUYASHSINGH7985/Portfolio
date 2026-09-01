@@ -5,9 +5,8 @@ import { Github, Linkedin, Menu, X } from "lucide-react"
 
 const navItems = [
   ["Home", "home"],
-  ["Work", "projects"],
-  ["About", "about"],
   ["Experience", "experience"],
+  ["Work", "projects"],
   ["Skills", "skills"],
   ["Contact", "contact"],
 ]
@@ -42,7 +41,7 @@ export function Navbar() {
             <a href="https://github.com/s4yashh" target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={15} /></a>
             <a href="https://www.linkedin.com/in/s4yashh/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={15} /></a>
           </div>
-          <p>Software Developer<br />Vellore, India</p>
+          <p>Software Developer<br />Full Stack Development</p>
         </div>
       </aside>
 

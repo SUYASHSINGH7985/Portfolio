@@ -49,7 +49,7 @@
     padding: 0 2rem;
   }
 
-  .brand { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.04em; }
+  .brand { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em; }
   .brand-dot { color: hsl(var(--accent)); }
   .desktop-nav { display: flex; align-items: center; gap: 1.6rem; margin-left: auto; }
   .desktop-nav a, .resume-link { color: hsl(var(--muted)); font-size: 0.82rem; font-weight: 500; transition: color 160ms ease; }
@@ -60,10 +60,12 @@
   .mobile-nav { display: none; }
 
   .section-shell { max-width: 76rem; margin: 0 auto; padding-left: 2rem; padding-right: 2rem; }
-  .hero { min-height: min(52rem, 92vh); display: flex; flex-direction: column; justify-content: center; padding-top: 7rem; padding-bottom: 6rem; }
+  .hero { min-height: min(44rem, 82vh); display: flex; flex-direction: column; justify-content: center; padding-top: 7rem; padding-bottom: 4rem; }
   .hero-copy { max-width: 54rem; }
   .eyebrow { margin: 0 0 1.4rem; color: hsl(var(--accent)); font-size: 0.7rem; font-weight: 650; letter-spacing: 0.14em; text-transform: uppercase; }
-  .hero h1 { max-width: 13ch; margin: 0; font-size: clamp(3.3rem, 8vw, 7.4rem); font-weight: 650; letter-spacing: -0.075em; line-height: 0.97; }
+  .hero h1 { max-width: 13ch; margin: 0; font-size: clamp(4rem, 11vw, 9rem); font-weight: 650; letter-spacing: -0.085em; line-height: 0.87; }
+  .hero h1 span { display: block; }
+  .hero-role { margin: 1.75rem 0 0; color: hsl(var(--foreground)); font-size: clamp(1.1rem, 2vw, 1.4rem); font-weight: 500; letter-spacing: -0.025em; }
   .hero-intro { max-width: 31rem; margin: 2rem 0 0; color: hsl(var(--muted)); font-size: clamp(1.05rem, 1.8vw, 1.25rem); line-height: 1.65; }
   .hero-actions { display: flex; align-items: center; gap: 1.5rem; margin-top: 2.25rem; }
   .button { display: inline-flex; align-items: center; gap: 0.65rem; min-height: 2.8rem; padding: 0.7rem 1.05rem; font-size: 0.85rem; font-weight: 600; transition: background 160ms ease, color 160ms ease; }
@@ -71,9 +73,13 @@
   .button-dark:hover { background: hsl(var(--accent)); }
   .text-link { display: inline-flex; align-items: center; gap: 0.4rem; border-bottom: 1px solid hsl(var(--foreground) / 0.35); padding-bottom: 0.25rem; font-size: 0.85rem; font-weight: 550; transition: border-color 160ms ease, color 160ms ease; }
   .text-link:hover { border-color: hsl(var(--accent)); color: hsl(var(--accent)); }
-  .hero-meta { display: flex; align-items: center; gap: 0.55rem; margin-top: auto; color: hsl(var(--muted)); font-size: 0.75rem; }
+  .hero-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.55rem; margin-top: auto; color: hsl(var(--muted)); font-size: 0.75rem; }
   .status-dot { width: 0.45rem; height: 0.45rem; border-radius: 999px; background: #4d9b6b; }
   .hero-location { margin-left: 1rem; color: hsl(var(--muted) / 0.7); }
+  .personal-facts { display: grid; gap: 0.9rem; margin-top: 2rem; border-top: 1px solid hsl(var(--line)); padding-top: 1.25rem; }
+  .personal-facts div { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; }
+  .personal-facts span { color: hsl(var(--muted)); font-size: 0.75rem; }
+  .personal-facts strong { font-size: 0.82rem; font-weight: 500; }
 
   .content-section { scroll-margin-top: 4.25rem; padding-top: 8rem; padding-bottom: 8rem; }
   .section-heading { display: grid; grid-template-columns: minmax(8rem, 0.35fr) 1fr; gap: 2rem; align-items: start; margin-bottom: 3.5rem; }
@@ -132,8 +138,9 @@
   .mobile-nav a { padding: 0.75rem 0; color: hsl(var(--muted)); font-size: 0.95rem; }
   .mobile-nav a:last-child { color: hsl(var(--foreground)); }
   .section-shell { padding-left: 1.25rem; padding-right: 1.25rem; }
-  .hero { min-height: 90vh; padding-top: 6rem; padding-bottom: 3rem; }
-  .hero h1 { max-width: 10ch; font-size: clamp(3.2rem, 15vw, 5.5rem); }
+  .hero { min-height: 82vh; padding-top: 6rem; padding-bottom: 3rem; }
+  .hero h1 { max-width: 10ch; font-size: clamp(3.5rem, 18vw, 6rem); }
+  .hero-role { margin-top: 1.35rem; }
   .hero-intro { margin-top: 1.5rem; font-size: 1rem; }
   .hero-actions { gap: 1.15rem; margin-top: 1.75rem; }
   .content-section { padding-top: 5.5rem; padding-bottom: 5.5rem; }
@@ -143,6 +150,7 @@
   .about-grid, .contact-row { display: block; }
   .about-grid { padding-top: 1.75rem; }
   .about-grid .body-copy { margin-top: 2rem; }
+  .personal-facts div { grid-template-columns: 5.5rem 1fr; }
   .skill-row, .experience-item { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.25rem 0; }
   .project-item, .project-featured { padding: 1.75rem 0; }
   .project-item > div { gap: 1.25rem; }

@@ -25,7 +25,7 @@ export function Navbar() {
     <header className="site-header">
       <div className="site-header-inner">
         <a href="#home" className="brand" onClick={closeMenu} aria-label="Suyash Singh home">
-          SS<span className="brand-dot">.</span>
+          SUYASH SINGH<span className="brand-dot">.</span>
         </a>
 
         <nav className="desktop-nav" aria-label="Primary navigation">

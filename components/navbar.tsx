@@ -95,9 +95,15 @@ export function Navbar({
   const triggerRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30)
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    const home = document.getElementById("home")
+    if (!home) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setScrolled(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "-30px 0px 0px" },
+    )
+    observer.observe(home)
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
